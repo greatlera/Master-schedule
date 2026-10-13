@@ -1,38 +1,26 @@
 {
-  "id": "/master-schedule/",
+  "id": "/Master-schedule/",
   "name": "Master Schedule",
-  "short_name": "Schedule",
+  "short_name": "Master Schedule",
   "description": "Персональный интерактивный календарь и планировщик задач",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0f172a",
-  "theme_color": "#4338ca",
+  "background_color": "#12131a",
+  "theme_color": "#12131a",
   "icons": [
     {
       "src": "./icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     },
     {
       "src": "./icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
   ]
 }
