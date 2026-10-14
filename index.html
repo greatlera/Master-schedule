@@ -63,6 +63,11 @@
       --success: #16a34a;
     }
 
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -82,13 +87,13 @@
       display: flex;
       justify-content: center;
       min-height: 100vh;
-      padding: 0 14px 84px 14px;
+      padding: 0 12px 84px 12px;
       transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     .app-container {
       width: 100%;
-      max-width: 460px;
+      max-width: 440px;
       display: flex;
       flex-direction: column;
       gap: 14px;
@@ -102,7 +107,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 4px 12px 4px;
+      padding: 14px 2px 12px 2px;
       background: var(--bg);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
@@ -111,7 +116,8 @@
     .header-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      flex-shrink: 0;
     }
 
     .menu-trigger-btn, .header-btn {
@@ -123,9 +129,11 @@
       place-items: center;
       width: 40px;
       height: 40px;
+      min-width: 40px;
       border-radius: var(--radius-pill);
       transition: transform 0.15s ease, background-color 0.2s ease;
       padding: 0;
+      flex-shrink: 0;
     }
     .menu-trigger-btn:active, .header-btn:active {
       transform: scale(0.92);
@@ -138,8 +146,11 @@
     .header-btn svg { width: 19px; height: 19px; fill: currentColor; }
 
     h1 {
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       font-weight: 700;
+      line-height: 1.15;
+      max-width: 110px;
+      word-wrap: break-word;
       cursor: pointer;
       user-select: none;
       transition: opacity 0.15s ease;
@@ -149,7 +160,8 @@
     .header-right {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
     .today-link {
@@ -159,9 +171,20 @@
       font-size: 0.8rem;
       font-weight: 700;
       cursor: pointer;
-      padding: 9px 16px;
+      height: 40px;
+      width: 96px;
+      min-width: 96px;
+      max-width: 96px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0;
       border-radius: var(--radius-pill);
       transition: all 0.2s ease;
+      box-sizing: border-box;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .today-link:active {
       transform: scale(0.95);
@@ -245,7 +268,7 @@
     .card {
       background: var(--card-bg);
       border-radius: var(--radius-card);
-      padding: 20px 18px;
+      padding: 20px 16px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
       border: 1px solid var(--input-border);
     }
@@ -343,15 +366,21 @@
     }
 
     .day-cell.today-circle:not(.selected) {
-      border: 2px solid var(--text);
-      font-weight: 800;
+      border: 1.5px solid rgba(255, 255, 255, 0.45);
+      font-weight: 700;
+    }
+    body.light-theme .day-cell.today-circle:not(.selected) {
+      border: 1.5px solid rgba(18, 19, 22, 0.35);
     }
 
     .day-cell.selected {
-      outline: 2.5px solid var(--text);
-      outline-offset: 2px;
+      box-shadow: 0 0 0 2px var(--card-bg), 0 0 0 4px var(--text);
+      transform: scale(0.92);
       font-weight: 800;
       z-index: 2;
+    }
+    .day-cell.today-circle.selected {
+      border: none;
     }
 
     .day-cell.has-entry {
@@ -1772,8 +1801,13 @@
     document.getElementById('drawerHeadingLogo').onclick = openCalendarSection;
 
     document.getElementById('todayNavBtn').onclick = () => {
-      selectedDate = new Date();
-      setActiveTab('today');
+      if (activeTab === 'today') {
+        viewDate = new Date();
+        setActiveTab('tasks');
+      } else {
+        selectedDate = new Date();
+        setActiveTab('today');
+      }
       closeDrawer();
     };
 
@@ -1789,6 +1823,11 @@
       document.querySelectorAll('.drawer-item[data-tab]').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.tab === tab);
       });
+
+      const todayNavBtn = document.getElementById('todayNavBtn');
+      if (todayNavBtn) {
+        todayNavBtn.textContent = (tab === 'today') ? 'Календарь' : 'Сегодня';
+      }
 
       calendarCard.style.display = (tab === 'tasks') ? 'block' : 'none';
       openAddModalBtn.style.display = (tab === 'today' || tab === 'tasks' || tab === 'all' || tab === 'pending' || tab === 'events' || tab === 'habits') ? 'grid' : 'none';
