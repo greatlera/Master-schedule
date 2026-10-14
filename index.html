@@ -7,11 +7,12 @@
   <title>Master Schedule</title>
   
   <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png" />
-  <link rel="apple-touch-icon" href="./icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png" />
   <link rel="manifest" href="./manifest.json" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
 
   <style>
@@ -2045,7 +2046,7 @@
             <div class="bento-entry-left">
               <div class="check-slot"></div>
               <div class="bento-entry-info">
-                <div class="bento-entry-title" style="color:${cat.color}; ${isCompleted ? 'text-decoration:line-through; opacity:0.75;' : ''}">${escapeHtml(item.title)}</div>
+                <div class="bento-entry-title" style="color:${cat.color};">${escapeHtml(item.title)}</div>
                 ${item.time ? `<div class="bento-entry-badges"><span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeTimeSvg}${escapeHtml(item.time)}</span></div>` : ''}
                 ${item.notes ? `<div class="bento-entry-notes">${escapeHtml(item.notes)}</div>` : ''}
               </div>
@@ -2195,7 +2196,7 @@
             <div class="bento-entry-left">
               <div class="check-slot"></div>
               <div class="bento-entry-info">
-                <div class="bento-entry-title" style="color:${cat.color}; ${isCompleted ? 'text-decoration:line-through; opacity:0.75;' : ''}">${escapeHtml(item.title)}</div>
+                <div class="bento-entry-title" style="color:${cat.color};">${escapeHtml(item.title)}</div>
                 <div class="bento-entry-badges">
                   <span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeDateSvg}${formatDisplayDate(item.date)}</span>
                   ${item.time ? `<span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeTimeSvg}${escapeHtml(item.time)}</span>` : ''}
@@ -2234,7 +2235,7 @@
 
         filtered.sort((a, b) => {
           if (pendingSort === 'category_asc') return (a.category || '').localeCompare(b.category || '');
-          const minsA = (parseInt(a.durationHours, 10) || 0) * 60 + (parseInt(a.durationMinutes, 10) || 0);
+          const minsA = (parseInt(a.durationHours, 10) || 0) * 60 + (parseInt(b.durationMinutes, 10) || 0);
           const minsB = (parseInt(b.durationHours, 10) || 0) * 60 + (parseInt(b.durationMinutes, 10) || 0);
           if (pendingSort === 'dur_asc') return minsA - minsB;
           if (pendingSort === 'dur_desc') return minsB - minsA;

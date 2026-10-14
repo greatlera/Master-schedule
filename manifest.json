@@ -1,14 +1,13 @@
 {
-  "id": "/Master-schedule/",
   "name": "Master Schedule",
-  "short_name": "Master Schedule",
-  "description": "Персональный интерактивный календарь и планировщик задач",
-  "start_url": "./index.html",
+  "short_name": "Schedule",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#12131a",
-  "theme_color": "#12131a",
+  "background_color": "#0d0e12",
+  "theme_color": "#0d0e12",
+  "description": "Персональное расписание, задачи и трекер привычек",
   "icons": [
     {
       "src": "./icon-192.png",
