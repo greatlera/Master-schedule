@@ -3,64 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#12131a" />
+  <meta name="theme-color" content="#0d0e12" />
   <title>Master Schedule</title>
   
   <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png" />
   <link rel="apple-touch-icon" href="./icon-192.png" />
   <link rel="manifest" href="./manifest.json" />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
+
   <style>
     :root {
       color-scheme: dark;
-      --bg: #12131a;
-      --card-bg: #1c1d26;
-      --drawer-bg: #161722;
-      --input-bg: #15161f;
-      --input-border: #282937;
-      --primary: #4d4af2;
-      --primary-hover: #413ddc;
-      --text: #ffffff;
-      --text-muted: #8b8e9f;
-      --day-text: #ffffff;
-      --other-month-text: #404356;
-      --accent-blue: #4d72f5;
-      --btn-cancel-bg: #2a2c3a;
-      --btn-cancel-text: #ffffff;
-      --picker-icon-color: #ffffff;
-      --danger: #ef4444;
-      --success: #10b981;
-      --radius-card: 20px;
-      --radius-elem: 14px;
+      --bg: #0d0e12;
+      --card-bg: #181920;
+      --drawer-bg: #15161c;
+      --input-bg: #121318;
+      --input-border: #262833;
+      --primary: #cbf532;
+      --primary-text: #0d0e12;
+      --primary-hover: #b8e225;
+      --text: #f4f5f8;
+      --text-muted: #838896;
+      --day-text: #e2e4ec;
+      --other-month-text: #373a46;
+      --accent-blue: #5b9ffc;
+      --btn-cancel-bg: #232530;
+      --btn-cancel-text: #f4f5f8;
+      --picker-icon-color: #f4f5f8;
+      --danger: #EF3838;
+      --success: #22c55e;
+      --radius-card: 26px;
+      --radius-elem: 18px;
+      --radius-pill: 9999px;
     }
 
     body.light-theme {
       color-scheme: light;
-      --bg: #f4f5f9;
+      --bg: #f3f4f8;
       --card-bg: #ffffff;
       --drawer-bg: #ffffff;
-      --input-bg: #f8fafc;
-      --input-border: #e2e8f0;
-      --primary: #4d4af2;
-      --primary-hover: #413ddc;
-      --text: #0f172a;
-      --text-muted: #64748b;
-      --day-text: #1e293b;
-      --other-month-text: #94a3b8;
-      --accent-blue: #4d72f5;
-      --btn-cancel-bg: #e2e8f0;
-      --btn-cancel-text: #0f172a;
-      --picker-icon-color: #475569;
-      --danger: #ef4444;
-      --success: #10b981;
+      --input-bg: #f7f8fb;
+      --input-border: #e6e8f0;
+      --primary: #15803d;
+      --primary-text: #ffffff;
+      --primary-hover: #166534;
+      --text: #121316;
+      --text-muted: #6e7382;
+      --day-text: #1a1c22;
+      --other-month-text: #b5bac7;
+      --accent-blue: #3b82f6;
+      --btn-cancel-bg: #ebeef5;
+      --btn-cancel-text: #121316;
+      --picker-icon-color: #4b5262;
+      --danger: #DC2626;
+      --success: #16a34a;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Onest', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       -webkit-tap-highlight-color: transparent;
+    }
+
+    h1, h2, h3, .nav-header-title, .summary-title, .today-big-heading, .stepper-val-display {
+      font-family: 'Unbounded', 'Onest', sans-serif;
+      letter-spacing: -0.03em;
     }
 
     body {
@@ -70,7 +82,7 @@
       justify-content: center;
       min-height: 100vh;
       padding: 0 14px 84px 14px;
-      transition: background-color 0.2s ease, color 0.2s ease;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     .app-container {
@@ -89,10 +101,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 4px 10px 4px;
+      padding: 16px 4px 12px 4px;
       background: var(--bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
     .header-left {
@@ -101,55 +113,58 @@
       gap: 12px;
     }
 
-    .menu-trigger-btn {
-      background: none;
-      border: none;
+    .menu-trigger-btn, .header-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--input-border);
       color: var(--text);
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4px;
-      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-pill);
+      transition: transform 0.15s ease, background-color 0.2s ease;
+      padding: 0;
+    }
+    .menu-trigger-btn:active, .header-btn:active {
+      transform: scale(0.92);
     }
     .menu-trigger-btn svg {
-      width: 24px; height: 24px;
+      width: 20px; height: 20px;
       stroke: currentColor; fill: none;
-      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+      stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
     }
+    .header-btn svg { width: 19px; height: 19px; fill: currentColor; }
 
     h1 {
-      font-size: 1.25rem;
-      font-weight: 800;
-      letter-spacing: -0.3px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      transition: opacity 0.15s ease;
     }
+    h1:hover { opacity: 0.85; }
 
     .header-right {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
-
-    .header-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4px;
-      border-radius: 8px;
-    }
-    .header-btn svg { width: 22px; height: 22px; fill: currentColor; }
 
     .today-link {
-      background: none;
-      border: none;
-      color: var(--accent-blue);
-      font-size: 0.95rem;
+      background: var(--card-bg);
+      border: 1px solid var(--input-border);
+      color: var(--text);
+      font-size: 0.8rem;
       font-weight: 700;
       cursor: pointer;
+      padding: 9px 16px;
+      border-radius: var(--radius-pill);
+      transition: all 0.2s ease;
+    }
+    .today-link:active {
+      transform: scale(0.95);
+      background: var(--input-border);
     }
 
     .drawer-backdrop {
@@ -157,7 +172,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(2px);
+      backdrop-filter: blur(4px);
       z-index: 200;
       opacity: 0;
       transition: opacity 0.25s ease;
@@ -171,7 +186,7 @@
       max-width: 310px;
       background: var(--drawer-bg);
       z-index: 210;
-      box-shadow: 4px 0 24px rgba(0,0,0,0.4);
+      box-shadow: 4px 0 28px rgba(0,0,0,0.45);
       display: flex;
       flex-direction: column;
       transform: translateX(-100%);
@@ -186,7 +201,7 @@
       justify-content: space-between;
       align-items: center;
     }
-    .drawer-header h3 { font-size: 1.15rem; font-weight: 800; color: var(--primary); }
+    .drawer-header h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); cursor: pointer; }
 
     .drawer-nav {
       padding: 14px 10px;
@@ -202,7 +217,7 @@
       align-items: center;
       gap: 12px;
       padding: 12px 14px;
-      border-radius: 12px;
+      border-radius: 14px;
       border: none;
       background: transparent;
       color: var(--text);
@@ -214,38 +229,78 @@
     }
     .drawer-item:hover { background: rgba(255,255,255,0.05); }
     .drawer-item.active {
-      background: var(--primary);
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(77, 74, 242, 0.35);
+      background: var(--card-bg);
+      border: 1px solid var(--input-border);
+      color: var(--text);
+      font-weight: 700;
     }
     .drawer-item svg {
       width: 20px; height: 20px;
       stroke: currentColor; fill: none;
-      stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
       flex-shrink: 0;
     }
 
     .card {
       background: var(--card-bg);
       border-radius: var(--radius-card);
-      padding: 16px;
+      padding: 20px 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+      border: 1px solid var(--input-border);
+    }
+
+    .today-hero-box {
+      margin-bottom: 18px;
+    }
+    .today-subtext {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .today-big-heading {
+      font-size: 1.35rem;
+      font-weight: 800;
+      line-height: 1.25;
     }
 
     .nav-header-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
     }
-    .nav-header-title { font-size: 1rem; font-weight: 700; }
+    .nav-header-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    
     .nav-arrow-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.2rem;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--text);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      padding: 0;
       cursor: pointer;
-      padding: 4px 8px;
+      transition: transform 0.15s ease, background-color 0.15s ease;
     }
+    .nav-arrow-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      display: block;
+    }
+    .nav-arrow-btn:active { transform: scale(0.9); }
 
     .weekdays-row {
       display: grid;
@@ -254,59 +309,75 @@
       font-size: 0.72rem;
       font-weight: 700;
       color: var(--text-muted);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
+
     .days-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 5px;
+      gap: 6px;
     }
+
     .day-cell {
       aspect-ratio: 1;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      border-radius: 12px;
+      border-radius: 50%;
       font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
       position: relative;
       color: var(--day-text);
-      transition: all 0.15s ease;
+      transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+      user-select: none;
     }
-    .day-cell.other-month { color: var(--other-month-text) !important; }
-    .day-cell.selected {
-      background: var(--primary) !important;
-      color: #ffffff !important;
+    .day-cell:active { transform: scale(0.9); }
+    .day-cell.other-month {
+      color: var(--other-month-text) !important;
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    .day-cell.today-circle:not(.selected) {
+      border: 2px solid var(--text);
       font-weight: 800;
-      box-shadow: 0 4px 12px rgba(77, 74, 242, 0.45);
     }
-    .day-cell.today-circle:not(.selected) { border: 1.5px solid var(--accent-blue); }
+
+    .day-cell.selected {
+      outline: 2.5px solid var(--text);
+      outline-offset: 2px;
+      font-weight: 800;
+      z-index: 2;
+    }
+
+    .day-cell.has-entry {
+      font-weight: 800;
+    }
 
     .dots-box {
       position: absolute;
-      bottom: 3px;
+      bottom: 4px;
       display: flex;
       gap: 3px;
     }
     .cal-dot { width: 4px; height: 4px; border-radius: 50%; }
-    .day-cell.selected .cal-dot { background: #ffffff !important; }
 
     .subtabs-bar {
       display: flex;
       background: var(--input-bg);
       border: 1px solid var(--input-border);
-      border-radius: 12px;
-      padding: 3px;
+      border-radius: 14px;
+      padding: 4px;
       gap: 4px;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
     .subtab-btn {
       flex: 1;
-      padding: 7px 10px;
-      border-radius: 9px;
+      padding: 9px 12px;
+      border-radius: 11px;
       border: none;
       background: transparent;
       color: var(--text-muted);
@@ -319,152 +390,286 @@
     .subtab-btn.active {
       background: var(--card-bg);
       color: var(--text);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     }
 
     .day-summary-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
     .summary-left { display: flex; flex-direction: column; gap: 2px; }
-    .summary-title { font-size: 1.02rem; font-weight: 700; }
+    .summary-title { font-size: 0.98rem; font-weight: 700; }
 
-    .header-icons-group { display: flex; align-items: center; gap: 6px; }
+    .header-icons-group { display: flex; align-items: center; gap: 8px; }
     .icon-trigger-btn {
       background: var(--input-bg);
       border: 1px solid var(--input-border);
       color: var(--text-muted);
-      width: 32px; height: 32px;
-      border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
       cursor: pointer;
+      padding: 0;
     }
     .icon-trigger-btn svg {
       width: 17px; height: 17px;
       stroke: currentColor; fill: none;
-      stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
     }
 
     .empty-state-text {
       text-align: center;
-      padding: 28px 16px;
+      padding: 32px 16px;
       color: var(--text-muted);
-      font-size: 0.86rem;
+      font-size: 0.9rem;
       line-height: 1.5;
     }
 
     .items-container {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
 
-    .item-card {
-      background: var(--input-bg);
+    .group-section-title {
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 10px 0 2px 4px;
+    }
+
+    .bento-entry-card {
       border-radius: var(--radius-elem);
-      padding: 11px 12px;
+      padding: 14px 16px;
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 8px;
-      border-left: 4px solid var(--primary);
+      gap: 12px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      border: 1.5px solid transparent;
     }
-    .item-left {
+    .bento-entry-card:active {
+      transform: scale(0.99);
+    }
+
+    .bento-entry-left {
       display: flex;
       align-items: flex-start;
-      gap: 10px;
+      gap: 12px;
       flex: 1;
       overflow: hidden;
     }
-    .item-checkbox {
-      margin-top: 3px;
-      width: 18px; height: 18px;
-      accent-color: var(--primary);
-      cursor: pointer;
+
+    .round-check-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      background: transparent;
+      display: grid;
+      place-items: center;
       flex-shrink: 0;
+      margin-top: 2px;
+      padding: 0;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
     }
-    .item-info {
+    .round-check-btn svg {
+      width: 13px;
+      height: 13px;
+      stroke: #ffffff;
+      fill: none;
+      stroke-width: 2.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      display: none;
+    }
+    .round-check-btn.checked {
+      background: currentColor;
+    }
+    .round-check-btn.checked svg {
+      display: block;
+      stroke: #0d0e12;
+    }
+
+    .bento-entry-info {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 4px;
       flex: 1;
       cursor: pointer;
       overflow: hidden;
     }
-    .item-title { font-size: 0.92rem; font-weight: 600; word-break: break-word; }
-    .item-card.completed .item-title {
-      text-decoration: line-through;
-      color: var(--text-muted);
+
+    .bento-entry-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      word-break: break-word;
     }
 
-    .item-badges {
-      display: flex;
-      gap: 5px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-top: 2px;
-    }
-    .badge {
-      font-size: 0.68rem;
-      font-weight: 600;
-      padding: 2px 7px;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .badge svg {
-      width: 11px; height: 11px;
-      stroke: currentColor; fill: none;
-      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-    }
-    .badge-overdue {
-      background: #ef444422;
-      color: #ef4444;
-      border: 1px solid #ef444444;
-    }
-
-    .item-notes {
-      font-size: 0.76rem;
+    .bento-entry-notes {
+      font-size: 0.8rem;
       color: var(--text-muted);
       margin-top: 4px;
       white-space: pre-wrap;
     }
 
+    .bento-entry-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 2px;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge svg {
+      width: 12px; height: 12px;
+      stroke: currentColor; fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    }
+
     .item-actions {
       display: flex;
       align-items: center;
-      gap: 2px;
+      gap: 4px;
       flex-shrink: 0;
     }
 
     .action-icon-btn {
       background: none;
       border: none;
-      color: var(--text-muted);
       cursor: pointer;
+      display: grid;
+      place-items: center;
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      opacity: 0.85;
+      padding: 0;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+    .action-icon-btn:hover { opacity: 1; transform: scale(1.08); }
+    .action-icon-btn svg {
+      width: 17px; height: 17px;
+      stroke: currentColor; fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    .habit-bento-card {
+      border-radius: var(--radius-elem);
+      padding: 16px 18px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1.5px solid transparent;
+      transition: transform 0.18s cubic-bezier(0.1, 0.9, 0.2, 1);
+    }
+    .habit-bento-card:active {
+      transform: scale(0.99);
+    }
+    .habit-bento-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .habit-bento-title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .habit-week-bento-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.12);
+      padding: 10px 8px;
+      border-radius: 14px;
+    }
+    .habit-week-bento-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .habit-week-bento-col.is-future {
+      opacity: 0.35;
+      cursor: not-allowed !important;
+    }
+    .habit-week-day-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+    .habit-week-date-num {
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+    .habit-week-check-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: grid;
+      place-items: center;
+      transition: all 0.2s ease;
+    }
+    .habit-week-check-circle.done {
+      background: currentColor;
+      transform: scale(1.08);
+    }
+    .habit-week-check-circle svg {
+      width: 14px; height: 14px;
+      stroke: #0d0e12; fill: none;
+      stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round;
+      display: none;
+    }
+    .habit-week-check-circle.done svg {
+      display: block;
+    }
+
+    .dots-month-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+    .dot-box {
+      aspect-ratio: 1;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.08);
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 28px; height: 28px;
-      border-radius: 7px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.15s ease;
     }
-    .action-icon-btn svg {
-      width: 16px; height: 16px;
-      stroke: currentColor; fill: none;
-      stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
-    }
-
-    .table-view-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      background: var(--input-bg);
-      border-radius: var(--radius-elem);
-      border-left: 4px solid var(--primary);
+    .dot-box:active:not(.is-future) { transform: scale(0.9); }
+    .dot-box.active { color: #0d0e12; }
+    .dot-box.today { border: 2px solid var(--text); }
+    .dot-box.is-future {
+      opacity: 0.25;
+      cursor: not-allowed !important;
     }
 
     .fab-btn {
@@ -473,13 +678,28 @@
       width: 58px; height: 58px;
       border-radius: 50%;
       background: var(--primary);
-      color: #ffffff;
+      color: var(--primary-text);
       border: none;
-      font-size: 1.8rem;
-      display: flex; align-items: center; justify-content: center;
+      display: grid;
+      place-items: center;
       cursor: pointer;
-      box-shadow: 0 8px 24px rgba(77, 74, 242, 0.55);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
       z-index: 50;
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+      padding: 0;
+    }
+    .fab-btn svg {
+      width: 26px;
+      height: 26px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      display: block;
+    }
+    .fab-btn:active {
+      transform: scale(0.92);
     }
 
     .modal-backdrop {
@@ -487,7 +707,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(2px);
+      backdrop-filter: blur(4px);
       z-index: 200;
       align-items: flex-end;
       justify-content: center;
@@ -504,30 +724,30 @@
       position: relative;
     }
     .modal-sheet-header {
-      padding: 18px 20px 12px 20px;
+      padding: 20px 22px 14px 22px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid var(--input-border);
     }
-    .modal-sheet-header h2 { font-size: 1.18rem; font-weight: 700; }
+    .modal-sheet-header h2 { font-size: 1.15rem; font-weight: 700; }
     .modal-close-x {
       background: none;
       border: none;
       color: var(--text-muted);
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       cursor: pointer;
     }
     .modal-sheet-body {
-      padding: 16px 20px;
+      padding: 18px 22px;
       display: flex;
       flex-direction: column;
-      gap: 13px;
+      gap: 14px;
       overflow-y: auto;
       flex: 1;
     }
     .modal-sheet-footer {
-      padding: 12px 20px 22px 20px;
+      padding: 14px 22px 24px 22px;
       border-top: 1px solid var(--input-border);
       background: var(--card-bg);
     }
@@ -537,14 +757,14 @@
     }
 
     .field-group { display: flex; flex-direction: column; gap: 6px; }
-    .field-group label { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; }
+    .field-group label { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; }
     .form-ctrl {
       background: var(--input-bg);
       border: 1px solid var(--input-border);
       color: var(--text);
-      padding: 12px 14px;
+      padding: 13px 15px;
       border-radius: var(--radius-elem);
-      font-size: 0.92rem;
+      font-size: 0.94rem;
       outline: none;
       width: 100%;
     }
@@ -581,7 +801,7 @@
       align-items: center;
       padding: 6px 0;
     }
-    .switch-label { font-size: 0.9rem; font-weight: 600; }
+    .switch-label { font-size: 0.9rem; font-weight: 700; }
     .switch {
       position: relative;
       display: inline-block;
@@ -609,15 +829,20 @@
     input:checked + .slider:before { transform: translateX(18px); }
 
     .modal-btn {
-      padding: 13px;
+      padding: 14px;
       border-radius: var(--radius-elem);
       border: none;
       font-size: 0.95rem;
       font-weight: 700;
       cursor: pointer;
     }
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .modal-actions .modal-btn { flex: 1; }
     .btn-cancel { background: var(--btn-cancel-bg); color: var(--btn-cancel-text); }
-    .btn-save { background: var(--primary); color: #ffffff; }
+    .btn-save { background: var(--primary); color: var(--primary-text); }
 
     .time-stepper-box {
       display: flex;
@@ -648,7 +873,7 @@
       cursor: pointer;
       font-size: 0.75rem;
     }
-    .stepper-btn:active { background: var(--primary); color: #fff; }
+    .stepper-btn:active { background: var(--primary); color: var(--primary-text); }
     .stepper-val-display {
       font-size: 1.35rem;
       font-weight: 800;
@@ -662,100 +887,20 @@
       text-transform: uppercase;
     }
 
-    .habit-matrix-card {
-      background: var(--input-bg);
-      border-radius: var(--radius-elem);
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      border: 1px solid var(--input-border);
-    }
-    .dots-month-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 5px;
-    }
-    .dot-box {
-      aspect-ratio: 1;
-      border-radius: 6px;
-      background: var(--card-bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-      user-select: none;
-    }
-    .dot-box.active { color: #ffffff; font-weight: 700; }
-    .dot-box.today { border: 1.5px solid var(--accent-blue); }
-
-    .habit-week-circles-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 6px;
-      padding: 4px 0;
-    }
-    .habit-circle-column {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-    }
-    .habit-circle-day-title {
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-    .habit-circle-date-num {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-    .habit-circle-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: 2px solid var(--input-border);
-      background: var(--card-bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
-    }
-    .habit-circle-btn svg {
-      width: 14px; height: 14px;
-      stroke: #ffffff; fill: none;
-      stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;
-      display: none;
-    }
-    .habit-circle-btn.done {
-      border-color: transparent !important;
-      transform: scale(1.05);
-    }
-    .habit-circle-btn.done svg {
-      display: block;
-    }
-
     .filter-chips-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
     .multi-chip-btn {
       background: var(--input-bg);
       border: 1px solid var(--input-border);
       color: var(--text-muted);
-      padding: 6px 12px;
-      border-radius: 18px;
-      font-size: 0.78rem;
-      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.8rem;
+      font-weight: 700;
       cursor: pointer;
     }
     .multi-chip-btn.active {
       background: var(--primary);
-      color: #ffffff;
+      color: var(--primary-text);
       border-color: var(--primary);
     }
 
@@ -763,7 +908,7 @@
       background: var(--input-bg);
       border: 1px solid var(--input-border);
       border-radius: var(--radius-elem);
-      padding: 10px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -775,20 +920,20 @@
   <div class="drawer-backdrop" id="drawerBackdrop"></div>
   <div class="drawer-panel" id="drawerPanel">
     <div class="drawer-header">
-      <h3>Master Schedule</h3>
+      <h3 id="drawerHeadingLogo">Master Schedule</h3>
       <button class="modal-close-x" id="closeDrawerXBtn">&times;</button>
     </div>
     <div class="drawer-nav">
       <button class="drawer-item active" data-tab="tasks">
         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-        <span>Календарь и день</span>
+        <span>Календарь</span>
       </button>
       <button class="drawer-item" data-tab="all">
         <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
         <span>Все задачи</span>
       </button>
       <button class="drawer-item" data-tab="pending">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <svg viewBox="0 0 24 24"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path></svg>
         <span>Висящие задачи</span>
       </button>
       <button class="drawer-item" data-tab="events">
@@ -812,7 +957,7 @@
         <button class="menu-trigger-btn" id="openDrawerBtn" title="Меню">
           <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
-        <h1 id="screenHeading">Master Schedule</h1>
+        <h1 id="screenHeading" title="Открыть Календарь">Master Schedule</h1>
       </div>
       <div class="header-right">
         <button class="header-btn" id="openSettingsBtn" title="Настройки">
@@ -824,9 +969,13 @@
 
     <div class="card" id="calendarCard">
       <div class="nav-header-row">
-        <button class="nav-arrow-btn" id="prevMonthBtn">&lsaquo;</button>
+        <button class="nav-arrow-btn" id="prevMonthBtn" aria-label="Предыдущий месяц">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
         <span class="nav-header-title" id="monthYearLabel"></span>
-        <button class="nav-arrow-btn" id="nextMonthBtn">&rsaquo;</button>
+        <button class="nav-arrow-btn" id="nextMonthBtn" aria-label="Следующий месяц">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
       </div>
       <div class="weekdays-row">
         <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div>
@@ -835,9 +984,14 @@
     </div>
 
     <div class="card" id="mainContentCard">
+      <div class="today-hero-box" id="todayHeroHeader" style="display:none;">
+        <div class="today-subtext">Сегодня</div>
+        <div class="today-big-heading" id="todayHeroTitle"></div>
+      </div>
+
       <div class="subtabs-bar" id="subtabsBar" style="display:none;"></div>
 
-      <div class="day-summary-header">
+      <div class="day-summary-header" id="daySummaryHeader">
         <div class="summary-left">
           <h2 class="summary-title" id="summaryHeaderTitle"></h2>
         </div>
@@ -856,7 +1010,9 @@
     </div>
   </div>
 
-  <button class="fab-btn" id="openAddModalBtn" title="Создать">+</button>
+  <button class="fab-btn" id="openAddModalBtn" title="Создать" aria-label="Создать">
+    <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+  </button>
 
   <div class="modal-backdrop" id="filterModal">
     <div class="modal-sheet">
@@ -872,6 +1028,7 @@
               <option value="all">Все даты</option>
               <option value="today">Сегодня</option>
               <option value="upcoming">Предстоящие</option>
+              <option value="past">Прошедшие</option>
               <option value="this_week">Текущая неделя (Пн–Вс)</option>
               <option value="next_week">Следующая неделя (Пн–Вс)</option>
               <option value="this_month">Текущий месяц</option>
@@ -967,7 +1124,7 @@
   <div class="modal-backdrop" id="entryModal">
     <div class="modal-sheet">
       <div class="modal-sheet-header">
-        <h2 id="modalSheetHeading">Новая задача</h2>
+        <h2 id="modalSheetHeading">Новая запись</h2>
         <button class="modal-close-x" id="closeEntryModalXBtn">&times;</button>
       </div>
       <div class="modal-sheet-body">
@@ -1144,10 +1301,10 @@
       <div class="modal-sheet-body">
         <div class="field-group">
           <label>Название привычки</label>
-          <input type="text" class="form-ctrl" id="habitTitleInput" placeholder="Например: Чтение, Вода 2л..." />
+          <input type="text" class="form-ctrl" id="habitTitleInput" placeholder="Например: Тренировка, Вода 2л, Чтение..." />
         </div>
         <div class="field-group">
-          <label>Тег</label>
+          <label>Категория</label>
           <select class="form-ctrl" id="habitCategorySelect"></select>
         </div>
       </div>
@@ -1156,6 +1313,22 @@
           <button class="modal-btn btn-cancel" id="closeHabitBtn">Отмена</button>
           <button class="modal-btn btn-save" id="saveHabitBtn">Создать</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="customConfirmModal">
+    <div class="modal-sheet">
+      <div class="modal-sheet-header">
+        <h2 id="customConfirmHeading">Удаление</h2>
+        <button class="modal-close-x" id="closeCustomConfirmXBtn">&times;</button>
+      </div>
+      <div class="modal-sheet-body">
+        <p style="font-size:0.95rem; line-height:1.4;" id="customConfirmMessage">Вы уверены, что хотите удалить эту запись?</p>
+      </div>
+      <div class="modal-sheet-footer" style="display:flex; flex-direction:column; gap:8px;">
+        <button class="modal-btn" style="background:var(--danger); color:#ffffff;" id="customConfirmActionBtn">Удалить</button>
+        <button class="modal-btn btn-cancel" id="customConfirmCancelBtn">Отмена</button>
       </div>
     </div>
   </div>
@@ -1249,23 +1422,58 @@
   </div>
 
   <script>
-    const TASK_TAGS = {
-      work: { label: 'Работа', color: '#3b82f6' },
-      home: { label: 'Дом', color: '#10b981' },
-      hobby: { label: 'Хобби', color: '#8b5cf6' },
-      meeting: { label: 'Встречи', color: '#06b6d4' },
-      procedure: { label: 'Процедуры', color: '#ec4899' },
-      rest: { label: 'Отдых', color: '#f59e0b' },
-      other: { label: 'Прочее', color: '#64748b' }
-    };
+    const BENTO_PALETTE = [
+      { bgDark: '#1e2810', borderDark: '#cbf532', colorDark: '#cbf532', bgLight: '#eefcce', borderLight: '#84cc16', colorLight: '#166534', darkText: true },
+      { bgDark: '#231834', borderDark: '#c084fc', colorDark: '#c084fc', bgLight: '#f3e8ff', borderLight: '#c084fc', colorLight: '#6b21a8' },
+      { bgDark: '#102235', borderDark: '#60a5fa', colorDark: '#60a5fa', bgLight: '#e0f2fe', borderLight: '#38bdf8', colorLight: '#0369a1' },
+      { bgDark: '#341B12', borderDark: '#FF652F', colorDark: '#FF652F', bgLight: '#ffedd5', borderLight: '#FF652F', colorLight: '#c2410c' },
+      { bgDark: '#2b1424', borderDark: '#f472b6', colorDark: '#f472b6', bgLight: '#fce7f3', borderLight: '#f472b6', colorLight: '#be185d' },
+      { bgDark: '#2a2410', borderDark: '#facc15', colorDark: '#facc15', bgLight: '#fef9c3', borderLight: '#facc15', colorLight: '#854d0e', darkText: true }
+    ];
 
-    const EVENT_TAGS = {
-      birthday: { label: 'День рождения', color: '#f43f5e' },
-      holiday: { label: 'Праздник', color: '#eab308' },
-      important: { label: 'Важное событие', color: '#a855f7' }
-    };
+    function getThemeColors() {
+      const isLight = document.body.classList.contains('light-theme');
+      return {
+        taskTags: {
+          work: { label: 'Работа', color: isLight ? '#2563eb' : '#5b9ffc', bg: isLight ? '#eff6ff' : '#0f1f38' },
+          home: { label: 'Дом', color: isLight ? '#16a34a' : '#cbf532', bg: isLight ? '#f0fdf4' : '#1e2810', darkText: !isLight },
+          hobby: { label: 'Хобби', color: isLight ? '#8b5cf6' : '#a78bfa', bg: isLight ? '#f5f3ff' : '#231834' },
+          meeting: { label: 'Встречи', color: isLight ? '#c2410c' : '#FF652F', bg: isLight ? '#fff7ed' : '#341B12' },
+          procedure: { label: 'Процедуры', color: isLight ? '#db2777' : '#f472b6', bg: isLight ? '#fdf2f8' : '#2b1424' },
+          rest: { label: 'Отдых', color: isLight ? '#d97706' : '#fbbf24', bg: isLight ? '#fffbeb' : '#2a2410', darkText: !isLight },
+          other: { label: 'Прочее', color: isLight ? '#64748b' : '#94a3b8', bg: isLight ? '#f8fafc' : '#181b22' }
+        },
+        eventTags: {
+          birthday: { 
+            label: 'День рождения', 
+            color: isLight ? '#DC2626' : '#EF3838', 
+            bg: isLight ? '#fee2e2' : '#321315' 
+          },
+          holiday: { 
+            label: 'Праздник', 
+            color: isLight ? '#EA580C' : '#FF652F', 
+            bg: isLight ? '#ffedd5' : '#341B12' 
+          },
+          important: { 
+            label: 'Важное событие', 
+            color: isLight ? '#9333ea' : '#a855f7', 
+            bg: isLight ? '#f3e8ff' : '#261338' 
+          }
+        }
+      };
+    }
 
-    let activeTab = 'tasks';
+    function getHabitStyle(index) {
+      const isLight = document.body.classList.contains('light-theme');
+      const item = BENTO_PALETTE[index % BENTO_PALETTE.length];
+      return {
+        cardBg: isLight ? item.bgLight : item.bgDark,
+        cardBorder: isLight ? item.borderLight : item.borderDark,
+        accentColor: isLight ? item.colorLight : item.colorDark
+      };
+    }
+
+    let activeTab = 'today';
     let habitSubTab = 'daily';
 
     let habitOffsetWeeks = 0;
@@ -1278,6 +1486,8 @@
     let editingId = null;
     let itemPendingDeletion = null;
     let datePendingDeletion = null;
+
+    let onConfirmCallback = null;
 
     let allTasksFilter = { period: 'all', startDate: '', endDate: '', statuses: [], tags: [] };
     let allTasksSort = 'date_asc';
@@ -1310,8 +1520,10 @@
     function applyTheme(theme) {
       if (theme === 'light') document.body.classList.add('light-theme');
       else document.body.classList.remove('light-theme');
+      initFilterChips();
+      renderCalendar();
+      renderItems();
     }
-    applyTheme(settings.theme);
 
     function saveEntries() {
       localStorage.setItem('master_schedule_data', JSON.stringify(entries));
@@ -1373,6 +1585,7 @@
       if (period === 'all') return true;
       if (period === 'today') return dateKey === todayStr;
       if (period === 'upcoming') return dateKey >= todayStr;
+      if (period === 'past') return dateKey < todayStr;
 
       if (period === 'this_week') {
         const curDay = (now.getDay() + 6) % 7;
@@ -1428,7 +1641,7 @@
       } else if (freq === 'monthly') {
         return targetDate.getDate() === startDate.getDate();
       } else if (freq === 'interval_weeks') {
-        const n = parseInt(task.recurringConfig?.intervalN) || 2;
+        const n = parseInt(task.recurringConfig?.intervalN, 10) || 2;
         const diffDays = Math.round((targetDate - startDate) / (1000 * 60 * 60 * 24));
         return (diffDays % (7 * n) === 0);
       } else if (freq === 'weekdays') {
@@ -1462,12 +1675,12 @@
       today.setHours(0, 0, 0, 0);
 
       const parts = eventItem.date.split('-').map(Number);
-      let target = new Date(parts[0], parts[1] - 1, parts[2]);
+      let target = new Date(parts[0], parts[1] - 1, parts[2], 0, 0, 0, 0);
 
       if (eventItem.isYearly) {
-        target = new Date(today.getFullYear(), parts[1] - 1, parts[2]);
+        target = new Date(today.getFullYear(), parts[1] - 1, parts[2], 0, 0, 0, 0);
         if (target < today) {
-          target = new Date(today.getFullYear() + 1, parts[1] - 1, parts[2]);
+          target = new Date(today.getFullYear() + 1, parts[1] - 1, parts[2], 0, 0, 0, 0);
         }
       }
 
@@ -1478,11 +1691,16 @@
       'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
       'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
     ];
+    const monthNamesGenitive = [
+      'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+      'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+    ];
     const weekDaysFull = [
       'Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'
     ];
 
     function initFilterChips() {
+      const { taskTags } = getThemeColors();
       const taskTagsContainer = document.getElementById('taskTagsChipsGrid');
       const pendingTagsContainer = document.getElementById('pendingTagsChipsGrid');
       const habitCatSelect = document.getElementById('habitCategorySelect');
@@ -1491,7 +1709,7 @@
       pendingTagsContainer.innerHTML = '';
       habitCatSelect.innerHTML = '';
 
-      for (const [k, v] of Object.entries(TASK_TAGS)) {
+      for (const [k, v] of Object.entries(taskTags)) {
         const btn1 = document.createElement('button');
         btn1.className = 'multi-chip-btn';
         btn1.dataset.tag = k;
@@ -1519,7 +1737,6 @@
         btn.onclick = () => btn.classList.toggle('active');
       });
     }
-    initFilterChips();
 
     const drawerPanel = document.getElementById('drawerPanel');
     const drawerBackdrop = document.getElementById('drawerBackdrop');
@@ -1536,15 +1753,35 @@
 
     document.querySelectorAll('.drawer-item[data-tab]').forEach(btn => {
       btn.onclick = () => {
-        setActiveTab(btn.dataset.tab);
+        const tab = btn.dataset.tab;
+        if (tab === 'tasks') {
+          viewDate = new Date();
+        }
+        setActiveTab(tab);
         closeDrawer();
       };
     });
 
+    function openCalendarSection() {
+      viewDate = new Date();
+      setActiveTab('tasks');
+      closeDrawer();
+    }
+    document.getElementById('screenHeading').onclick = openCalendarSection;
+    document.getElementById('drawerHeadingLogo').onclick = openCalendarSection;
+
+    document.getElementById('todayNavBtn').onclick = () => {
+      selectedDate = new Date();
+      setActiveTab('today');
+      closeDrawer();
+    };
+
     const calendarCard = document.getElementById('calendarCard');
-    const screenHeading = document.getElementById('screenHeading');
     const openAddModalBtn = document.getElementById('openAddModalBtn');
     const subtabsBar = document.getElementById('subtabsBar');
+    const todayHeroHeader = document.getElementById('todayHeroHeader');
+    const todayHeroTitle = document.getElementById('todayHeroTitle');
+    const daySummaryHeader = document.getElementById('daySummaryHeader');
 
     function setActiveTab(tab) {
       activeTab = tab;
@@ -1553,20 +1790,10 @@
       });
 
       calendarCard.style.display = (tab === 'tasks') ? 'block' : 'none';
-      openAddModalBtn.style.display = (tab === 'tasks' || tab === 'all' || tab === 'pending' || tab === 'events' || tab === 'habits') ? 'flex' : 'none';
-
-      const titles = {
-        tasks: 'Master Schedule',
-        all: 'Все задачи',
-        pending: 'Висящие задачи',
-        events: 'События & Праздники',
-        habits: 'Трекер привычек',
-        trash: 'Корзина'
-      };
-      screenHeading.textContent = titles[tab] || 'Master Schedule';
+      openAddModalBtn.style.display = (tab === 'today' || tab === 'tasks' || tab === 'all' || tab === 'pending' || tab === 'events' || tab === 'habits') ? 'grid' : 'none';
 
       renderSubtabs();
-      renderCalendar();
+      if (tab === 'tasks') renderCalendar();
       renderItems();
     }
 
@@ -1588,6 +1815,7 @@
     }
 
     function renderCalendar() {
+      const { taskTags, eventTags } = getThemeColors();
       const year = viewDate.getFullYear();
       const month = viewDate.getMonth();
       document.getElementById('monthYearLabel').textContent = `${monthNames[month]} ${year}`;
@@ -1629,16 +1857,24 @@
         });
 
         if (dayEntries.length > 0) {
-          const dotsBox = document.createElement('div');
-          dotsBox.className = 'dots-box';
-          dayEntries.slice(0, 3).forEach(item => {
+          cell.classList.add('has-entry');
+          const firstItem = dayEntries[0];
+          const tagObj = (firstItem.type === 'event') ? eventTags[firstItem.category] : taskTags[firstItem.category];
+          const dominantColor = tagObj?.color || taskTags.work.color;
+          const isDarkText = !!tagObj?.darkText;
+
+          cell.style.backgroundColor = dominantColor;
+          cell.style.color = isDarkText ? '#0e0f12' : '#ffffff';
+
+          if (dayEntries.length > 1) {
+            const dotsBox = document.createElement('div');
+            dotsBox.className = 'dots-box';
             const dot = document.createElement('div');
             dot.className = 'cal-dot';
-            const cat = item.type === 'event' ? EVENT_TAGS[item.category] : TASK_TAGS[item.category];
-            dot.style.backgroundColor = cat?.color || '#4d4af2';
+            dot.style.backgroundColor = isDarkText ? '#0e0f12' : '#ffffff';
             dotsBox.appendChild(dot);
-          });
-          cell.appendChild(dotsBox);
+            cell.appendChild(dotsBox);
+          }
         }
 
         cell.onclick = () => {
@@ -1659,27 +1895,227 @@
       viewDate.setMonth(viewDate.getMonth() + 1);
       renderCalendar();
     };
-    document.getElementById('todayNavBtn').onclick = () => {
-      viewDate = new Date();
-      selectedDate = new Date();
-      habitOffsetWeeks = 0;
-      habitOffsetMonths = 0;
-      setActiveTab('tasks');
-    };
 
     const editIconSvg = `<svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>`;
-    const planToCalendarSvg = `<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><polyline points="12 14 15 17 12 20"></polyline></svg>`;
+    const planToCalendarSvg = `<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
     const deleteIconSvg = `<svg viewBox="0 0 24 24"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>`;
     const badgeDateSvg = `<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
     const badgeTimeSvg = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
-    const badgeRecurSvg = `<svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>`;
-    const flameIconSvg = `<svg viewBox="0 0 24 24" style="width:12px; height:12px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17c1.38 0 2.5-1.12 2.5-2.5 0-1.63-1.07-2.71-1.78-3.43A6.27 6.27 0 0 1 10 7c0 2.5-3 4-3 6.5a2.5 2.5 0 0 0 1.5 1"></path><path d="M12 2c5.5 6 2 11 2 15a6 6 0 0 1-12 0c0-4 3-7 5-10 1 3 3 4 5 5z"></path></svg>`;
-    const pendingHourglassSvg = `<svg viewBox="0 0 24 24" style="width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path></svg>`;
-    const eventStarSvg = `<svg viewBox="0 0 24 24" style="width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
+    const flameIconSvg = `<svg viewBox="0 0 24 24" style="width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17c1.38 0 2.5-1.12 2.5-2.5 0-1.63-1.07-2.71-1.78-3.43A6.27 6.27 0 0 1 10 7c0 2.5-3 4-3 6.5a2.5 2.5 0 0 0 1.5 1"></path><path d="M12 2c5.5 6 2 11 2 15a6 6 0 0 1-12 0c0-4 3-7 5-10 1 3 3 4 5 5z"></path></svg>`;
+    const pendingHourglassSvg = `<svg viewBox="0 0 24 24" style="width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path></svg>`;
+
+    const iconGiftSvg = `<svg viewBox="0 0 24 24" style="width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>`;
+    const iconCalendarEventSvg = `<svg viewBox="0 0 24 24" style="width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
+    const iconPartyPopperSvg = `<svg viewBox="0 0 24 24" style="width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;"><path d="M4 22V2"></path><path d="M4 3h14l-3 5 3 5H4"></path></svg>`;
+
+    function getEventIcon(category) {
+      if (category === 'birthday') return iconGiftSvg;
+      if (category === 'important') return iconCalendarEventSvg;
+      return iconPartyPopperSvg;
+    }
+
+    function createRoundCheckButton(isChecked, color, onToggle, isDisabled = false) {
+      const btn = document.createElement('button');
+      btn.className = `round-check-btn ${isChecked ? 'checked' : ''}`;
+      btn.style.color = color;
+      if (isDisabled) {
+        btn.style.opacity = '0.35';
+        btn.style.cursor = 'not-allowed';
+      }
+      btn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        if (isDisabled) return;
+        const nextState = !btn.classList.contains('checked');
+        btn.classList.toggle('checked', nextState);
+        onToggle(nextState);
+      };
+      return btn;
+    }
+
+    const customConfirmModal = document.getElementById('customConfirmModal');
+    const customConfirmHeading = document.getElementById('customConfirmHeading');
+    const customConfirmMessage = document.getElementById('customConfirmMessage');
+    const customConfirmActionBtn = document.getElementById('customConfirmActionBtn');
+
+    function openBentoConfirm(heading, message, onConfirm) {
+      customConfirmHeading.textContent = heading;
+      customConfirmMessage.textContent = message;
+      onConfirmCallback = onConfirm;
+      customConfirmModal.style.display = 'flex';
+    }
+
+    function closeBentoConfirm() {
+      customConfirmModal.style.display = 'none';
+      onConfirmCallback = null;
+    }
+
+    customConfirmActionBtn.onclick = () => {
+      if (onConfirmCallback) onConfirmCallback();
+      closeBentoConfirm();
+    };
+    document.getElementById('customConfirmCancelBtn').onclick = closeBentoConfirm;
+    document.getElementById('closeCustomConfirmXBtn').onclick = closeBentoConfirm;
+
+    function renderDaySchedule(targetDateKey) {
+      const { taskTags, eventTags } = getThemeColors();
+      const listContainer = document.getElementById('itemsList');
+      const targetDate = parseDateKey(targetDateKey);
+      const targetShort = formatShortDateKey(targetDate);
+      const todayStr = formatDateKey(new Date());
+      const isFutureDate = targetDateKey > todayStr;
+
+      const dayEvents = entries.filter(e => {
+        if (e.type !== 'event') return false;
+        return e.isYearly ? e.date.endsWith(targetShort) : e.date === targetDateKey;
+      });
+
+      const dayTasks = entries.filter(e => {
+        if (e.type !== 'task') return false;
+        return taskOccursOnDate(e, targetDateKey);
+      });
+
+      const totalItemsCount = dayEvents.length + dayTasks.length + habits.length;
+
+      if (totalItemsCount === 0) {
+        listContainer.innerHTML = `<div class="empty-state-text">На этот день ничего не запланировано.<br>Нажмите «+», чтобы создать запись.</div>`;
+        return;
+      }
+
+      if (dayEvents.length > 0) {
+        const eventsHeader = document.createElement('div');
+        eventsHeader.className = 'group-section-title';
+        eventsHeader.textContent = 'События';
+        listContainer.appendChild(eventsHeader);
+
+        dayEvents.forEach(item => {
+          const cat = eventTags[item.category] || eventTags.holiday;
+          const card = document.createElement('div');
+          card.className = 'bento-entry-card';
+          card.style.background = cat.bg;
+          card.style.borderColor = cat.color;
+
+          card.innerHTML = `
+            <div class="bento-entry-left">
+              <span style="display:flex; align-items:center; color:${cat.color};">${getEventIcon(item.category)}</span>
+              <div class="bento-entry-info">
+                <div class="bento-entry-title" style="color:${cat.color};">${escapeHtml(item.title)}</div>
+                ${item.notes ? `<div class="bento-entry-notes">${escapeHtml(item.notes)}</div>` : ''}
+              </div>
+            </div>
+            <div class="item-actions">
+              <button class="action-icon-btn edit-btn" style="color:${cat.color};" title="Редактировать">${editIconSvg}</button>
+              <button class="action-icon-btn del-btn" style="color:${cat.color};" title="Удалить">${deleteIconSvg}</button>
+            </div>
+          `;
+
+          card.querySelector('.bento-entry-info').onclick = () => openEditModal(item);
+          card.querySelector('.edit-btn').onclick = () => openEditModal(item);
+          card.querySelector('.del-btn').onclick = () => {
+            openBentoConfirm('Удаление события', `Удалить событие «${item.title}»?`, () => {
+              moveToTrash('event', item);
+              entries = entries.filter(e => e.id !== item.id);
+              saveEntries();
+            });
+          };
+          listContainer.appendChild(card);
+        });
+      }
+
+      if (dayTasks.length > 0) {
+        const tasksHeader = document.createElement('div');
+        tasksHeader.className = 'group-section-title';
+        tasksHeader.textContent = 'Задачи';
+        listContainer.appendChild(tasksHeader);
+
+        dayTasks.forEach(item => {
+          const cat = taskTags[item.category] || taskTags.other;
+          const isCompleted = isTaskCompletedOnDate(item, targetDateKey);
+
+          const card = document.createElement('div');
+          card.className = 'bento-entry-card';
+          card.style.background = cat.bg;
+          card.style.borderColor = cat.color;
+
+          const checkBtn = createRoundCheckButton(isCompleted, cat.color, (nextVal) => {
+            setTaskCompletedOnDate(item, targetDateKey, nextVal);
+          });
+
+          card.innerHTML = `
+            <div class="bento-entry-left">
+              <div class="check-slot"></div>
+              <div class="bento-entry-info">
+                <div class="bento-entry-title" style="color:${cat.color}; ${isCompleted ? 'text-decoration:line-through; opacity:0.75;' : ''}">${escapeHtml(item.title)}</div>
+                ${item.time ? `<div class="bento-entry-badges"><span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeTimeSvg}${escapeHtml(item.time)}</span></div>` : ''}
+                ${item.notes ? `<div class="bento-entry-notes">${escapeHtml(item.notes)}</div>` : ''}
+              </div>
+            </div>
+            <div class="item-actions">
+              <button class="action-icon-btn edit-btn" style="color:${cat.color};" title="Редактировать">${editIconSvg}</button>
+              <button class="action-icon-btn del-btn" style="color:${cat.color};" title="Удалить">${deleteIconSvg}</button>
+            </div>
+          `;
+
+          card.querySelector('.check-slot').replaceWith(checkBtn);
+          card.querySelector('.bento-entry-info').onclick = () => openEditModal(item);
+          card.querySelector('.edit-btn').onclick = () => openEditModal(item);
+          card.querySelector('.del-btn').onclick = () => promptDeleteTask(item, targetDateKey);
+          listContainer.appendChild(card);
+        });
+      }
+
+      if (habits.length > 0) {
+        const habitsHeader = document.createElement('div');
+        habitsHeader.className = 'group-section-title';
+        habitsHeader.textContent = 'Привычки';
+        listContainer.appendChild(habitsHeader);
+
+        habits.forEach((habit, hIdx) => {
+          const hStyle = getHabitStyle(hIdx);
+          habit.doneDates = habit.doneDates || [];
+          const isDone = habit.doneDates.includes(targetDateKey);
+
+          const card = document.createElement('div');
+          card.className = 'habit-bento-card';
+          card.style.background = hStyle.cardBg;
+          card.style.borderColor = hStyle.cardBorder;
+          card.style.cursor = isFutureDate ? 'not-allowed' : 'pointer';
+
+          const checkBtn = createRoundCheckButton(isDone, hStyle.cardBorder, (nextVal) => {
+            if (isFutureDate) return;
+            if (nextVal) {
+              if (!habit.doneDates.includes(targetDateKey)) habit.doneDates.push(targetDateKey);
+            } else {
+              habit.doneDates = habit.doneDates.filter(d => d !== targetDateKey);
+            }
+            saveHabits();
+          }, isFutureDate);
+
+          card.innerHTML = `
+            <div class="habit-bento-header">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div class="habit-check-slot"></div>
+                <div>
+                  <div class="habit-bento-title" style="color:${hStyle.accentColor}; font-size:1rem;">${escapeHtml(habit.title)}</div>
+                  <div style="font-size:0.75rem; color:${hStyle.accentColor}; opacity:0.85; margin-top:2px;">${flameIconSvg} Серия: ${calculateStreak(habit)} дн.</div>
+                </div>
+              </div>
+            </div>
+          `;
+
+          card.querySelector('.habit-check-slot').replaceWith(checkBtn);
+          card.onclick = () => {
+            habitSubTab = 'daily';
+            setActiveTab('habits');
+          };
+
+          listContainer.appendChild(card);
+        });
+      }
+    }
 
     function renderItems() {
-      const selectedKey = formatDateKey(selectedDate);
-      const selectedShort = formatShortDateKey(selectedDate);
+      const { taskTags, eventTags } = getThemeColors();
       const listContainer = document.getElementById('itemsList');
       const headerTitle = document.getElementById('summaryHeaderTitle');
       const tabControls = document.getElementById('tabControlsGroup');
@@ -1688,118 +2124,30 @@
       listContainer.innerHTML = '';
       tabControls.style.display = (activeTab === 'all' || activeTab === 'pending' || activeTab === 'events') ? 'flex' : 'none';
 
-      // 1. ЗАДАЧИ ПО ДНЯМ
-      if (activeTab === 'tasks') {
+      if (activeTab === 'today') {
+        todayHeroHeader.style.display = 'block';
+        daySummaryHeader.style.display = 'none';
+        const now = new Date();
+        const dayName = weekDaysFull[now.getDay()];
+        const dayNum = now.getDate();
+        const monthNameGen = monthNamesGenitive[now.getMonth()];
+        todayHeroTitle.textContent = `${dayName}, ${dayNum} ${monthNameGen}`;
+
+        renderDaySchedule(todayStr);
+
+      } else if (activeTab === 'tasks') {
+        todayHeroHeader.style.display = 'none';
+        daySummaryHeader.style.display = 'flex';
         const dayName = weekDaysFull[selectedDate.getDay()];
         const dayNum = selectedDate.getDate();
-        const monthName = monthNames[selectedDate.getMonth()];
-        headerTitle.textContent = `${dayName}, ${dayNum} ${monthName}`;
+        const monthNameGen = monthNamesGenitive[selectedDate.getMonth()];
+        headerTitle.textContent = `${dayName}, ${dayNum} ${monthNameGen}`;
 
-        const dayEntries = entries.filter(e => {
-          if (e.type === 'pending') return false;
-          if (e.type === 'event') return e.isYearly ? e.date.endsWith(selectedShort) : e.date === selectedKey;
-          return taskOccursOnDate(e, selectedKey);
-        });
+        renderDaySchedule(formatDateKey(selectedDate));
 
-        const totalItemsCount = dayEntries.length + habits.length;
-
-        if (totalItemsCount === 0) {
-          listContainer.innerHTML = `<div class="empty-state-text">На этот день ничего не запланировано.<br>Нажмите «+», чтобы создать задачу.</div>`;
-          return;
-        }
-
-        dayEntries.forEach(item => {
-          const isEv = item.type === 'event';
-          const cat = isEv ? (EVENT_TAGS[item.category] || EVENT_TAGS.holiday) : (TASK_TAGS[item.category] || TASK_TAGS.other);
-          const isCompleted = isTaskCompletedOnDate(item, selectedKey);
-          const isOverdue = !isEv && !isCompleted && selectedKey < todayStr;
-
-          const card = document.createElement('div');
-          card.className = `item-card ${isCompleted ? 'completed' : ''}`;
-          card.style.borderLeftColor = cat.color;
-
-          card.innerHTML = `
-            <div class="item-left">
-              ${isEv ? `<span style="display:flex; align-items:center; color:${cat.color};">${eventStarSvg}</span>` : `<input type="checkbox" class="item-checkbox" ${isCompleted ? 'checked' : ''} />`}
-              <div class="item-info">
-                <div class="item-title">${escapeHtml(item.title)}</div>
-                <div class="item-badges">
-                  ${item.time ? `<span class="badge" style="background:#282937; color:#fff;">${badgeTimeSvg}${escapeHtml(item.time)}</span>` : ''}
-                  <span class="badge" style="background:${cat.color}25; color:${cat.color};">${cat.label}</span>
-                  ${item.isRecurring ? `<span class="badge" style="background:#4d4af225; color:#818cf8;">${badgeRecurSvg}Повтор</span>` : ''}
-                  ${item.isYearly ? `<span class="badge" style="background:#fef3c7; color:#b45309;">Ежегодно</span>` : ''}
-                  ${isOverdue ? `<span class="badge badge-overdue">Просрочено</span>` : ''}
-                </div>
-                ${item.notes ? `<div class="item-notes">${escapeHtml(item.notes)}</div>` : ''}
-              </div>
-            </div>
-            <div class="item-actions">
-              <button class="action-icon-btn edit-btn" title="Редактировать">${editIconSvg}</button>
-              <button class="action-icon-btn del-btn" title="Удалить">${deleteIconSvg}</button>
-            </div>
-          `;
-
-          if (!isEv) {
-            card.querySelector('.item-checkbox').onchange = (e) => setTaskCompletedOnDate(item, selectedKey, e.target.checked);
-          }
-          card.querySelector('.item-info').onclick = () => openEditModal(item);
-          card.querySelector('.edit-btn').onclick = () => openEditModal(item);
-          card.querySelector('.del-btn').onclick = () => promptDeleteTask(item, selectedKey);
-          listContainer.appendChild(card);
-        });
-
-        if (habits.length > 0) {
-          const habitDivider = document.createElement('div');
-          habitDivider.style.cssText = 'font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin:8px 0 2px 2px;';
-          habitDivider.textContent = 'Привычки';
-          listContainer.appendChild(habitDivider);
-
-          habits.forEach(habit => {
-            const cat = TASK_TAGS[habit.category] || TASK_TAGS.other;
-            habit.doneDates = habit.doneDates || [];
-            const isDone = habit.doneDates.includes(selectedKey);
-
-            const card = document.createElement('div');
-            card.className = `item-card ${isDone ? 'completed' : ''}`;
-            card.style.borderLeftColor = cat.color;
-            card.style.cursor = 'pointer';
-
-            card.innerHTML = `
-              <div class="item-left">
-                <input type="checkbox" class="item-checkbox" ${isDone ? 'checked' : ''} />
-                <div class="item-info">
-                  <div class="item-title">${escapeHtml(habit.title)}</div>
-                  <div class="item-badges">
-                    <span class="badge" style="background:${cat.color}25; color:${cat.color};">${cat.label}</span>
-                    <span class="badge" style="background:#282937; color:#fff;">${flameIconSvg} ${calculateStreak(habit)} дн.</span>
-                  </div>
-                </div>
-              </div>
-            `;
-
-            card.querySelector('.item-checkbox').onclick = (e) => {
-              e.stopPropagation();
-            };
-            card.querySelector('.item-checkbox').onchange = (e) => {
-              if (e.target.checked) {
-                if (!habit.doneDates.includes(selectedKey)) habit.doneDates.push(selectedKey);
-              } else {
-                habit.doneDates = habit.doneDates.filter(d => d !== selectedKey);
-              }
-              saveHabits();
-            };
-
-            card.onclick = () => {
-              habitSubTab = 'daily';
-              setActiveTab('habits');
-            };
-
-            listContainer.appendChild(card);
-          });
-        }
-
-      // 2. ВСЕ ЗАДАЧИ
       } else if (activeTab === 'all') {
+        todayHeroHeader.style.display = 'none';
+        daySummaryHeader.style.display = 'flex';
         headerTitle.textContent = 'Все задачи';
         let filtered = entries.filter(e => e.type === 'task');
 
@@ -1818,6 +2166,7 @@
         filtered = filtered.filter(e => matchesPeriodFilter(e.date, allTasksFilter.period, allTasksFilter.startDate, allTasksFilter.endDate));
 
         filtered.sort((a, b) => {
+          if (allTasksSort === 'category_asc') return (a.category || '').localeCompare(b.category || '');
           if (allTasksSort === 'date_asc') return (a.date + (a.time || '')).localeCompare(b.date + (b.time || ''));
           if (allTasksSort === 'date_desc') return (b.date + (b.time || '')).localeCompare(a.date + (a.time || ''));
           if (allTasksSort === 'title_asc') return a.title.localeCompare(b.title);
@@ -1830,48 +2179,52 @@
         }
 
         filtered.forEach(item => {
-          const cat = TASK_TAGS[item.category] || TASK_TAGS.other;
+          const cat = taskTags[item.category] || taskTags.other;
           const isCompleted = isTaskCompletedOnDate(item, item.date);
-          const isOverdue = !item.completed && item.date < todayStr;
 
           const row = document.createElement('div');
-          row.className = `table-view-row ${isCompleted ? 'completed' : ''}`;
-          row.style.borderLeftColor = cat.color;
+          row.className = 'bento-entry-card';
+          row.style.background = cat.bg;
+          row.style.borderColor = cat.color;
+
+          const checkBtn = createRoundCheckButton(isCompleted, cat.color, (nextVal) => {
+            setTaskCompletedOnDate(item, item.date, nextVal);
+          });
 
           row.innerHTML = `
-            <input type="checkbox" class="item-checkbox" ${isCompleted ? 'checked' : ''} />
-            <div class="item-info">
-              <div class="item-title">${escapeHtml(item.title)}</div>
-              <div class="item-badges">
-                <span class="badge" style="background:#282937; color:#fff;">${badgeDateSvg}${formatDisplayDate(item.date)}</span>
-                ${item.time ? `<span class="badge" style="background:#282937; color:#fff;">${badgeTimeSvg}${escapeHtml(item.time)}</span>` : ''}
-                <span class="badge" style="background:${cat.color}25; color:${cat.color};">${cat.label}</span>
-                ${item.isRecurring ? `<span class="badge" style="background:#4d4af225; color:#818cf8;">${badgeRecurSvg}Повтор</span>` : ''}
-                ${isOverdue ? `<span class="badge badge-overdue">Просрочено</span>` : ''}
+            <div class="bento-entry-left">
+              <div class="check-slot"></div>
+              <div class="bento-entry-info">
+                <div class="bento-entry-title" style="color:${cat.color}; ${isCompleted ? 'text-decoration:line-through; opacity:0.75;' : ''}">${escapeHtml(item.title)}</div>
+                <div class="bento-entry-badges">
+                  <span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeDateSvg}${formatDisplayDate(item.date)}</span>
+                  ${item.time ? `<span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeTimeSvg}${escapeHtml(item.time)}</span>` : ''}
+                </div>
               </div>
             </div>
             <div class="item-actions">
-              <button class="action-icon-btn edit-btn" title="Редактировать">${editIconSvg}</button>
-              <button class="action-icon-btn del-btn" title="Удалить">${deleteIconSvg}</button>
+              <button class="action-icon-btn edit-btn" style="color:${cat.color};" title="Редактировать">${editIconSvg}</button>
+              <button class="action-icon-btn del-btn" style="color:${cat.color};" title="Удалить">${deleteIconSvg}</button>
             </div>
           `;
 
-          row.querySelector('.item-checkbox').onchange = (e) => setTaskCompletedOnDate(item, item.date, e.target.checked);
-          row.querySelector('.item-info').onclick = () => openEditModal(item);
+          row.querySelector('.check-slot').replaceWith(checkBtn);
+          row.querySelector('.bento-entry-info').onclick = () => openEditModal(item);
           row.querySelector('.edit-btn').onclick = () => openEditModal(item);
           row.querySelector('.del-btn').onclick = () => promptDeleteTask(item, item.date);
           listContainer.appendChild(row);
         });
 
-      // 3. ВИСЯЩИЕ ЗАДАЧИ
       } else if (activeTab === 'pending') {
+        todayHeroHeader.style.display = 'none';
+        daySummaryHeader.style.display = 'flex';
         headerTitle.textContent = 'Висящие задачи';
         let filtered = entries.filter(e => e.type === 'pending');
 
         if (pendingFilter.tags.length > 0) filtered = filtered.filter(e => pendingFilter.tags.includes(e.category));
         if (pendingFilter.duration !== 'all') {
           filtered = filtered.filter(e => {
-            const mins = (parseInt(e.durationHours) || 0) * 60 + (parseInt(e.durationMinutes) || 0);
+            const mins = (parseInt(e.durationHours, 10) || 0) * 60 + (parseInt(e.durationMinutes, 10) || 0);
             if (pendingFilter.duration === 'quick') return mins > 0 && mins <= 30;
             if (pendingFilter.duration === 'medium') return mins > 30 && mins <= 120;
             if (pendingFilter.duration === 'long') return mins > 120;
@@ -1880,8 +2233,9 @@
         }
 
         filtered.sort((a, b) => {
-          const minsA = (parseInt(a.durationHours) || 0) * 60 + (parseInt(a.durationMinutes) || 0);
-          const minsB = (parseInt(b.durationHours) || 0) * 60 + (parseInt(b.durationMinutes) || 0);
+          if (pendingSort === 'category_asc') return (a.category || '').localeCompare(b.category || '');
+          const minsA = (parseInt(a.durationHours, 10) || 0) * 60 + (parseInt(a.durationMinutes, 10) || 0);
+          const minsB = (parseInt(b.durationHours, 10) || 0) * 60 + (parseInt(b.durationMinutes, 10) || 0);
           if (pendingSort === 'dur_asc') return minsA - minsB;
           if (pendingSort === 'dur_desc') return minsB - minsA;
           if (pendingSort === 'title_asc') return a.title.localeCompare(b.title);
@@ -1894,31 +2248,31 @@
         }
 
         filtered.forEach(item => {
-          const cat = TASK_TAGS[item.category] || TASK_TAGS.other;
-          const h = parseInt(item.durationHours) || 0;
-          const m = parseInt(item.durationMinutes) || 0;
+          const cat = taskTags[item.category] || taskTags.other;
+          const h = parseInt(item.durationHours, 10) || 0;
+          const m = parseInt(item.durationMinutes, 10) || 0;
           const durStr = `${h ? h + ' ч ' : ''}${m ? m + ' мин' : ''}`.trim() || 'Не указано';
 
           const card = document.createElement('div');
-          card.className = 'item-card';
-          card.style.borderLeftColor = cat.color;
+          card.className = 'bento-entry-card';
+          card.style.background = cat.bg;
+          card.style.borderColor = cat.color;
 
           card.innerHTML = `
-            <div class="item-left">
+            <div class="bento-entry-left">
               <span style="display:flex; align-items:center; color:${cat.color};">${pendingHourglassSvg}</span>
-              <div class="item-info">
-                <div class="item-title">${escapeHtml(item.title)}</div>
-                <div class="item-badges">
-                  <span class="badge" style="background:#282937; color:#fff;">${badgeTimeSvg}${escapeHtml(durStr)}</span>
-                  <span class="badge" style="background:${cat.color}25; color:${cat.color};">${cat.label}</span>
+              <div class="bento-entry-info">
+                <div class="bento-entry-title" style="color:${cat.color};">${escapeHtml(item.title)}</div>
+                <div class="bento-entry-badges">
+                  <span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeTimeSvg}${escapeHtml(durStr)}</span>
                 </div>
-                ${item.notes ? `<div class="item-notes">${escapeHtml(item.notes)}</div>` : ''}
+                ${item.notes ? `<div class="bento-entry-notes">${escapeHtml(item.notes)}</div>` : ''}
               </div>
             </div>
             <div class="item-actions">
-              <button class="action-icon-btn plan-btn" title="Запланировать">${planToCalendarSvg}</button>
-              <button class="action-icon-btn edit-btn" title="Редактировать">${editIconSvg}</button>
-              <button class="action-icon-btn del-btn" title="Удалить">${deleteIconSvg}</button>
+              <button class="action-icon-btn plan-btn" style="color:${cat.color};" title="Запланировать">${planToCalendarSvg}</button>
+              <button class="action-icon-btn edit-btn" style="color:${cat.color};" title="Редактировать">${editIconSvg}</button>
+              <button class="action-icon-btn del-btn" style="color:${cat.color};" title="Удалить">${deleteIconSvg}</button>
             </div>
           `;
 
@@ -1926,18 +2280,21 @@
             e.stopPropagation();
             openSchedulePendingModal(item);
           };
-          card.querySelector('.item-info').onclick = () => openEditModal(item);
+          card.querySelector('.bento-entry-info').onclick = () => openEditModal(item);
           card.querySelector('.edit-btn').onclick = () => openEditModal(item);
           card.querySelector('.del-btn').onclick = () => {
-            moveToTrash('task', item);
-            entries = entries.filter(e => e.id !== item.id);
-            saveEntries();
+            openBentoConfirm('Удаление задачи', `Удалить висящую задачу «${item.title}»?`, () => {
+              moveToTrash('task', item);
+              entries = entries.filter(e => e.id !== item.id);
+              saveEntries();
+            });
           };
           listContainer.appendChild(card);
         });
 
-      // 4. СОБЫТИЯ
       } else if (activeTab === 'events') {
+        todayHeroHeader.style.display = 'none';
+        daySummaryHeader.style.display = 'flex';
         headerTitle.textContent = 'События & Праздники';
         let filtered = entries.filter(e => e.type === 'event');
 
@@ -1945,9 +2302,7 @@
         filtered = filtered.filter(e => matchesPeriodFilter(e.date, eventsFilter.period));
 
         filtered.sort((a, b) => {
-          if (eventsSort === 'upcoming_closest') {
-            return getDaysUntilEvent(a) - getDaysUntilEvent(b);
-          }
+          if (eventsSort === 'upcoming_closest') return getDaysUntilEvent(a) - getDaysUntilEvent(b);
           if (eventsSort === 'date_asc') return a.date.slice(5).localeCompare(b.date.slice(5));
           if (eventsSort === 'title_asc') return a.title.localeCompare(b.title);
           return b.id.localeCompare(a.id);
@@ -1959,57 +2314,62 @@
         }
 
         filtered.forEach(item => {
-          const cat = EVENT_TAGS[item.category] || EVENT_TAGS.holiday;
+          const cat = eventTags[item.category] || eventTags.holiday;
           const card = document.createElement('div');
-          card.className = 'item-card';
-          card.style.borderLeftColor = cat.color;
+          card.className = 'bento-entry-card';
+          card.style.background = cat.bg;
+          card.style.borderColor = cat.color;
 
           card.innerHTML = `
-            <div class="item-left">
-              <span style="display:flex; align-items:center; color:${cat.color};">${eventStarSvg}</span>
-              <div class="item-info">
-                <div class="item-title">${escapeHtml(item.title)}</div>
-                <div class="item-badges">
-                  <span class="badge" style="background:#282937; color:#fff;">${badgeDateSvg}${formatDisplayDate(item.date)}</span>
-                  <span class="badge" style="background:${cat.color}25; color:${cat.color};">${cat.label}</span>
-                  ${item.isYearly ? `<span class="badge" style="background:#fef3c7; color:#b45309;">Ежегодно</span>` : ''}
+            <div class="bento-entry-left">
+              <span style="display:flex; align-items:center; color:${cat.color};">${getEventIcon(item.category)}</span>
+              <div class="bento-entry-info">
+                <div class="bento-entry-title" style="color:${cat.color};">${escapeHtml(item.title)}</div>
+                <div class="bento-entry-badges">
+                  <span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeDateSvg}${formatDisplayDate(item.date)}</span>
+                  ${item.isYearly ? `<span class="badge" style="background:${cat.color}25; color:${cat.color};">Ежегодно</span>` : ''}
                 </div>
-                ${item.notes ? `<div class="item-notes">${escapeHtml(item.notes)}</div>` : ''}
+                ${item.notes ? `<div class="bento-entry-notes">${escapeHtml(item.notes)}</div>` : ''}
               </div>
             </div>
             <div class="item-actions">
-              <button class="action-icon-btn edit-btn" title="Редактировать">${editIconSvg}</button>
-              <button class="action-icon-btn del-btn" title="Удалить">${deleteIconSvg}</button>
+              <button class="action-icon-btn edit-btn" style="color:${cat.color};" title="Редактировать">${editIconSvg}</button>
+              <button class="action-icon-btn del-btn" style="color:${cat.color};" title="Удалить">${deleteIconSvg}</button>
             </div>
           `;
 
-          card.querySelector('.item-info').onclick = () => openEditModal(item);
+          card.querySelector('.bento-entry-info').onclick = () => openEditModal(item);
           card.querySelector('.edit-btn').onclick = () => openEditModal(item);
           card.querySelector('.del-btn').onclick = () => {
-            moveToTrash('event', item);
-            entries = entries.filter(e => e.id !== item.id);
-            saveEntries();
+            openBentoConfirm('Удаление события', `Удалить событие «${item.title}»?`, () => {
+              moveToTrash('event', item);
+              entries = entries.filter(e => e.id !== item.id);
+              saveEntries();
+            });
           };
           listContainer.appendChild(card);
         });
 
-      // 5. ТРЕКЕР ПРИВЫЧЕК
       } else if (activeTab === 'habits') {
+        todayHeroHeader.style.display = 'none';
+        daySummaryHeader.style.display = 'none';
+
         if (habits.length === 0) {
           listContainer.innerHTML = `<div class="empty-state-text">Привычек пока нет.<br>Нажмите «+», чтобы создать.</div>`;
           return;
         }
 
-        // ДЕНЬ
         if (habitSubTab === 'daily') {
-          headerTitle.textContent = `${weekDaysFull[selectedDate.getDay()]}, ${selectedDate.getDate()} ${monthNames[selectedDate.getMonth()]}`;
-
           const navRow = document.createElement('div');
           navRow.className = 'nav-header-row';
           navRow.innerHTML = `
-            <button class="nav-arrow-btn" id="prevDayHabit">&lsaquo;</button>
-            <span class="nav-header-title">${formatDisplayDate(selectedKey)}</span>
-            <button class="nav-arrow-btn" id="nextDayHabit">&rsaquo;</button>
+            <button class="nav-arrow-btn" id="prevDayHabit" aria-label="Предыдущий день">
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <span class="nav-header-title">${formatDisplayDate(formatDateKey(selectedDate))}</span>
+            <button class="nav-arrow-btn" id="nextDayHabit" aria-label="Следующий день">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
           `;
           navRow.querySelector('#prevDayHabit').onclick = () => {
             selectedDate.setDate(selectedDate.getDate() - 1);
@@ -2021,53 +2381,58 @@
           };
           listContainer.appendChild(navRow);
 
-          habits.forEach(habit => {
-            const cat = TASK_TAGS[habit.category] || TASK_TAGS.other;
+          const targetKey = formatDateKey(selectedDate);
+          const isFutureDay = targetKey > todayStr;
+
+          habits.forEach((habit, hIdx) => {
+            const hStyle = getHabitStyle(hIdx);
             habit.doneDates = habit.doneDates || [];
-            const isDone = habit.doneDates.includes(selectedKey);
+            const isDone = habit.doneDates.includes(targetKey);
 
             const card = document.createElement('div');
-            card.className = `item-card ${isDone ? 'completed' : ''}`;
-            card.style.borderLeftColor = cat.color;
+            card.className = 'habit-bento-card';
+            card.style.background = hStyle.cardBg;
+            card.style.borderColor = hStyle.cardBorder;
+            card.style.cursor = isFutureDay ? 'not-allowed' : 'default';
+
+            const checkBtn = createRoundCheckButton(isDone, hStyle.cardBorder, (nextVal) => {
+              if (isFutureDay) return;
+              if (nextVal) {
+                if (!habit.doneDates.includes(targetKey)) habit.doneDates.push(targetKey);
+              } else {
+                habit.doneDates = habit.doneDates.filter(d => d !== targetKey);
+              }
+              saveHabits();
+            }, isFutureDay);
 
             card.innerHTML = `
-              <div class="item-left">
-                <input type="checkbox" class="item-checkbox" ${isDone ? 'checked' : ''} />
-                <div class="item-info">
-                  <div class="item-title">${escapeHtml(habit.title)}</div>
-                  <div class="item-badges">
-                    <span class="badge" style="background:${cat.color}25; color:${cat.color};">${cat.label}</span>
-                    <span class="badge" style="background:#282937; color:#fff;">${flameIconSvg} ${calculateStreak(habit)} дн.</span>
+              <div class="habit-bento-header">
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <div class="habit-check-slot"></div>
+                  <div>
+                    <div class="habit-bento-title" style="color:${hStyle.accentColor}; font-size:1.05rem;">${escapeHtml(habit.title)}</div>
+                    <div style="font-size:0.75rem; color:${hStyle.accentColor}; opacity:0.85; margin-top:2px;">${flameIconSvg} Серия: ${calculateStreak(habit)} дн.</div>
                   </div>
                 </div>
-              </div>
-              <div class="item-actions">
-                <button class="action-icon-btn del-btn" title="Удалить">${deleteIconSvg}</button>
+                <div class="item-actions">
+                  <button class="action-icon-btn del-btn" title="Удалить" style="color:${hStyle.accentColor};">${deleteIconSvg}</button>
+                </div>
               </div>
             `;
 
-            card.querySelector('.item-checkbox').onchange = (e) => {
-              if (e.target.checked) {
-                if (!habit.doneDates.includes(selectedKey)) habit.doneDates.push(selectedKey);
-              } else {
-                habit.doneDates = habit.doneDates.filter(d => d !== selectedKey);
-              }
-              saveHabits();
-            };
-
+            card.querySelector('.habit-check-slot').replaceWith(checkBtn);
             card.querySelector('.del-btn').onclick = () => {
-              moveToTrash('habit', habit);
-              habits = habits.filter(h => h.id !== habit.id);
-              saveHabits();
+              openBentoConfirm('Удаление привычки', `Удалить привычку «${habit.title}»?`, () => {
+                moveToTrash('habit', habit);
+                habits = habits.filter(h => h.id !== habit.id);
+                saveHabits();
+              });
             };
 
             listContainer.appendChild(card);
           });
 
-        // НЕДЕЛЯ
         } else if (habitSubTab === 'weekly') {
-          headerTitle.textContent = `Неделя`;
-
           const now = new Date();
           const curDay = (now.getDay() + 6) % 7;
           const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - curDay + (habitOffsetWeeks * 7));
@@ -2076,9 +2441,13 @@
           const navRow = document.createElement('div');
           navRow.className = 'nav-header-row';
           navRow.innerHTML = `
-            <button class="nav-arrow-btn" id="prevWeekHabit">&lsaquo;</button>
+            <button class="nav-arrow-btn" id="prevWeekHabit" aria-label="Предыдущая неделя">
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
             <span class="nav-header-title">${formatDisplayDate(formatDateKey(monday))} — ${formatDisplayDate(formatDateKey(sunday))}</span>
-            <button class="nav-arrow-btn" id="nextWeekHabit">&rsaquo;</button>
+            <button class="nav-arrow-btn" id="nextWeekHabit" aria-label="Следующая неделя">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
           `;
           navRow.querySelector('#prevWeekHabit').onclick = () => { habitOffsetWeeks--; renderItems(); };
           navRow.querySelector('#nextWeekHabit').onclick = () => { habitOffsetWeeks++; renderItems(); };
@@ -2090,21 +2459,23 @@
             weekDays.push({ key: formatDateKey(d), label: ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'][i], dayNum: d.getDate() });
           }
 
-          habits.forEach(habit => {
-            const cat = TASK_TAGS[habit.category] || TASK_TAGS.other;
+          habits.forEach((habit, hIdx) => {
+            const hStyle = getHabitStyle(hIdx);
             habit.doneDates = habit.doneDates || [];
 
             const card = document.createElement('div');
-            card.className = 'habit-matrix-card';
-            card.style.borderLeft = `4px solid ${cat.color}`;
+            card.className = 'habit-bento-card';
+            card.style.background = hStyle.cardBg;
+            card.style.borderColor = hStyle.cardBorder;
 
             let circlesHtml = weekDays.map(wd => {
               const isDone = habit.doneDates.includes(wd.key);
+              const isFuture = wd.key > todayStr;
               return `
-                <div class="habit-circle-column" data-dkey="${wd.key}">
-                  <span class="habit-circle-day-title">${wd.label}</span>
-                  <span class="habit-circle-date-num">${wd.dayNum}</span>
-                  <div class="habit-circle-btn ${isDone ? 'done' : ''}" style="${isDone ? `background:${cat.color}; border-color:${cat.color};` : ''}">
+                <div class="habit-week-bento-col ${isFuture ? 'is-future' : ''}" data-dkey="${wd.key}">
+                  <span class="habit-week-day-title" style="color:${hStyle.accentColor};">${wd.label}</span>
+                  <span class="habit-week-date-num" style="color:${hStyle.accentColor};">${wd.dayNum}</span>
+                  <div class="habit-week-check-circle ${isDone ? 'done' : ''}" style="color:${hStyle.cardBorder};">
                     <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                   </div>
                 </div>
@@ -2112,29 +2483,38 @@
             }).join('');
 
             card.innerHTML = `
-              <div class="habit-matrix-header">
-                <span style="font-size:0.95rem; font-weight:700;">${escapeHtml(habit.title)}</span>
-                <span class="badge" style="background:#282937; color:#fff;">${flameIconSvg} ${calculateStreak(habit)} дн.</span>
+              <div class="habit-bento-header">
+                <div>
+                  <span class="habit-bento-title" style="color:${hStyle.accentColor};">${escapeHtml(habit.title)}</span>
+                  <div style="font-size:0.75rem; color:${hStyle.accentColor}; opacity:0.85; margin-top:2px;">${flameIconSvg} Серия: ${calculateStreak(habit)} дн.</div>
+                </div>
+                <button class="action-icon-btn del-btn" title="Удалить" style="color:${hStyle.accentColor};">${deleteIconSvg}</button>
               </div>
-              <div class="habit-week-circles-row">${circlesHtml}</div>
+              <div class="habit-week-bento-row">${circlesHtml}</div>
             `;
 
-            card.querySelectorAll('.habit-circle-column').forEach(col => {
+            card.querySelectorAll('.habit-week-bento-col').forEach(col => {
               col.onclick = () => {
                 const k = col.dataset.dkey;
+                if (k > todayStr) return;
                 if (habit.doneDates.includes(k)) habit.doneDates = habit.doneDates.filter(d => d !== k);
                 else habit.doneDates.push(k);
                 saveHabits();
               };
             });
 
+            card.querySelector('.del-btn').onclick = () => {
+              openBentoConfirm('Удаление привычки', `Удалить привычку «${habit.title}»?`, () => {
+                moveToTrash('habit', habit);
+                habits = habits.filter(h => h.id !== habit.id);
+                saveHabits();
+              });
+            };
+
             listContainer.appendChild(card);
           });
 
-        // МЕСЯЦ
         } else {
-          headerTitle.textContent = `Месяц`;
-
           const targetMonth = new Date(viewDate.getFullYear(), viewDate.getMonth() + habitOffsetMonths, 1);
           const y = targetMonth.getFullYear();
           const m = targetMonth.getMonth();
@@ -2145,45 +2525,56 @@
           const navRow = document.createElement('div');
           navRow.className = 'nav-header-row';
           navRow.innerHTML = `
-            <button class="nav-arrow-btn" id="prevMonthMatrix">&lsaquo;</button>
+            <button class="nav-arrow-btn" id="prevMonthMatrix" aria-label="Предыдущий месяц">
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
             <span class="nav-header-title">${monthNames[m]} ${y}</span>
-            <button class="nav-arrow-btn" id="nextMonthMatrix">&rsaquo;</button>
+            <button class="nav-arrow-btn" id="nextMonthMatrix" aria-label="Следующий месяц">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
           `;
           navRow.querySelector('#prevMonthMatrix').onclick = () => { habitOffsetMonths--; renderItems(); };
           navRow.querySelector('#nextMonthMatrix').onclick = () => { habitOffsetMonths++; renderItems(); };
           listContainer.appendChild(navRow);
 
-          habits.forEach(habit => {
-            const cat = TASK_TAGS[habit.category] || TASK_TAGS.other;
+          habits.forEach((habit, hIdx) => {
+            const hStyle = getHabitStyle(hIdx);
             habit.doneDates = habit.doneDates || [];
 
             let dotsHtml = '';
             for (let i = 0; i < startDay; i++) {
-              dotsHtml += `<div class="dot-box" style="opacity:0.08; cursor:default;"></div>`;
+              dotsHtml += `<div class="dot-box" style="opacity:0.04; cursor:default;"></div>`;
             }
 
             for (let d = 1; d <= lastD; d++) {
               const dKey = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
               const isDone = habit.doneDates.includes(dKey);
               const isToday = dKey === todayStr;
+              const isFuture = dKey > todayStr;
 
               dotsHtml += `
-                <div class="dot-box ${isDone ? 'active' : ''} ${isToday ? 'today' : ''}" 
+                <div class="dot-box ${isDone ? 'active' : ''} ${isToday ? 'today' : ''} ${isFuture ? 'is-future' : ''}" 
                      data-dkey="${dKey}" 
-                     style="${isDone ? `background:${cat.color};` : ''}">
+                     style="${isDone ? `background:${hStyle.cardBorder}; color:#0d0e12; font-weight:800;` : ''}">
                   ${d}
                 </div>
               `;
             }
 
             const card = document.createElement('div');
-            card.className = 'habit-matrix-card';
+            card.className = 'habit-bento-card';
+            card.style.background = hStyle.cardBg;
+            card.style.borderColor = hStyle.cardBorder;
+
             card.innerHTML = `
-              <div class="habit-matrix-header">
-                <span style="font-size:0.95rem; font-weight:800; color:${cat.color};">${escapeHtml(habit.title)}</span>
-                <span class="badge" style="background:#282937; color:#fff;">${flameIconSvg} ${calculateStreak(habit)} дн.</span>
+              <div class="habit-bento-header">
+                <div>
+                  <span class="habit-bento-title" style="color:${hStyle.accentColor}; font-size:1.02rem;">${escapeHtml(habit.title)}</span>
+                  <div style="font-size:0.75rem; color:${hStyle.accentColor}; opacity:0.85; margin-top:2px;">${flameIconSvg} Серия: ${calculateStreak(habit)} дн.</div>
+                </div>
+                <button class="action-icon-btn del-btn" title="Удалить" style="color:${hStyle.accentColor};">${deleteIconSvg}</button>
               </div>
-              <div class="weekdays-row" style="margin-bottom:0; font-size:0.68rem;">
+              <div class="weekdays-row" style="margin-bottom:4px; font-size:0.68rem; color:${hStyle.accentColor}; opacity:0.8;">
                 <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div>
               </div>
               <div class="dots-month-grid">${dotsHtml}</div>
@@ -2192,18 +2583,28 @@
             card.querySelectorAll('.dot-box[data-dkey]').forEach(box => {
               box.onclick = () => {
                 const k = box.dataset.dkey;
+                if (k > todayStr) return;
                 if (habit.doneDates.includes(k)) habit.doneDates = habit.doneDates.filter(d => d !== k);
                 else habit.doneDates.push(k);
                 saveHabits();
               };
             });
 
+            card.querySelector('.del-btn').onclick = () => {
+              openBentoConfirm('Удаление привычки', `Удалить привычку «${habit.title}»?`, () => {
+                moveToTrash('habit', habit);
+                habits = habits.filter(h => h.id !== habit.id);
+                saveHabits();
+              });
+            };
+
             listContainer.appendChild(card);
           });
         }
 
-      // 6. КОРЗИНА
       } else if (activeTab === 'trash') {
+        todayHeroHeader.style.display = 'none';
+        daySummaryHeader.style.display = 'flex';
         headerTitle.textContent = `Корзина`;
 
         if (trashItems.length === 0) {
@@ -2214,65 +2615,95 @@
         const clearBtn = document.createElement('button');
         clearBtn.className = 'modal-btn btn-cancel';
         clearBtn.style.marginBottom = '8px';
-        clearBtn.textContent = 'Очистить корзину';
+        clearBtn.textContent = 'Очистить корзину полностью';
         clearBtn.onclick = () => {
-          if (confirm('Очистить корзину полностью?')) {
+          openBentoConfirm('Очистка корзины', 'Очистить корзину полностью? Все удаленные записи будут стерты навсегда.', () => {
             trashItems = [];
             saveTrash();
-          }
+          });
         };
         listContainer.appendChild(clearBtn);
 
-        trashItems.slice().reverse().forEach(t => {
-          const daysLeft = Math.max(1, 7 - Math.floor((Date.now() - t.deletedAt) / (24 * 60 * 60 * 1000)));
-          const item = document.createElement('div');
-          item.className = 'item-card';
+        const trashTasks = trashItems.filter(t => t.originalType === 'task');
+        const trashEvents = trashItems.filter(t => t.originalType === 'event');
+        const trashHabits = trashItems.filter(t => t.originalType === 'habit');
 
-          item.innerHTML = `
-            <div class="item-left">
-              <div>
-                <div class="item-title">${escapeHtml(t.data.title)}</div>
-                <small style="color:var(--text-muted); font-size:0.72rem;">Удалится через: ${daysLeft} дн.</small>
+        function renderTrashSection(title, list) {
+          if (list.length === 0) return;
+          const secTitle = document.createElement('div');
+          secTitle.className = 'group-section-title';
+          secTitle.textContent = title;
+          listContainer.appendChild(secTitle);
+
+          list.slice().reverse().forEach(t => {
+            const daysLeft = Math.max(1, 7 - Math.floor((Date.now() - t.deletedAt) / (24 * 60 * 60 * 1000)));
+            const item = document.createElement('div');
+            item.className = 'bento-entry-card';
+            item.style.background = 'var(--input-bg)';
+            item.style.borderColor = 'var(--input-border)';
+
+            item.innerHTML = `
+              <div class="bento-entry-left">
+                <div>
+                  <div class="bento-entry-title">${escapeHtml(t.data.title)}</div>
+                  <small style="color:var(--text-muted); font-size:0.75rem;">Удалится через: ${daysLeft} дн.</small>
+                </div>
               </div>
-            </div>
-            <div class="item-actions">
-              <button class="action-icon-btn restore-btn" title="Восстановить">
-                <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-              </button>
-            </div>
-          `;
+              <div class="item-actions">
+                <button class="action-icon-btn restore-btn" title="Восстановить">
+                  <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                </button>
+              </div>
+            `;
 
-          item.querySelector('.restore-btn').onclick = () => {
-            if (t.originalType === 'task' || t.originalType === 'event') {
-              entries.push(t.data);
-              saveEntries();
-            } else if (t.originalType === 'habit') {
-              habits.push(t.data);
-              saveHabits();
-            }
-            trashItems = trashItems.filter(x => x.trashId !== t.trashId);
-            saveTrash();
-          };
+            item.querySelector('.restore-btn').onclick = () => {
+              if (t.originalType === 'task' || t.originalType === 'event') {
+                entries.push(t.data);
+                saveEntries();
+              } else if (t.originalType === 'habit') {
+                habits.push(t.data);
+                saveHabits();
+              }
+              trashItems = trashItems.filter(x => x.trashId !== t.trashId);
+              saveTrash();
+            };
 
-          listContainer.appendChild(item);
-        });
+            listContainer.appendChild(item);
+          });
+        }
+
+        renderTrashSection('Задачи', trashTasks);
+        renderTrashSection('События', trashEvents);
+        renderTrashSection('Привычки', trashHabits);
       }
     }
 
     function calculateStreak(habit) {
       if (!habit.doneDates || habit.doneDates.length === 0) return 0;
-      const sorted = [...habit.doneDates].sort().reverse();
-      const today = formatDateKey(new Date());
-      const yesterday = formatDateKey(new Date(Date.now() - 86400000));
+      const doneSet = new Set(habit.doneDates);
 
-      if (!sorted.includes(today) && !sorted.includes(yesterday)) return 0;
-      let streak = 0;
-      let checkDate = parseDateKey(sorted.includes(today) ? today : yesterday);
+      const check = new Date();
+      check.setHours(0, 0, 0, 0);
 
-      while (sorted.includes(formatDateKey(checkDate))) {
-        streak++;
-        checkDate.setDate(checkDate.getDate() - 1);
+      const todayKey = formatDateKey(check);
+      const yesterday = new Date(check);
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayKey = formatDateKey(yesterday);
+
+      if (!doneSet.has(todayKey) && !doneSet.has(yesterdayKey)) {
+        return 0;
       }
+
+      if (!doneSet.has(todayKey)) {
+        check.setDate(check.getDate() - 1);
+      }
+
+      let streak = 0;
+      while (doneSet.has(formatDateKey(check))) {
+        streak++;
+        check.setDate(check.getDate() - 1);
+      }
+
       return streak;
     }
 
@@ -2288,9 +2719,11 @@
         datePendingDeletion = onDateKey;
         deleteRecurringConfirmModal.style.display = 'flex';
       } else {
-        moveToTrash('task', item);
-        entries = entries.filter(e => e.id !== item.id);
-        saveEntries();
+        openBentoConfirm('Удаление задачи', `Удалить задачу «${item.title}»?`, () => {
+          moveToTrash('task', item);
+          entries = entries.filter(e => e.id !== item.id);
+          saveEntries();
+        });
       }
     }
 
@@ -2327,7 +2760,7 @@
       document.getElementById('entryTitleInput').value = '';
       document.getElementById('entryNotesInput').value = '';
       document.getElementById('entryTimeInput').value = '';
-      document.getElementById('entryDateInput').value = formatDateKey(selectedDate);
+      document.getElementById('entryDateInput').value = (activeTab === 'today') ? formatDateKey(new Date()) : formatDateKey(selectedDate);
       document.getElementById('entryRecurringToggle').checked = false;
       document.getElementById('recurringOptionsContainer').style.display = 'none';
 
@@ -2361,9 +2794,10 @@
     const entryCategorySelect = document.getElementById('entryCategorySelect');
 
     function syncModalFields() {
+      const { taskTags, eventTags } = getThemeColors();
       const type = entryTypeSelect.value;
       entryCategorySelect.innerHTML = '';
-      const tags = (type === 'event') ? EVENT_TAGS : TASK_TAGS;
+      const tags = (type === 'event') ? eventTags : taskTags;
       for (const [k, v] of Object.entries(tags)) {
         const opt = document.createElement('option');
         opt.value = k;
@@ -2420,10 +2854,10 @@
       let recurringConfig = null;
       if (isRecurring) {
         const freq = document.getElementById('recurringFrequencySelect').value;
-        const selectedDays = Array.from(document.querySelectorAll('#recurringWeekdaysPicker .dot-box.active')).map(b => parseInt(b.dataset.day));
+        const selectedDays = Array.from(document.querySelectorAll('#recurringWeekdaysPicker .dot-box.active')).map(b => parseInt(b.dataset.day, 10));
         recurringConfig = {
           frequency: freq,
-          intervalN: parseInt(document.getElementById('recurringIntervalN').value) || 2,
+          intervalN: parseInt(document.getElementById('recurringIntervalN').value, 10) || 2,
           weekdays: selectedDays
         };
       }
@@ -2440,7 +2874,7 @@
             durationMinutes: (type === 'pending') ? selectedMinutesVal : '',
             category: entryCategorySelect.value,
             notes: document.getElementById('entryNotesInput').value.trim(),
-            isYearly: document.getElementById('entryYearlyToggle').checked,
+            isYearly: (type === 'event') ? document.getElementById('entryYearlyToggle').checked : false,
             isRecurring, recurringConfig
           };
         }
@@ -2454,7 +2888,7 @@
           durationMinutes: (type === 'pending') ? selectedMinutesVal : '',
           category: entryCategorySelect.value,
           notes: document.getElementById('entryNotesInput').value.trim(),
-          isYearly: document.getElementById('entryYearlyToggle').checked,
+          isYearly: (type === 'event') ? document.getElementById('entryYearlyToggle').checked : false,
           isRecurring, recurringConfig,
           completed: false,
           completedDates: [],
@@ -2478,8 +2912,8 @@
       document.getElementById('entryNotesInput').value = item.notes || '';
       document.getElementById('entryYearlyToggle').checked = !!item.isYearly;
 
-      const h = parseInt(item.durationHours) || 0;
-      const m = parseInt(item.durationMinutes) || 0;
+      const h = parseInt(item.durationHours, 10) || 0;
+      const m = parseInt(item.durationMinutes, 10) || 0;
       updateStepperUI(h, m);
 
       const isRecur = !!item.isRecurring;
@@ -2501,8 +2935,8 @@
     function openSchedulePendingModal(item) {
       schedulingPendingItem = item;
       document.getElementById('schedulePendingOriginalTitle').textContent = item.title;
-      const h = parseInt(item.durationHours) || 0;
-      const m = parseInt(item.durationMinutes) || 0;
+      const h = parseInt(item.durationHours, 10) || 0;
+      const m = parseInt(item.durationMinutes, 10) || 0;
       const durStr = `${h ? h + ' ч ' : ''}${m ? m + ' мин' : ''}`.trim();
       document.getElementById('schedulePendingDurationText').textContent = durStr ? `Оценка: ${durStr}` : 'Время не указано';
 
@@ -2624,11 +3058,17 @@
     document.getElementById('openSortModalBtn').onclick = () => {
       const activeSortSelect = document.getElementById('activeSortSelect');
       if (activeTab === 'all') {
-        activeSortSelect.innerHTML = `<option value="date_asc">Сначала ближайшие</option><option value="date_desc">Сначала поздние</option><option value="title_asc">По названию (А–Я)</option>`;
+        activeSortSelect.innerHTML = `
+          <option value="date_asc">Сначала ближайшие</option>
+          <option value="date_desc">Сначала поздние</option>
+          <option value="category_asc">По категориям (тегам)</option>
+          <option value="title_asc">По названию (А–Я)</option>
+        `;
         activeSortSelect.value = allTasksSort;
       } else if (activeTab === 'pending') {
         activeSortSelect.innerHTML = `
           <option value="created_desc">Сначала новые</option>
+          <option value="category_asc">По категориям (тегам)</option>
           <option value="dur_asc">По времени: Сначала быстрые</option>
           <option value="dur_desc">По времени: Сначала долгие</option>
           <option value="title_asc">По названию (А–Я)</option>
@@ -2705,7 +3145,7 @@
           if (imp.trashItems) trashItems = imp.trashItems;
           saveEntries(); saveHabits(); saveTrash();
           alert('Резервная копия загружена!');
-        } catch (err) {
+        } catch {
           alert('Ошибка при чтении файла.');
         }
       };
@@ -2718,7 +3158,8 @@
       });
     }
 
-    setActiveTab('tasks');
+    applyTheme(settings.theme);
+    setActiveTab('today');
   </script>
 </body>
 </html>
