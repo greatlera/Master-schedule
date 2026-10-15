@@ -63,11 +63,6 @@
       --success: #16a34a;
     }
 
-    html, body {
-      max-width: 100%;
-      overflow-x: hidden;
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -89,6 +84,12 @@
       min-height: 100vh;
       padding: 0 12px 84px 12px;
       transition: background-color 0.25s ease, color 0.25s ease;
+      position: relative;
+    }
+
+    body.modal-open {
+      overflow: hidden !important;
+      touch-action: none !important;
     }
 
     .app-container {
@@ -103,14 +104,15 @@
     header {
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 120;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 2px 12px 2px;
+      padding: 14px 4px 12px 4px;
       background: var(--bg);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
+      margin: 0 -4px;
     }
 
     .header-left {
@@ -197,7 +199,7 @@
       inset: 0;
       background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(4px);
-      z-index: 200;
+      z-index: 250;
       opacity: 0;
       transition: opacity 0.25s ease;
     }
@@ -209,7 +211,7 @@
       width: 82%;
       max-width: 310px;
       background: var(--drawer-bg);
-      z-index: 210;
+      z-index: 260;
       box-shadow: 4px 0 28px rgba(0,0,0,0.45);
       display: flex;
       flex-direction: column;
@@ -271,6 +273,7 @@
       padding: 20px 16px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
       border: 1px solid var(--input-border);
+      isolation: isolate;
     }
 
     .today-hero-box {
@@ -498,6 +501,7 @@
     .round-check-btn {
       width: 24px;
       height: 24px;
+      min-width: 24px;
       border-radius: 50%;
       border: 2px solid currentColor;
       background: transparent;
@@ -507,6 +511,7 @@
       margin-top: 2px;
       padding: 0;
       cursor: pointer;
+      opacity: 1;
       transition: all 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
     }
     .round-check-btn svg {
@@ -544,9 +549,11 @@
 
     .bento-entry-notes {
       font-size: 0.8rem;
-      color: var(--text-muted);
+      color: inherit;
+      opacity: 0.85;
       margin-top: 4px;
       white-space: pre-wrap;
+      word-break: break-word;
     }
 
     .bento-entry-badges {
@@ -714,7 +721,7 @@
       place-items: center;
       cursor: pointer;
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
-      z-index: 50;
+      z-index: 90;
       transition: transform 0.15s ease, box-shadow 0.2s ease;
       padding: 0;
     }
@@ -738,9 +745,10 @@
       inset: 0;
       background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(4px);
-      z-index: 200;
+      z-index: 300;
       align-items: flex-end;
       justify-content: center;
+      overscroll-behavior: contain;
     }
     .modal-sheet {
       background: var(--card-bg);
@@ -752,6 +760,7 @@
       max-height: 88vh;
       animation: slideUp 0.25s cubic-bezier(0.1, 0.9, 0.2, 1);
       position: relative;
+      overscroll-behavior: contain;
     }
     .modal-sheet-header {
       padding: 20px 22px 14px 22px;
@@ -775,6 +784,8 @@
       gap: 14px;
       overflow-y: auto;
       flex: 1;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
     }
     .modal-sheet-footer {
       padding: 14px 22px 24px 22px;
@@ -1436,7 +1447,30 @@
           </div>
         </div>
 
-        <div class="settings-section-title" style="font-size:0.82rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase; margin-top:6px;">Резервная копия</div>
+        <div class="settings-section-title" style="font-size:0.82rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase; margin-top:6px;">Автобэкап в Telegram</div>
+        <div style="background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; padding:10px; display:flex; flex-direction:column; gap:8px;">
+          <div class="field-group">
+            <label>Telegram Bot Token</label>
+            <input type="password" class="form-ctrl" id="tgBotToken" placeholder="123456789:ABCdefGHIjkl..." />
+          </div>
+          <div class="field-group">
+            <label>Telegram Chat ID</label>
+            <input type="text" class="form-ctrl" id="tgChatId" placeholder="Например: 987654321" />
+          </div>
+          <div class="field-group">
+            <label>Периодичность автобэкапа</label>
+            <select class="form-ctrl" id="tgBackupInterval">
+              <option value="disabled">Отключено</option>
+              <option value="daily">Раз в сутки</option>
+              <option value="3days">Каждые 3 дня</option>
+              <option value="weekly">Раз в неделю</option>
+              <option value="on_change">При каждом изменении</option>
+            </select>
+          </div>
+          <button class="modal-btn btn-cancel" id="sendTgBackupBtn" style="margin-top:4px;">Отправить копию в Telegram сейчас</button>
+        </div>
+
+        <div class="settings-section-title" style="font-size:0.82rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase; margin-top:6px;">Локальная резервная копия</div>
         <div style="display:flex; gap:10px;">
           <button class="modal-btn btn-cancel" style="flex:1;" id="backupExportBtn">Скачать копию</button>
           <label class="modal-btn btn-cancel" style="flex:1; text-align:center; cursor:pointer;">
@@ -1537,8 +1571,41 @@
       theme: 'dark',
       notifToday: false, todayTime: '09:00',
       notifTomorrow: false, tomorrowTime: '20:00',
-      notifWeekend: false, weekendTime: '18:00'
+      notifWeekend: false, weekendTime: '18:00',
+      tgBotToken: '',
+      tgChatId: '',
+      tgBackupInterval: 'daily'
     }));
+
+    function syncBodyModalState() {
+      const anyModalOpen = document.querySelectorAll('.modal-backdrop[style*="display: flex"], .drawer-backdrop.active').length > 0;
+      if (anyModalOpen) {
+        document.body.classList.add('modal-open');
+      } else {
+        document.body.classList.remove('modal-open');
+      }
+    }
+
+    function showModal(el) {
+      el.style.display = 'flex';
+      syncBodyModalState();
+    }
+
+    function hideModal(el) {
+      el.style.display = 'none';
+      syncBodyModalState();
+    }
+
+    async function requestPersistentStorage() {
+      if (navigator.storage && navigator.storage.persist) {
+        try {
+          await navigator.storage.persist();
+        } catch (e) {
+          console.warn('Storage persistence request failed:', e);
+        }
+      }
+    }
+    requestPersistentStorage();
 
     function cleanupTrash() {
       const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
@@ -1555,18 +1622,31 @@
       renderItems();
     }
 
+    let tgDebounceTimer = null;
+    function triggerOnChangeBackup() {
+      if (settings.tgBackupInterval === 'on_change') {
+        clearTimeout(tgDebounceTimer);
+        tgDebounceTimer = setTimeout(() => {
+          sendBackupToTelegram(true);
+        }, 5000);
+      }
+    }
+
     function saveEntries() {
       localStorage.setItem('master_schedule_data', JSON.stringify(entries));
       renderCalendar();
       renderItems();
+      triggerOnChangeBackup();
     }
     function saveHabits() {
       localStorage.setItem('master_schedule_habits', JSON.stringify(habits));
       renderItems();
+      triggerOnChangeBackup();
     }
     function saveTrash() {
       localStorage.setItem('master_schedule_trash', JSON.stringify(trashItems));
       renderItems();
+      triggerOnChangeBackup();
     }
     function saveSettings() {
       localStorage.setItem('master_schedule_settings', JSON.stringify(settings));
@@ -1730,7 +1810,7 @@
     ];
 
     function initFilterChips() {
-      const { taskTags, eventTags } = getThemeColors();
+      const { taskTags } = getThemeColors();
       const taskTagsContainer = document.getElementById('taskTagsChipsGrid');
       const pendingTagsContainer = document.getElementById('pendingTagsChipsGrid');
       const habitCatSelect = document.getElementById('habitCategorySelect');
@@ -1773,10 +1853,12 @@
     document.getElementById('openDrawerBtn').onclick = () => {
       drawerBackdrop.classList.add('active');
       drawerPanel.classList.add('active');
+      syncBodyModalState();
     };
     function closeDrawer() {
       drawerBackdrop.classList.remove('active');
       drawerPanel.classList.remove('active');
+      syncBodyModalState();
     }
     document.getElementById('closeDrawerXBtn').onclick = closeDrawer;
     drawerBackdrop.onclick = closeDrawer;
@@ -1982,11 +2064,11 @@
       customConfirmHeading.textContent = heading;
       customConfirmMessage.textContent = message;
       onConfirmCallback = onConfirm;
-      customConfirmModal.style.display = 'flex';
+      showModal(customConfirmModal);
     }
 
     function closeBentoConfirm() {
-      customConfirmModal.style.display = 'none';
+      hideModal(customConfirmModal);
       onConfirmCallback = null;
     }
 
@@ -2040,7 +2122,7 @@
               <span style="display:flex; align-items:center; color:${cat.color};">${getEventIcon(item.category)}</span>
               <div class="bento-entry-info">
                 <div class="bento-entry-title" style="color:${cat.color};">${escapeHtml(item.title)}</div>
-                ${item.notes ? `<div class="bento-entry-notes">${escapeHtml(item.notes)}</div>` : ''}
+                ${item.notes ? `<div class="bento-entry-notes" style="color:${cat.color};">${escapeHtml(item.notes)}</div>` : ''}
               </div>
             </div>
             <div class="item-actions">
@@ -2087,7 +2169,7 @@
               <div class="bento-entry-info">
                 <div class="bento-entry-title" style="color:${cat.color};">${escapeHtml(item.title)}</div>
                 ${item.time ? `<div class="bento-entry-badges"><span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeTimeSvg}${escapeHtml(item.time)}</span></div>` : ''}
-                ${item.notes ? `<div class="bento-entry-notes">${escapeHtml(item.notes)}</div>` : ''}
+                ${item.notes ? `<div class="bento-entry-notes" style="color:${cat.color};">${escapeHtml(item.notes)}</div>` : ''}
               </div>
             </div>
             <div class="item-actions">
@@ -2240,6 +2322,7 @@
                   <span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeDateSvg}${formatDisplayDate(item.date)}</span>
                   ${item.time ? `<span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeTimeSvg}${escapeHtml(item.time)}</span>` : ''}
                 </div>
+                ${item.notes ? `<div class="bento-entry-notes" style="color:${cat.color};">${escapeHtml(item.notes)}</div>` : ''}
               </div>
             </div>
             <div class="item-actions">
@@ -2306,7 +2389,7 @@
                 <div class="bento-entry-badges">
                   <span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeTimeSvg}${escapeHtml(durStr)}</span>
                 </div>
-                ${item.notes ? `<div class="bento-entry-notes">${escapeHtml(item.notes)}</div>` : ''}
+                ${item.notes ? `<div class="bento-entry-notes" style="color:${cat.color};">${escapeHtml(item.notes)}</div>` : ''}
               </div>
             </div>
             <div class="item-actions">
@@ -2369,7 +2452,7 @@
                   <span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeDateSvg}${formatDisplayDate(item.date)}</span>
                   ${item.isYearly ? `<span class="badge" style="background:${cat.color}25; color:${cat.color};">Ежегодно</span>` : ''}
                 </div>
-                ${item.notes ? `<div class="bento-entry-notes">${escapeHtml(item.notes)}</div>` : ''}
+                ${item.notes ? `<div class="bento-entry-notes" style="color:${cat.color};">${escapeHtml(item.notes)}</div>` : ''}
               </div>
             </div>
             <div class="item-actions">
@@ -2757,7 +2840,7 @@
       if (item.isRecurring) {
         itemPendingDeletion = item;
         datePendingDeletion = onDateKey;
-        deleteRecurringConfirmModal.style.display = 'flex';
+        showModal(deleteRecurringConfirmModal);
       } else {
         openBentoConfirm('Удаление задачи', `Удалить задачу «${item.title}»?`, () => {
           moveToTrash('task', item);
@@ -2775,7 +2858,7 @@
         }
         saveEntries();
       }
-      deleteRecurringConfirmModal.style.display = 'none';
+      hideModal(deleteRecurringConfirmModal);
     };
     document.getElementById('deleteAllOccurrencesBtn').onclick = () => {
       if (itemPendingDeletion) {
@@ -2783,16 +2866,16 @@
         entries = entries.filter(e => e.id !== itemPendingDeletion.id);
         saveEntries();
       }
-      deleteRecurringConfirmModal.style.display = 'none';
+      hideModal(deleteRecurringConfirmModal);
     };
-    document.getElementById('cancelDeleteRecurringBtn').onclick = () => deleteRecurringConfirmModal.style.display = 'none';
-    document.getElementById('closeDeleteRecurXBtn').onclick = () => deleteRecurringConfirmModal.style.display = 'none';
+    document.getElementById('cancelDeleteRecurringBtn').onclick = () => hideModal(deleteRecurringConfirmModal);
+    document.getElementById('closeDeleteRecurXBtn').onclick = () => hideModal(deleteRecurringConfirmModal);
 
     const habitModal = document.getElementById('habitModal');
     document.getElementById('openAddModalBtn').onclick = () => {
       if (activeTab === 'habits') {
         document.getElementById('habitTitleInput').value = '';
-        habitModal.style.display = 'flex';
+        showModal(habitModal);
         return;
       }
 
@@ -2811,7 +2894,7 @@
       else entryTypeSelect.value = 'task';
 
       syncModalFields();
-      entryModal.style.display = 'flex';
+      showModal(entryModal);
     };
 
     document.getElementById('saveHabitBtn').onclick = () => {
@@ -2823,11 +2906,11 @@
         category: document.getElementById('habitCategorySelect').value,
         doneDates: []
       });
-      habitModal.style.display = 'none';
+      hideModal(habitModal);
       saveHabits();
     };
-    document.getElementById('closeHabitBtn').onclick = () => habitModal.style.display = 'none';
-    document.getElementById('closeHabitModalXBtn').onclick = () => habitModal.style.display = 'none';
+    document.getElementById('closeHabitBtn').onclick = () => hideModal(habitModal);
+    document.getElementById('closeHabitModalXBtn').onclick = () => hideModal(habitModal);
 
     const entryModal = document.getElementById('entryModal');
     const entryTypeSelect = document.getElementById('entryTypeSelect');
@@ -2936,7 +3019,7 @@
         });
       }
 
-      entryModal.style.display = 'none';
+      hideModal(entryModal);
       saveEntries();
     };
 
@@ -2960,11 +3043,11 @@
       document.getElementById('entryRecurringToggle').checked = isRecur;
       document.getElementById('recurringOptionsContainer').style.display = isRecur ? 'flex' : 'none';
 
-      entryModal.style.display = 'flex';
+      showModal(entryModal);
     }
 
-    document.getElementById('closeEntryModalBtn').onclick = () => entryModal.style.display = 'none';
-    document.getElementById('closeEntryModalXBtn').onclick = () => entryModal.style.display = 'none';
+    document.getElementById('closeEntryModalBtn').onclick = () => hideModal(entryModal);
+    document.getElementById('closeEntryModalXBtn').onclick = () => hideModal(entryModal);
 
     const schedulePendingModal = document.getElementById('schedulePendingModal');
     const splitTaskToggle = document.getElementById('splitTaskToggle');
@@ -2992,7 +3075,7 @@
       tomorrow.setDate(tomorrow.getDate() + 1);
       addSubtaskRow(`${item.title} (Часть 2)`, formatDateKey(tomorrow));
 
-      schedulePendingModal.style.display = 'flex';
+      showModal(schedulePendingModal);
     }
 
     function addSubtaskRow(titleDefault, dateDefault) {
@@ -3024,8 +3107,8 @@
       splitScheduleContainer.style.display = e.target.checked ? 'flex' : 'none';
     };
 
-    document.getElementById('closeSchedulePendingBtn').onclick = () => schedulePendingModal.style.display = 'none';
-    document.getElementById('closeSchedulePendingXBtn').onclick = () => schedulePendingModal.style.display = 'none';
+    document.getElementById('closeSchedulePendingBtn').onclick = () => hideModal(schedulePendingModal);
+    document.getElementById('closeSchedulePendingXBtn').onclick = () => hideModal(schedulePendingModal);
 
     document.getElementById('commitSchedulePendingBtn').onclick = () => {
       if (!schedulingPendingItem) return;
@@ -3057,7 +3140,7 @@
         entries = entries.filter(e => e.id !== schedulingPendingItem.id);
       }
 
-      schedulePendingModal.style.display = 'none';
+      hideModal(schedulePendingModal);
       saveEntries();
       setActiveTab('tasks');
     };
@@ -3069,9 +3152,9 @@
       document.getElementById('allTasksFiltersBox').style.display = (activeTab === 'all') ? 'flex' : 'none';
       document.getElementById('pendingFiltersBox').style.display = (activeTab === 'pending') ? 'flex' : 'none';
       document.getElementById('eventsFiltersBox').style.display = (activeTab === 'events') ? 'flex' : 'none';
-      filterModal.style.display = 'flex';
+      showModal(filterModal);
     };
-    document.getElementById('closeFilterXBtn').onclick = () => filterModal.style.display = 'none';
+    document.getElementById('closeFilterXBtn').onclick = () => hideModal(filterModal);
 
     document.getElementById('applyFilterBtn').onclick = () => {
       if (activeTab === 'all') {
@@ -3087,7 +3170,7 @@
         eventsFilter.period = document.getElementById('eventsPeriodFilter').value;
         eventsFilter.types = Array.from(document.querySelectorAll('#eventTypesChipsGrid .multi-chip-btn.active')).map(b => b.dataset.eventtype);
       }
-      filterModal.style.display = 'none';
+      hideModal(filterModal);
       renderItems();
     };
 
@@ -3122,20 +3205,20 @@
         `;
         activeSortSelect.value = eventsSort;
       }
-      sortModal.style.display = 'flex';
+      showModal(sortModal);
     };
-    document.getElementById('closeSortXBtn').onclick = () => sortModal.style.display = 'none';
+    document.getElementById('closeSortXBtn').onclick = () => hideModal(sortModal);
     document.getElementById('applySortBtn').onclick = () => {
       const v = document.getElementById('activeSortSelect').value;
       if (activeTab === 'all') allTasksSort = v;
       else if (activeTab === 'pending') pendingSort = v;
       else if (activeTab === 'events') eventsSort = v;
-      sortModal.style.display = 'none';
+      hideModal(sortModal);
       renderItems();
     };
 
     const settingsModal = document.getElementById('settingsModal');
-    document.getElementById('openSettingsBtn').onclick = () => {
+    document.getElementById('openSettingsBtn').onclick = async () => {
       document.getElementById('themeSelect').value = settings.theme;
       document.getElementById('notifTodayEnabled').checked = !!settings.notifToday;
       document.getElementById('notifTodayTime').value = settings.todayTime || '09:00';
@@ -3143,8 +3226,105 @@
       document.getElementById('notifTomorrowTime').value = settings.tomorrowTime || '20:00';
       document.getElementById('notifWeekendEnabled').checked = !!settings.notifWeekend;
       document.getElementById('notifWeekendTime').value = settings.weekendTime || '18:00';
-      settingsModal.style.display = 'flex';
+      
+      document.getElementById('tgBotToken').value = settings.tgBotToken || '';
+      document.getElementById('tgChatId').value = settings.tgChatId || '';
+      document.getElementById('tgBackupInterval').value = settings.tgBackupInterval || 'daily';
+      
+      showModal(settingsModal);
     };
+
+    async function requestNotificationPermission() {
+      if (!('Notification' in window)) return false;
+      if (Notification.permission === 'granted') return true;
+      if (Notification.permission !== 'denied') {
+        const permission = await Notification.requestPermission();
+        return permission === 'granted';
+      }
+      return false;
+    }
+
+    document.querySelectorAll('#notifTodayEnabled, #notifTomorrowEnabled, #notifWeekendEnabled').forEach(input => {
+      input.addEventListener('change', async (e) => {
+        if (e.target.checked) {
+          const granted = await requestNotificationPermission();
+          if (!granted) {
+            e.target.checked = false;
+            alert('Для отправки уведомлений необходимо разрешить доступ к уведомлениям в настройках браузера.');
+          }
+        }
+      });
+    });
+
+    async function sendBackupToTelegram(isAuto = false) {
+      const token = settings.tgBotToken || document.getElementById('tgBotToken')?.value.trim();
+      const chatId = settings.tgChatId || document.getElementById('tgChatId')?.value.trim();
+
+      if (!token || !chatId) {
+        if (!isAuto) alert('Укажите Telegram Bot Token и Chat ID в настройках!');
+        return false;
+      }
+
+      const backupData = {
+        entries,
+        habits,
+        trashItems,
+        settings,
+        backupDate: formatDateKey(new Date()),
+        timestamp: Date.now()
+      };
+
+      const jsonStr = JSON.stringify(backupData, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const filename = `master_schedule_backup_${formatDateKey(new Date())}.json`;
+
+      const formData = new FormData();
+      formData.append('chat_id', chatId);
+      formData.append('document', blob, filename);
+      formData.append('caption', `📦 Автобэкап Master Schedule\n📅 Дата: ${formatDisplayDate(formatDateKey(new Date()))}`);
+
+      try {
+        const response = await fetch(`https://api.telegram.org/bot${token}/sendDocument`, {
+          method: 'POST',
+          body: formData
+        });
+        const res = await response.json();
+        if (res.ok) {
+          localStorage.setItem('last_tg_backup_timestamp', Date.now().toString());
+          if (!isAuto) alert('Бэкап успешно отправлен в Telegram!');
+          return true;
+        } else {
+          console.error('Ошибка Telegram API:', res);
+          if (!isAuto) alert('Ошибка отправки в Telegram: ' + (res.description || 'Неизвестная ошибка'));
+          return false;
+        }
+      } catch (err) {
+        console.error('Сетевая ошибка при отправке в Telegram:', err);
+        if (!isAuto) alert('Не удалось отправить файл в Telegram. Проверьте интернет-соединение.');
+        return false;
+      }
+    }
+
+    document.getElementById('sendTgBackupBtn')?.addEventListener('click', () => sendBackupToTelegram(false));
+
+    function checkPeriodicTelegramBackup() {
+      const interval = settings.tgBackupInterval || 'disabled';
+      if (interval === 'disabled' || interval === 'on_change' || !settings.tgBotToken || !settings.tgChatId) return;
+
+      const lastBackup = parseInt(localStorage.getItem('last_tg_backup_timestamp') || '0', 10);
+      const now = Date.now();
+
+      const intervalsMs = {
+        daily: 24 * 60 * 60 * 1000,
+        '3days': 3 * 24 * 60 * 60 * 1000,
+        weekly: 7 * 24 * 60 * 60 * 1000
+      };
+
+      if (intervalsMs[interval] && now - lastBackup >= intervalsMs[interval]) {
+        sendBackupToTelegram(true);
+      }
+    }
+
     document.getElementById('closeSettingsBtn').onclick = () => {
       settings.theme = document.getElementById('themeSelect').value;
       settings.notifToday = document.getElementById('notifTodayEnabled').checked;
@@ -3153,11 +3333,17 @@
       settings.tomorrowTime = document.getElementById('notifTomorrowTime').value;
       settings.notifWeekend = document.getElementById('notifWeekendEnabled').checked;
       settings.weekendTime = document.getElementById('notifWeekendTime').value;
+
+      settings.tgBotToken = document.getElementById('tgBotToken').value.trim();
+      settings.tgChatId = document.getElementById('tgChatId').value.trim();
+      settings.tgBackupInterval = document.getElementById('tgBackupInterval').value;
+
       applyTheme(settings.theme);
       saveSettings();
-      settingsModal.style.display = 'none';
+      checkPeriodicTelegramBackup();
+      hideModal(settingsModal);
     };
-    document.getElementById('closeSettingsXBtn').onclick = () => settingsModal.style.display = 'none';
+    document.getElementById('closeSettingsXBtn').onclick = () => hideModal(settingsModal);
 
     document.getElementById('backupExportBtn').onclick = () => {
       const backupData = {
@@ -3183,7 +3369,8 @@
           if (imp.entries) entries = imp.entries;
           if (imp.habits) habits = imp.habits;
           if (imp.trashItems) trashItems = imp.trashItems;
-          saveEntries(); saveHabits(); saveTrash();
+          if (imp.settings) settings = { ...settings, ...imp.settings };
+          saveEntries(); saveHabits(); saveTrash(); saveSettings();
           alert('Резервная копия загружена!');
         } catch {
           alert('Ошибка при чтении файла.');
@@ -3191,6 +3378,68 @@
       };
       reader.readAsText(file);
     };
+
+    async function sendPushNotification(title, body) {
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+      if ('serviceWorker' in navigator) {
+        const reg = await navigator.serviceWorker.ready;
+        if (reg && reg.showNotification) {
+          reg.showNotification(title, {
+            body,
+            icon: './icon-192.png',
+            badge: './icon-192.png'
+          });
+          return;
+        }
+      }
+      new Notification(title, { body, icon: './icon-192.png' });
+    }
+
+    function checkAndTriggerNotifications() {
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+      const now = new Date();
+      const curTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const todayKey = formatDateKey(now);
+      const dayOfWeek = now.getDay();
+      const sentHistory = JSON.parse(localStorage.getItem('sent_notif_log') || '{}');
+
+      if (settings.notifToday && settings.todayTime === curTime && sentHistory.today !== todayKey) {
+        const todayTasks = entries.filter(e => e.type === 'task' && taskOccursOnDate(e, todayKey) && !isTaskCompletedOnDate(e, todayKey));
+        if (todayTasks.length > 0) {
+          sendPushNotification('Планы на сегодня 📅', `У вас запланировано ${todayTasks.length} невыполненных задач.`);
+        }
+        sentHistory.today = todayKey;
+        localStorage.setItem('sent_notif_log', JSON.stringify(sentHistory));
+      }
+
+      if (settings.notifTomorrow && settings.tomorrowTime === curTime && sentHistory.tomorrow !== todayKey) {
+        const tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const tomorrowKey = formatDateKey(tomorrow);
+        const tomorrowTasks = entries.filter(e => e.type === 'task' && taskOccursOnDate(e, tomorrowKey));
+        if (tomorrowTasks.length > 0) {
+          sendPushNotification('Планы на завтра 🗓️', `На завтра запланировано задач: ${tomorrowTasks.length}.`);
+        }
+        sentHistory.tomorrow = todayKey;
+        localStorage.setItem('sent_notif_log', JSON.stringify(sentHistory));
+      }
+
+      if (settings.notifWeekend && dayOfWeek === 5 && settings.weekendTime === curTime && sentHistory.weekend !== todayKey) {
+        const sat = new Date(now); sat.setDate(sat.getDate() + 1);
+        const sun = new Date(now); sun.setDate(sun.getDate() + 2);
+        const satKey = formatDateKey(sat);
+        const sunKey = formatDateKey(sun);
+        const weekendTasks = entries.filter(e => e.type === 'task' && (taskOccursOnDate(e, satKey) || taskOccursOnDate(e, sunKey)));
+        sendPushNotification('Выходные близко ✨', weekendTasks.length > 0 ? `На выходные запланировано задач: ${weekendTasks.length}.` : 'На выходные пока ничего не запланировано!');
+        sentHistory.weekend = todayKey;
+        localStorage.setItem('sent_notif_log', JSON.stringify(sentHistory));
+      }
+    }
+
+    setInterval(checkAndTriggerNotifications, 30000);
+    checkPeriodicTelegramBackup();
+    setInterval(checkPeriodicTelegramBackup, 15 * 60 * 1000);
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
