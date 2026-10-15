@@ -1,4 +1,4 @@
-const CACHE_NAME = 'master-schedule-v4';
+const CACHE_NAME = 'master-schedule-v5';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -29,8 +29,8 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Стратегия Network First для навигации (HTML) и Cache First для остальных ресурсов
 self.addEventListener('fetch', (event) => {
+  // Для открытия страниц: пробуем сеть, при отсутствии сети — отдаем index.html из кэша
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request)
@@ -40,34 +40,31 @@ self.addEventListener('fetch', (event) => {
             return networkResponse;
           });
         })
-        .catch(() => caches.match(event.request))
+        .catch(async () => {
+          const cache = await caches.open(CACHE_NAME);
+          const cachedPage = await cache.match(event.request) || await cache.match('./index.html') || await cache.match('./');
+          return cachedPage;
+        })
     );
     return;
   }
 
+  // Для остальных файлов (иконки, манифест) — отдаем из кэша
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request);
+      return cachedResponse || fetch(event.request);
     })
   );
 });
 
-// Переход в приложение при нажатии на системное уведомление
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
       for (const client of clientList) {
-        if ('focus' in client) {
-          return client.focus();
-        }
+        if ('focus' in client) return client.focus();
       }
-      if (clients.openWindow) {
-        return clients.openWindow('./');
-      }
+      if (clients.openWindow) return clients.openWindow('./');
     })
   );
 });
