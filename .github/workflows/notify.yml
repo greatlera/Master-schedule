@@ -1,0 +1,48 @@
+name: Scheduled Tasks (Notifications & Backups)
+
+on:
+  schedule:
+    # Запуск каждые 15 минут
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run-tasks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 1. Запуск напоминаний через Бот №1
+      - name: Run Notifications
+        env:
+          NOTIF_TG_BOT_TOKEN: ${{ secrets.NOTIF_TG_BOT_TOKEN }}
+          TIMEZONE: ${{ secrets.TIMEZONE || 'Europe/Moscow' }}
+        run: python scripts/send_notifications.py
+
+      # 2. Запуск автобэкапа через Бот №2
+      - name: Run Auto-Backup
+        env:
+          BACKUP_TG_BOT_TOKEN: ${{ secrets.BACKUP_TG_BOT_TOKEN }}
+        run: python scripts/send_backup.py
+
+      # 3. Сохранение логов отправки в репозиторий
+      - name: Commit Logs
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add scripts/sent_log.json scripts/backup_log.json || true
+          if git diff --staged --quiet; then
+            echo "No log changes."
+          else
+            git commit -m "Update notifications & backup logs [skip ci]"
+            git push
+          fi
