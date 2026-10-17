@@ -1831,34 +1831,35 @@
           <button class="modal-btn btn-cancel" id="addNewEventTagBtn" style="font-size:0.85rem; padding:10px;">+ Добавить тип события</button>
         </div>
 
+        <!-- ВКЛАДКА ДАННЫЕ: Единая привязка к Telegram и серверу GitHub -->
         <div id="settingsSectionData" style="display:none; flex-direction:column; gap:14px;">
-          <div style="font-size:0.8rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase;">Автобэкап в Telegram</div>
-          <div style="background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; padding:10px; display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:0.8rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase;">Интеграция с Telegram и сервером</div>
+          <div style="background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:10px;">
             <div class="field-group">
-              <label>Telegram Bot Token (бэкап)</label>
-              <input type="password" class="form-ctrl" id="tgBotToken" placeholder="123456789:ABCdefGHI..." autocomplete="off" />
+              <label>Telegram Chat ID (для напоминаний и бэкапов)</label>
+              <input type="text" class="form-ctrl" id="notifTgChatId" placeholder="Ваш ID чата..." autocomplete="off" />
             </div>
             <div class="field-group">
-              <label>Telegram Chat ID</label>
-              <input type="text" class="form-ctrl" id="tgChatId" placeholder="Например: 987654321" autocomplete="off" />
+              <label>GitHub Personal Access Token</label>
+              <input type="password" class="form-ctrl" id="ghTokenInput" placeholder="ghp_..." autocomplete="off" />
             </div>
-            <div style="display:flex; gap:8px; margin-top:2px;">
-              <button class="modal-btn btn-save" id="saveBackupBotCredsBtn" style="flex:1; padding:9px 12px; font-size:0.82rem;">Сохранить данные бота</button>
+            <div class="field-group">
+              <label>Репозиторий (владелец/название)</label>
+              <input type="text" class="form-ctrl" id="ghRepoInput" placeholder="например: username/just-my-calendar" autocomplete="off" />
             </div>
-            <div class="field-group" style="margin-top:4px;">
-              <label>Периодичность автобэкапа</label>
+            <div class="field-group">
+              <label>Периодичность автобэкапа в Telegram</label>
               <select class="form-ctrl" id="tgBackupInterval">
                 <option value="disabled">Отключено</option>
                 <option value="daily">Раз в сутки</option>
                 <option value="3days">Каждые 3 дня</option>
                 <option value="weekly">Раз в неделю</option>
-                <option value="on_change">При каждом изменении</option>
               </select>
             </div>
-            <button class="modal-btn btn-cancel" id="sendTgBackupBtn" style="margin-top:4px;">Отправить копию в Telegram сейчас</button>
+            <button class="modal-btn btn-save" id="saveGhSyncBtn" style="padding:10px 14px; font-size:0.85rem; margin-top:4px;">Сохранить и синхронизировать сейчас</button>
           </div>
 
-          <div style="font-size:0.8rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase; margin-top:4px;">Локальная копия файла</div>
+          <div style="font-size:0.8rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase; margin-top:6px;">Локальная копия файла</div>
           <div style="display:flex; gap:10px;">
             <button class="modal-btn btn-cancel" style="flex:1;" id="backupExportBtn">Скачать копию</button>
             <label class="modal-btn btn-cancel" style="flex:1; text-align:center; cursor:pointer;">
@@ -1868,23 +1869,8 @@
           </div>
         </div>
 
+        <!-- ВКЛАДКА УВЕДОМЛЕНИЯ: Только гибкое расписание -->
         <div id="settingsSectionNotif" style="display:none; flex-direction:column; gap:14px;">
-          <div style="font-size:0.8rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase;">Бот для напоминаний в Telegram</div>
-          <div style="background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; padding:10px; display:flex; flex-direction:column; gap:8px;">
-            <div class="field-group">
-              <label>Telegram Bot Token (напоминания)</label>
-              <input type="password" class="form-ctrl" id="notifTgBotToken" placeholder="Токен отдельного бота..." autocomplete="off" />
-            </div>
-            <div class="field-group">
-              <label>Telegram Chat ID</label>
-              <input type="text" class="form-ctrl" id="notifTgChatId" placeholder="Ваш ID чата..." autocomplete="off" />
-            </div>
-            <div style="display:flex; gap:8px; margin-top:2px;">
-              <button class="modal-btn btn-save" id="saveNotifBotCredsBtn" style="flex:1; padding:9px 12px; font-size:0.82rem;">Сохранить данные бота</button>
-              <button class="modal-btn btn-cancel" id="testNotifTgBtn" style="flex:1; padding:9px 12px; font-size:0.82rem;">Тест сообщения</button>
-            </div>
-          </div>
-
           <div style="background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px;">
             <div class="switch-row">
               <span class="switch-label">Дела на сегодня</span>
@@ -2138,8 +2124,9 @@
 
     let settings = JSON.parse(localStorage.getItem('master_schedule_settings') || JSON.stringify({
       theme: 'dark',
-      tgBotToken: '', tgChatId: '', tgBackupInterval: 'daily',
-      notifTgBotToken: '', notifTgChatId: '',
+      ghToken: '', ghRepo: '',
+      notifTgChatId: '',
+      tgBackupInterval: 'daily',
       notifToday: false, notifTodayTime: '09:00', notifTodayDays: [1, 2, 3, 4, 5, 6, 0],
       notifTomorrow: false, notifTomorrowTime: '20:00', notifTomorrowDays: [1, 2, 3, 4, 5, 6, 0],
       notifWeekend: false, notifWeekendTime: '18:00', notifWeekendDays: [5]
@@ -2175,23 +2162,73 @@
       renderItems();
     }
 
-    let tgDebounceTimer = null;
-    function triggerOnChangeBackup() {
-      if (settings.tgBackupInterval === 'on_change') {
-        clearTimeout(tgDebounceTimer);
-        tgDebounceTimer = setTimeout(() => sendBackupToTelegram(true), 5000);
+    let ghSyncTimer = null;
+    function triggerGhSync() {
+      clearTimeout(ghSyncTimer);
+      ghSyncTimer = setTimeout(() => {
+        pushUserDataToGitHub();
+      }, 3000);
+    }
+
+    async function pushUserDataToGitHub() {
+      const token = settings.ghToken;
+      const repo = settings.ghRepo;
+      const chatId = settings.notifTgChatId;
+      if (!token || !repo || !chatId) return;
+
+      const path = `users/user_${chatId}.json`;
+      const url = `https://api.github.com/repos/${repo}/contents/${path}`;
+
+      const backupData = {
+        entries, habits, notes, trashItems, settings,
+        customTaskTags, customEventTags,
+        updatedAt: new Date().toISOString()
+      };
+
+      const jsonStr = JSON.stringify(backupData, null, 2);
+      const contentBase64 = btoa(unescape(encodeURIComponent(jsonStr)));
+
+      try {
+        let sha = '';
+        const getRes = await fetch(url, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+        if (getRes.ok) {
+          const fileInfo = await getRes.json();
+          sha = fileInfo.sha;
+        }
+
+        await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json'
+          },
+          body: JSON.stringify({
+            message: `Sync calendar for chat ${chatId} [skip ci]`,
+            content: contentBase64,
+            sha: sha || undefined
+          })
+        });
+        console.log('GitHub sync completed');
+      } catch (err) {
+        console.warn('GitHub sync failed:', err);
       }
     }
 
-    function saveEntries() { localStorage.setItem('master_schedule_data', JSON.stringify(entries)); renderCalendar(); renderItems(); triggerOnChangeBackup(); }
-    function saveHabits() { localStorage.setItem('master_schedule_habits', JSON.stringify(habits)); renderItems(); triggerOnChangeBackup(); }
-    function saveNotes() { localStorage.setItem('master_schedule_notes', JSON.stringify(notes)); renderItems(); triggerOnChangeBackup(); }
-    function saveTrash() { localStorage.setItem('master_schedule_trash', JSON.stringify(trashItems)); renderItems(); triggerOnChangeBackup(); }
-    function saveSettings() { localStorage.setItem('master_schedule_settings', JSON.stringify(settings)); }
+    function saveEntries() { localStorage.setItem('master_schedule_data', JSON.stringify(entries)); renderCalendar(); renderItems(); triggerGhSync(); }
+    function saveHabits() { localStorage.setItem('master_schedule_habits', JSON.stringify(habits)); renderItems(); triggerGhSync(); }
+    function saveNotes() { localStorage.setItem('master_schedule_notes', JSON.stringify(notes)); renderItems(); triggerGhSync(); }
+    function saveTrash() { localStorage.setItem('master_schedule_trash', JSON.stringify(trashItems)); renderItems(); triggerGhSync(); }
+    function saveSettings() { localStorage.setItem('master_schedule_settings', JSON.stringify(settings)); triggerGhSync(); }
     function saveCustomTags() {
       localStorage.setItem('master_schedule_task_tags', JSON.stringify(customTaskTags));
       localStorage.setItem('master_schedule_event_tags', JSON.stringify(customEventTags));
-      initFilterChips(); renderCalendar(); renderItems(); triggerOnChangeBackup();
+      initFilterChips(); renderCalendar(); renderItems(); triggerGhSync();
     }
 
     function moveToTrash(type, item) {
@@ -4079,176 +4116,6 @@
       renderItems();
     };
 
-    /* ----------------------------------------------------
-       БЭКАП В TELEGRAM (БОТ 1)
-    ---------------------------------------------------- */
-    async function sendBackupToTelegram(isAuto = false) {
-      const token = (document.getElementById('tgBotToken')?.value.trim()) || settings.tgBotToken;
-      const chatId = (document.getElementById('tgChatId')?.value.trim()) || settings.tgChatId;
-
-      if (!token || !chatId) {
-        if (!isAuto) alert('Укажите Telegram Bot Token и Chat ID во вкладке «Данные»!');
-        return false;
-      }
-
-      settings.tgBotToken = token;
-      settings.tgChatId = chatId;
-      saveSettings();
-
-      const backupData = {
-        entries, habits, notes, trashItems, settings,
-        customTaskTags, customEventTags,
-        backupDate: formatDateKey(new Date()),
-        timestamp: Date.now()
-      };
-
-      const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
-      const formData = new FormData();
-      formData.append('chat_id', chatId);
-      formData.append('document', blob, `master_schedule_backup_${formatDateKey(new Date())}.json`);
-      formData.append('caption', `📦 Автобэкап Master Schedule\n📅 Дата: ${formatDisplayDate(formatDateKey(new Date()))}`);
-
-      try {
-        const response = await fetch(`https://api.telegram.org/bot${token}/sendDocument`, {
-          method: 'POST', body: formData
-        });
-        const res = await response.json();
-        if (res.ok) {
-          localStorage.setItem('last_tg_backup_timestamp', Date.now().toString());
-          if (!isAuto) alert('Бэкап успешно отправлен в Telegram!');
-          return true;
-        } else {
-          if (!isAuto) alert('Ошибка отправки в Telegram: ' + (res.description || 'Неизвестная ошибка'));
-          return false;
-        }
-      } catch (err) {
-        if (!isAuto) alert('Не удалось отправить файл в Telegram. Проверьте интернет-соединение.');
-        return false;
-      }
-    }
-
-    document.getElementById('sendTgBackupBtn')?.addEventListener('click', () => sendBackupToTelegram(false));
-
-    function checkPeriodicTelegramBackup() {
-      const interval = settings.tgBackupInterval || 'disabled';
-      if (interval === 'disabled' || interval === 'on_change' || !settings.tgBotToken || !settings.tgChatId) return;
-
-      const lastBackup = parseInt(localStorage.getItem('last_tg_backup_timestamp') || '0', 10);
-      const now = Date.now();
-      const intervalsMs = { daily: 86400000, '3days': 259200000, weekly: 604800000 };
-
-      if (intervalsMs[interval] && now - lastBackup >= intervalsMs[interval]) {
-        sendBackupToTelegram(true);
-      }
-    }
-
-    /* ----------------------------------------------------
-       НАПОМИНАНИЯ В TELEGRAM (БОТ 2)
-    ---------------------------------------------------- */
-    async function sendTelegramMessage(text) {
-      const token = settings.notifTgBotToken;
-      const chatId = settings.notifTgChatId;
-      if (!token || !chatId) return false;
-
-      try {
-        const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' })
-        });
-        const data = await res.json();
-        return data.ok;
-      } catch (err) {
-        console.error('Ошибка отправки напоминания:', err);
-        return false;
-      }
-    }
-
-    function formatItemsForNotification(targetDateKey, dateTitle) {
-      const { taskTags, eventTags } = getThemeColors();
-      const targetDate = parseDateKey(targetDateKey);
-      const targetShort = formatShortDateKey(targetDate);
-
-      const dayEvents = entries.filter(e => e.type === 'event' && (e.isYearly ? e.date.endsWith(targetShort) : e.date === targetDateKey));
-      const dayTasks = entries.filter(e => e.type === 'task' && taskOccursOnDate(e, targetDateKey));
-
-      if (dayEvents.length === 0 && dayTasks.length === 0) return null;
-
-      let lines = [];
-      if (dateTitle) lines.push(`<b>📅 ${dateTitle} (${formatDisplayDate(targetDateKey)}):</b>`);
-
-      dayEvents.forEach(e => {
-        const cat = eventTags[e.category]?.label || 'Событие';
-        let line = `• 🎉 <b>${escapeHtml(e.title)}</b> [${cat}]`;
-        if (e.notes) line += `\n  <i>Примечание: ${escapeHtml(e.notes)}</i>`;
-        lines.push(line);
-      });
-
-      dayTasks.forEach(t => {
-        const isDone = isTaskCompletedOnDate(t, targetDateKey);
-        const icon = isDone ? '✅' : '▫️';
-        const cat = taskTags[t.category]?.label || 'Дело';
-        let line = `• ${icon} <b>${escapeHtml(t.title)}</b>`;
-        if (t.time) line += ` в ${t.time}`;
-        line += ` [${cat}]`;
-        if (t.notes) line += `\n  <i>Примечание: ${escapeHtml(t.notes)}</i>`;
-        lines.push(line);
-      });
-
-      return lines.join('\n');
-    }
-
-    function checkAndTriggerTelegramNotifications() {
-      if (!settings.notifTgBotToken || !settings.notifTgChatId) return;
-
-      const now = new Date();
-      const curTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-      const curDayOfWeek = now.getDay();
-      const todayKey = formatDateKey(now);
-      const sentHistory = JSON.parse(localStorage.getItem('sent_tg_notif_log') || '{}');
-
-      if (settings.notifToday && settings.notifTodayTime === curTime && settings.notifTodayDays.includes(curDayOfWeek)) {
-        if (sentHistory.today !== todayKey) {
-          const content = formatItemsForNotification(todayKey, '');
-          sendTelegramMessage(`Посмотрите дела на сегодня:\n\n${content || 'На сегодня ничего не запланировано! ✨'}`);
-          sentHistory.today = todayKey;
-          localStorage.setItem('sent_tg_notif_log', JSON.stringify(sentHistory));
-        }
-      }
-
-      if (settings.notifTomorrow && settings.notifTomorrowTime === curTime && settings.notifTomorrowDays.includes(curDayOfWeek)) {
-        if (sentHistory.tomorrow !== todayKey) {
-          const tomorrow = new Date(now);
-          tomorrow.setDate(tomorrow.getDate() + 1);
-          const tomorrowKey = formatDateKey(tomorrow);
-          const content = formatItemsForNotification(tomorrowKey, '');
-          sendTelegramMessage(`Посмотрите дела на завтра:\n\n${content || 'На завтра ничего не запланировано! ✨'}`);
-          sentHistory.tomorrow = todayKey;
-          localStorage.setItem('sent_tg_notif_log', JSON.stringify(sentHistory));
-        }
-      }
-
-      if (settings.notifWeekend && settings.notifWeekendTime === curTime && settings.notifWeekendDays.includes(curDayOfWeek)) {
-        if (sentHistory.weekend !== todayKey) {
-          const sat = new Date(now);
-          sat.setDate(sat.getDate() + ((6 - curDayOfWeek + 7) % 7));
-          const sun = new Date(sat);
-          sun.setDate(sun.getDate() + 1);
-
-          const satContent = formatItemsForNotification(formatDateKey(sat), 'Суббота');
-          const sunContent = formatItemsForNotification(formatDateKey(sun), 'Воскресенье');
-
-          let combined = [];
-          if (satContent) combined.push(satContent);
-          if (sunContent) combined.push(sunContent);
-
-          sendTelegramMessage(`Посмотрите дела на выходные:\n\n${combined.length > 0 ? combined.join('\n\n') : 'На выходные пока ничего не запланировано! 🏖️'}`);
-          sentHistory.weekend = todayKey;
-          localStorage.setItem('sent_tg_notif_log', JSON.stringify(sentHistory));
-        }
-      }
-    }
-
     function setupDaysPicker(pickerId, initialDays, onUpdate) {
       const container = document.getElementById(pickerId);
       if (!container) return;
@@ -4264,48 +4131,34 @@
       });
     }
 
-    document.getElementById('saveBackupBotCredsBtn')?.addEventListener('click', () => {
-      settings.tgBotToken = document.getElementById('tgBotToken').value.trim();
-      settings.tgChatId = document.getElementById('tgChatId').value.trim();
-      saveSettings();
-      alert('Данные бота автобэкапа успешно сохранены!');
-    });
-
-    document.getElementById('saveNotifBotCredsBtn')?.addEventListener('click', () => {
-      settings.notifTgBotToken = document.getElementById('notifTgBotToken').value.trim();
-      settings.notifTgChatId = document.getElementById('notifTgChatId').value.trim();
-      saveSettings();
-      alert('Данные бота напоминаний успешно сохранены!');
-    });
-
-    ['tgBotToken', 'tgChatId'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.addEventListener('input', () => { settings[id] = el.value.trim(); saveSettings(); });
-    });
-
-    ['notifTgBotToken', 'notifTgChatId'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.addEventListener('input', () => { settings[id] = el.value.trim(); saveSettings(); });
-    });
-
-    document.getElementById('testNotifTgBtn')?.addEventListener('click', async () => {
-      const token = document.getElementById('notifTgBotToken').value.trim();
+    document.getElementById('saveGhSyncBtn')?.addEventListener('click', async () => {
+      const token = document.getElementById('ghTokenInput').value.trim();
+      const repo = document.getElementById('ghRepoInput').value.trim();
       const chatId = document.getElementById('notifTgChatId').value.trim();
-      if (!token || !chatId) {
-        alert('Введите Token и Chat ID бота напоминаний!');
+      const backupInterval = document.getElementById('tgBackupInterval').value;
+
+      settings.ghToken = token;
+      settings.ghRepo = repo;
+      settings.notifTgChatId = chatId;
+      settings.tgBackupInterval = backupInterval;
+      saveSettings();
+
+      if (!token || !repo || !chatId) {
+        alert('Пожалуйста, заполните Chat ID, GitHub Token и имя репозитория.');
         return;
       }
-      settings.notifTgBotToken = token;
-      settings.notifTgChatId = chatId;
-      saveSettings();
 
-      const todayKey = formatDateKey(new Date());
-      const content = formatItemsForNotification(todayKey, '');
-      const sampleText = `Посмотрите дела на сегодня:\n\n` + (content || `На сегодня ничего не запланировано! ✨`);
-      
-      const ok = await sendTelegramMessage(`🔔 Тестовое напоминание:\n\n` + sampleText);
-      alert(ok ? 'Тестовое уведомление успешно отправлено в Telegram!' : 'Не удалось отправить сообщение. Проверьте токен, Chat ID и нажмите Start в диалоге с ботом!');
+      await pushUserDataToGitHub();
+      alert('Данные и настройки успешно сохранены и отправлены на сервер GitHub!');
     });
+
+    const notifChatEl = document.getElementById('notifTgChatId');
+    if (notifChatEl) {
+      notifChatEl.addEventListener('input', () => {
+        settings.notifTgChatId = notifChatEl.value.trim();
+        saveSettings();
+      });
+    }
 
     const tabBtns = { general: document.getElementById('stTabGeneral'), tags: document.getElementById('stTabTags'), data: document.getElementById('stTabData'), notif: document.getElementById('stTabNotif') };
     const tabSections = { general: document.getElementById('settingsSectionGeneral'), tags: document.getElementById('settingsSectionTags'), data: document.getElementById('settingsSectionData'), notif: document.getElementById('settingsSectionNotif') };
@@ -4390,12 +4243,10 @@
       settings.notifWeekendDays = Array.isArray(settings.notifWeekendDays) ? settings.notifWeekendDays : [5];
 
       if (document.getElementById('themeSelect')) document.getElementById('themeSelect').value = settings.theme || 'dark';
-      if (document.getElementById('tgBotToken')) document.getElementById('tgBotToken').value = settings.tgBotToken || '';
-      if (document.getElementById('tgChatId')) document.getElementById('tgChatId').value = settings.tgChatId || '';
-      if (document.getElementById('tgBackupInterval')) document.getElementById('tgBackupInterval').value = settings.tgBackupInterval || 'daily';
-
-      if (document.getElementById('notifTgBotToken')) document.getElementById('notifTgBotToken').value = settings.notifTgBotToken || '';
+      if (document.getElementById('ghTokenInput')) document.getElementById('ghTokenInput').value = settings.ghToken || '';
+      if (document.getElementById('ghRepoInput')) document.getElementById('ghRepoInput').value = settings.ghRepo || '';
       if (document.getElementById('notifTgChatId')) document.getElementById('notifTgChatId').value = settings.notifTgChatId || '';
+      if (document.getElementById('tgBackupInterval')) document.getElementById('tgBackupInterval').value = settings.tgBackupInterval || 'daily';
 
       if (document.getElementById('notifTodayEnabled')) document.getElementById('notifTodayEnabled').checked = !!settings.notifToday;
       if (document.getElementById('notifTodayTime')) document.getElementById('notifTodayTime').value = settings.notifTodayTime || '09:00';
@@ -4420,11 +4271,11 @@
 
     document.getElementById('closeSettingsBtn').onclick = () => {
       settings.theme = document.getElementById('themeSelect').value;
-      settings.tgBotToken = document.getElementById('tgBotToken').value.trim();
-      settings.tgChatId = document.getElementById('tgChatId').value.trim();
-      settings.tgBackupInterval = document.getElementById('tgBackupInterval').value;
-      settings.notifTgBotToken = document.getElementById('notifTgBotToken').value.trim();
+      settings.ghToken = document.getElementById('ghTokenInput').value.trim();
+      settings.ghRepo = document.getElementById('ghRepoInput').value.trim();
       settings.notifTgChatId = document.getElementById('notifTgChatId').value.trim();
+      settings.tgBackupInterval = document.getElementById('tgBackupInterval').value;
+
       settings.notifToday = document.getElementById('notifTodayEnabled').checked;
       settings.notifTodayTime = document.getElementById('notifTodayTime').value;
       settings.notifTomorrow = document.getElementById('notifTomorrowEnabled').checked;
@@ -4434,7 +4285,6 @@
 
       applyTheme(settings.theme);
       saveSettings();
-      checkPeriodicTelegramBackup();
       hideModal(settingsModal);
     };
     document.getElementById('closeSettingsXBtn').onclick = () => hideModal(settingsModal);
@@ -4604,10 +4454,6 @@
       };
       reader.readAsText(file);
     };
-
-    checkPeriodicTelegramBackup();
-    setInterval(checkPeriodicTelegramBackup, 15 * 60 * 1000);
-    setInterval(checkAndTriggerTelegramNotifications, 30000);
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {

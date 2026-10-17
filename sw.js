@@ -1,4 +1,4 @@
-const CACHE_NAME = 'master-schedule-v6';
+const CACHE_NAME = 'master-schedule-v7';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -10,13 +10,23 @@ const ASSETS_TO_CACHE = [
 // Установка: кэшируем базовые ресурсы и форсируем запуск нового SW
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
+    caches.open(CACHE_NAME).then(async (cache) => {
+      // Форсируем свежую загрузку index.html в обход промежуточного HTTP-кэша
+      for (const asset of ASSETS_TO_CACHE) {
+        try {
+          const req = new Request(asset, { cache: 'reload' });
+          const res = await fetch(req);
+          if (res.ok) await cache.put(asset, res);
+        } catch (e) {
+          // Если офлайн при повторной установке, сохраняем базовый add
+          await cache.add(asset).catch(() => {});
+        }
+      }
     }).then(() => self.skipWaiting())
   );
 });
 
-// Активация: удаляем все старые версии кэша (v5 и ниже)
+// Активация: удаляем все старые версии кэша (v6 и ниже)
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -33,6 +43,13 @@ self.addEventListener('activate', (event) => {
 
 // Обработка запросов (Fetch)
 self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+
+  // Запросы к внешним API (GitHub API, Telegram API) и не-GET запросы пропускаем напрямую в сеть
+  if (url.origin !== self.location.origin || event.request.method !== 'GET') {
+    return;
+  }
+
   // Для навигации (открытие/перезагрузка страницы): сначала сеть, при офлайне — кэш
   if (event.request.mode === 'navigate') {
     event.respondWith(
@@ -55,7 +72,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Для остальных ресурсов: берем из кэша, если нет — грузим из сети и сохраняем
+  // Для остальных локальных статических ресурсов (иконки, манифест)
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
@@ -75,7 +92,7 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// Клик по уведомлению
+// Клик по системному уведомлению
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   event.waitUntil(
