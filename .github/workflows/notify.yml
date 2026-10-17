@@ -1,0 +1,39 @@
+name: Multi-User Notifications
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Notifications
+        env:
+          NOTIF_TG_BOT_TOKEN: ${{ secrets.NOTIF_TG_BOT_TOKEN }}
+          TIMEZONE: ${{ secrets.TIMEZONE || 'Europe/Moscow' }}
+        run: python scripts/send_notifications.py
+
+      - name: Commit Sent Log
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add scripts/sent_log.json || true
+          if git diff --staged --quiet; then
+            echo "No log changes."
+          else
+            git commit -m "Update notifications log [skip ci]"
+            git push
+          fi
