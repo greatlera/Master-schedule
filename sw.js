@@ -1,4 +1,4 @@
-const CACHE_NAME = 'master-schedule-v5';
+const CACHE_NAME = 'master-schedule-v6';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -7,6 +7,7 @@ const ASSETS_TO_CACHE = [
   './icon-512.png'
 ];
 
+// Установка: кэшируем базовые ресурсы и форсируем запуск нового SW
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -15,6 +16,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
+// Активация: удаляем все старые версии кэша (v5 и ниже)
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -29,8 +31,9 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// Обработка запросов (Fetch)
 self.addEventListener('fetch', (event) => {
-  // Для открытия страниц: пробуем сеть, при отсутствии сети — отдаем index.html из кэша
+  // Для навигации (открытие/перезагрузка страницы): сначала сеть, при офлайне — кэш
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request)
@@ -42,21 +45,37 @@ self.addEventListener('fetch', (event) => {
         })
         .catch(async () => {
           const cache = await caches.open(CACHE_NAME);
-          const cachedPage = await cache.match(event.request) || await cache.match('./index.html') || await cache.match('./');
-          return cachedPage;
+          return (
+            (await cache.match(event.request)) ||
+            (await cache.match('./index.html')) ||
+            (await cache.match('./'))
+          );
         })
     );
     return;
   }
 
-  // Для остальных файлов (иконки, манифест) — отдаем из кэша
+  // Для остальных ресурсов: берем из кэша, если нет — грузим из сети и сохраняем
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      return cachedResponse || fetch(event.request);
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      return fetch(event.request).then((networkResponse) => {
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+          return networkResponse;
+        }
+        const responseToCache = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
+        });
+        return networkResponse;
+      });
     })
   );
 });
 
+// Клик по уведомлению
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   event.waitUntil(

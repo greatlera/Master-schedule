@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#0d0e12" />
   <title>Master Schedule</title>
   
@@ -12,7 +12,7 @@
   <link rel="manifest" href="./manifest.json" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
 
   <style>
@@ -71,7 +71,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    h1, h2, h3, .nav-header-title, .summary-title, .today-big-heading, .stepper-val-display {
+    h1, h2, h3, .nav-header-title, .summary-title, .today-big-heading, .stepper-val-display, .fullscreen-note-title {
       font-family: 'Unbounded', 'Onest', sans-serif;
       letter-spacing: -0.03em;
     }
@@ -82,7 +82,7 @@
       display: flex;
       justify-content: center;
       min-height: 100vh;
-      padding: 0 12px 84px 12px;
+      padding: 0 12px calc(84px + env(safe-area-inset-bottom, 0px)) 12px;
       transition: background-color 0.25s ease, color 0.25s ease;
       position: relative;
     }
@@ -115,10 +115,10 @@
       margin: 0 -4px;
     }
 
-    .header-left {
+    .header-left, .header-right {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-shrink: 0;
     }
 
@@ -137,9 +137,7 @@
       padding: 0;
       flex-shrink: 0;
     }
-    .menu-trigger-btn:active, .header-btn:active {
-      transform: scale(0.92);
-    }
+    .menu-trigger-btn:active, .header-btn:active { transform: scale(0.92); }
     .menu-trigger-btn svg {
       width: 20px; height: 20px;
       stroke: currentColor; fill: none;
@@ -159,13 +157,6 @@
     }
     h1:hover { opacity: 0.85; }
 
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
     .today-link {
       background: var(--card-bg);
       border: 1px solid var(--input-border);
@@ -176,15 +167,11 @@
       height: 40px;
       width: 96px;
       min-width: 96px;
-      max-width: 96px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: 0;
       border-radius: var(--radius-pill);
       transition: all 0.2s ease;
-      box-sizing: border-box;
       white-space: nowrap;
       flex-shrink: 0;
     }
@@ -276,9 +263,7 @@
       isolation: isolate;
     }
 
-    .today-hero-box {
-      margin-bottom: 18px;
-    }
+    .today-hero-box { margin-bottom: 18px; }
     .today-subtext {
       font-size: 0.8rem;
       font-weight: 700;
@@ -287,11 +272,7 @@
       letter-spacing: 0.08em;
       margin-bottom: 4px;
     }
-    .today-big-heading {
-      font-size: 1.35rem;
-      font-weight: 800;
-      line-height: 1.25;
-    }
+    .today-big-heading { font-size: 1.35rem; font-weight: 800; line-height: 1.25; }
 
     .nav-header-row {
       display: flex;
@@ -299,10 +280,7 @@
       align-items: center;
       margin-bottom: 18px;
     }
-    .nav-header-title {
-      font-size: 1rem;
-      font-weight: 700;
-    }
+    .nav-header-title { font-size: 1rem; font-weight: 700; }
     
     .nav-arrow-btn {
       background: var(--input-bg);
@@ -318,13 +296,9 @@
       transition: transform 0.15s ease, background-color 0.15s ease;
     }
     .nav-arrow-btn svg {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2.2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      width: 18px; height: 18px;
+      stroke: currentColor; fill: none;
+      stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
       display: block;
     }
     .nav-arrow-btn:active { transform: scale(0.9); }
@@ -382,13 +356,8 @@
       font-weight: 800;
       z-index: 2;
     }
-    .day-cell.today-circle.selected {
-      border: none;
-    }
-
-    .day-cell.has-entry {
-      font-weight: 800;
-    }
+    .day-cell.today-circle.selected { border: none; }
+    .day-cell.has-entry { font-weight: 800; }
 
     .dots-box {
       position: absolute;
@@ -486,9 +455,7 @@
       transition: transform 0.15s ease, box-shadow 0.15s ease;
       border: 1.5px solid transparent;
     }
-    .bento-entry-card:active {
-      transform: scale(0.99);
-    }
+    .bento-entry-card:active { transform: scale(0.99); }
 
     .bento-entry-left {
       display: flex;
@@ -511,22 +478,15 @@
       margin-top: 2px;
       padding: 0;
       cursor: pointer;
-      opacity: 1;
       transition: all 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
     }
     .round-check-btn svg {
-      width: 13px;
-      height: 13px;
-      stroke: #ffffff;
-      fill: none;
-      stroke-width: 2.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      width: 13px; height: 13px;
+      stroke: #ffffff; fill: none;
+      stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round;
       display: none;
     }
-    .round-check-btn.checked {
-      background: currentColor;
-    }
+    .round-check-btn.checked { background: currentColor; }
     .round-check-btn.checked svg {
       display: block;
       stroke: #0d0e12;
@@ -541,12 +501,7 @@
       overflow: hidden;
     }
 
-    .bento-entry-title {
-      font-size: 0.98rem;
-      font-weight: 700;
-      word-break: break-word;
-    }
-
+    .bento-entry-title { font-size: 0.98rem; font-weight: 700; word-break: break-word; }
     .bento-entry-notes {
       font-size: 0.8rem;
       color: inherit;
@@ -572,6 +527,8 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      text-decoration: none;
+      cursor: pointer;
     }
     .badge svg {
       width: 12px; height: 12px;
@@ -608,27 +565,15 @@
     .habit-bento-card {
       border-radius: var(--radius-elem);
       padding: 16px 18px;
-      position: relative;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
       gap: 12px;
       border: 1.5px solid transparent;
       transition: transform 0.18s cubic-bezier(0.1, 0.9, 0.2, 1);
     }
-    .habit-bento-card:active {
-      transform: scale(0.99);
-    }
-    .habit-bento-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .habit-bento-title {
-      font-size: 1.02rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
+    .habit-bento-card:active { transform: scale(0.99); }
+    .habit-bento-header { display: flex; justify-content: space-between; align-items: center; }
+    .habit-bento-title { font-size: 1.02rem; font-weight: 800; letter-spacing: -0.02em; }
 
     .habit-week-bento-row {
       display: grid;
@@ -645,42 +590,25 @@
       gap: 6px;
       cursor: pointer;
     }
-    .habit-week-bento-col.is-future {
-      opacity: 0.35;
-      cursor: not-allowed !important;
-    }
-    .habit-week-day-title {
-      font-size: 0.65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      opacity: 0.8;
-    }
-    .habit-week-date-num {
-      font-size: 0.76rem;
-      font-weight: 800;
-    }
+    .habit-week-bento-col.is-future { opacity: 0.35; cursor: not-allowed !important; }
+    .habit-week-day-title { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; opacity: 0.8; }
+    .habit-week-date-num { font-size: 0.76rem; font-weight: 800; }
     .habit-week-check-circle {
-      width: 28px;
-      height: 28px;
+      width: 28px; height: 28px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.2);
       display: grid;
       place-items: center;
       transition: all 0.2s ease;
     }
-    .habit-week-check-circle.done {
-      background: currentColor;
-      transform: scale(1.08);
-    }
+    .habit-week-check-circle.done { background: currentColor; transform: scale(1.08); }
     .habit-week-check-circle svg {
       width: 14px; height: 14px;
       stroke: #0d0e12; fill: none;
       stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round;
       display: none;
     }
-    .habit-week-check-circle.done svg {
-      display: block;
-    }
+    .habit-week-check-circle.done svg { display: block; }
 
     .dots-month-grid {
       display: grid;
@@ -704,14 +632,12 @@
     .dot-box:active:not(.is-future) { transform: scale(0.9); }
     .dot-box.active { color: #0d0e12; }
     .dot-box.today { border: 2px solid var(--text); }
-    .dot-box.is-future {
-      opacity: 0.25;
-      cursor: not-allowed !important;
-    }
+    .dot-box.is-future { opacity: 0.25; cursor: not-allowed !important; }
 
     .fab-btn {
       position: fixed;
-      bottom: 24px; right: 22px;
+      bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+      right: 22px;
       width: 58px; height: 58px;
       border-radius: 50%;
       background: var(--primary);
@@ -722,22 +648,16 @@
       cursor: pointer;
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
       z-index: 90;
-      transition: transform 0.15s ease, box-shadow 0.2s ease;
+      transition: transform 0.15s ease;
       padding: 0;
     }
     .fab-btn svg {
-      width: 26px;
-      height: 26px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2.6;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      width: 26px; height: 26px;
+      stroke: currentColor; fill: none;
+      stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
       display: block;
     }
-    .fab-btn:active {
-      transform: scale(0.92);
-    }
+    .fab-btn:active { transform: scale(0.92); }
 
     .modal-backdrop {
       display: none;
@@ -750,6 +670,8 @@
       justify-content: center;
       overscroll-behavior: contain;
     }
+    #customConfirmModal { z-index: 1000 !important; }
+
     .modal-sheet {
       background: var(--card-bg);
       width: 100%;
@@ -761,6 +683,7 @@
       animation: slideUp 0.25s cubic-bezier(0.1, 0.9, 0.2, 1);
       position: relative;
       overscroll-behavior: contain;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
     }
     .modal-sheet-header {
       padding: 20px 22px 14px 22px;
@@ -771,8 +694,7 @@
     }
     .modal-sheet-header h2 { font-size: 1.15rem; font-weight: 700; }
     .modal-close-x {
-      background: none;
-      border: none;
+      background: none; border: none;
       color: var(--text-muted);
       font-size: 1.5rem;
       cursor: pointer;
@@ -784,7 +706,6 @@
       gap: 14px;
       overflow-y: auto;
       flex: 1;
-      -webkit-overflow-scrolling: touch;
       overscroll-behavior: contain;
     }
     .modal-sheet-footer {
@@ -851,15 +772,13 @@
     }
     .switch input { opacity: 0; width: 0; height: 0; }
     .slider {
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       background-color: #3b3d4f;
       border-radius: 30px;
       cursor: pointer;
     }
     .slider:before {
-      position: absolute;
-      content: "";
+      position: absolute; content: "";
       height: 20px; width: 20px;
       left: 3px; bottom: 3px;
       background-color: white;
@@ -877,10 +796,7 @@
       font-weight: 700;
       cursor: pointer;
     }
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-    }
+    .modal-actions { display: flex; gap: 10px; }
     .modal-actions .modal-btn { flex: 1; }
     .btn-cancel { background: var(--btn-cancel-bg); color: var(--btn-cancel-text); }
     .btn-save { background: var(--primary); color: var(--primary-text); }
@@ -905,8 +821,7 @@
       background: var(--card-bg);
       border: 1px solid var(--input-border);
       color: var(--text);
-      width: 32px;
-      height: 24px;
+      width: 32px; height: 24px;
       border-radius: 6px;
       display: flex;
       align-items: center;
@@ -915,18 +830,8 @@
       font-size: 0.75rem;
     }
     .stepper-btn:active { background: var(--primary); color: var(--primary-text); }
-    .stepper-val-display {
-      font-size: 1.35rem;
-      font-weight: 800;
-      min-width: 36px;
-      text-align: center;
-    }
-    .stepper-unit-label {
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
+    .stepper-val-display { font-size: 1.35rem; font-weight: 800; min-width: 36px; text-align: center; }
+    .stepper-unit-label { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
 
     .filter-chips-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
     .multi-chip-btn {
@@ -954,6 +859,417 @@
       flex-direction: column;
       gap: 8px;
     }
+
+    .tag-manage-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--card-bg);
+      padding: 8px 12px;
+      border-radius: var(--radius-elem);
+      border: 1px solid var(--input-border);
+    }
+    .tag-color-preview-btn {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.2);
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+    .tag-label-input {
+      flex: 1;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 600;
+      outline: none;
+      padding: 6px 8px;
+      border-radius: 8px;
+    }
+    .tag-label-input:focus {
+      background: var(--input-bg);
+      border-color: var(--input-border);
+    }
+
+    .notif-days-picker { display: flex; gap: 5px; margin-top: 6px; }
+    .notif-day-btn {
+      flex: 1; height: 32px;
+      border-radius: 8px;
+      background: var(--card-bg);
+      border: 1px solid var(--input-border);
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s ease;
+    }
+    .notif-day-btn.active {
+      background: var(--primary);
+      color: var(--primary-text);
+      border-color: var(--primary);
+    }
+
+    .note-bento-card {
+      border-radius: var(--radius-elem);
+      padding: 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--input-border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+    .note-bento-card:active { transform: scale(0.99); }
+    .note-card-header { display: flex; justify-content: space-between; align-items: center; }
+    .note-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .note-content-preview {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+      word-break: break-word;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    #fullscreenNoteModal {
+      z-index: 550;
+      background: var(--bg);
+      align-items: stretch;
+      justify-content: stretch;
+      padding: 0;
+    }
+    .fullscreen-note-view {
+      width: 100%; height: 100vh; height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: var(--bg);
+      overflow: hidden;
+    }
+    .fullscreen-note-nav {
+      position: sticky; top: 0;
+      z-index: 120;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 12px 12px 12px;
+      background: var(--bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--input-border);
+    }
+    .fullscreen-note-body {
+      flex: 1;
+      padding: 14px 18px calc(80px + env(safe-area-inset-bottom, 0px)) 18px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .fullscreen-note-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      width: 100%;
+      padding: 4px 0;
+      line-height: 1.25;
+    }
+    .fullscreen-note-title::placeholder { color: var(--text-muted); opacity: 0.6; }
+
+    .note-top-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card-bg);
+      border: 1px solid var(--input-border);
+      border-radius: var(--radius-pill);
+      padding: 4px 6px;
+      position: relative;
+      flex-shrink: 0;
+      width: 100%;
+      gap: 2px;
+    }
+
+    .tool-pill-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text);
+      height: 34px; width: 34px; min-width: 34px;
+      padding: 0;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+    .tool-pill-btn:active { transform: scale(0.92); background: var(--input-bg); }
+    .tool-pill-btn.active {
+      background: var(--primary) !important;
+      color: var(--primary-text) !important;
+      border-color: var(--primary) !important;
+    }
+    .tool-pill-btn svg {
+      width: 17px; height: 17px;
+      stroke: currentColor; fill: none;
+      stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .toolbar-divider {
+      width: 1px; height: 18px;
+      background: var(--input-border);
+      flex-shrink: 0;
+      margin: 0 1px;
+    }
+
+    .color-swatch-btn {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      background: var(--text);
+      cursor: pointer;
+      display: inline-block;
+      flex-shrink: 0;
+      transition: transform 0.15s ease;
+    }
+    .color-swatch-btn:active { transform: scale(0.88); }
+    .note-color-palette-popover {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px); left: 6px;
+      background: var(--card-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 16px;
+      padding: 8px 10px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+      z-index: 600;
+      gap: 8px;
+    }
+    .note-color-palette-popover.open { display: flex; }
+    .palette-dot {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.15s ease;
+      flex-shrink: 0;
+    }
+    .palette-dot:active { transform: scale(0.85); }
+
+    .fullscreen-note-editor {
+      flex: 1;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: var(--text);
+      outline: none;
+      word-break: break-word;
+      min-height: 50vh;
+      padding-top: 6px;
+      text-decoration-skip-ink: none;
+    }
+    .fullscreen-note-editor u {
+      text-decoration: underline;
+      text-decoration-skip-ink: none !important;
+      text-underline-offset: 3px;
+    }
+    .fullscreen-note-editor:empty:before {
+      content: attr(placeholder);
+      color: var(--text-muted);
+      opacity: 0.6;
+      pointer-events: none;
+      display: block;
+    }
+    .fullscreen-note-editor ul, .fullscreen-note-editor ol { padding-left: 22px; margin: 4px 0; }
+
+    .checklist-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 4px 0;
+      line-height: 1.5;
+    }
+    .checklist-box {
+      width: 20px; height: 20px; min-width: 20px;
+      border-radius: 6px;
+      border: 2px solid var(--primary);
+      background: transparent;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      margin-top: 2px;
+      user-select: none;
+      transition: all 0.15s ease;
+    }
+    .checklist-box.checked { background: var(--primary); }
+    .checklist-box svg {
+      width: 12px; height: 12px;
+      stroke: var(--primary-text); fill: none;
+      stroke-width: 3; stroke-linecap: round; stroke-linejoin: round;
+      display: none;
+    }
+    .checklist-box.checked svg { display: block; }
+    .checklist-text { flex: 1; outline: none; min-height: 24px; word-break: break-word; }
+    .checklist-text.checked { text-decoration: line-through; opacity: 0.6; }
+
+    .note-done-floating-btn {
+      position: absolute;
+      bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+      right: 20px;
+      background: var(--primary);
+      color: var(--primary-text);
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      padding: 12px 24px;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      cursor: pointer;
+      z-index: 560;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+    .note-done-floating-btn:active {
+      transform: scale(0.92);
+      background: var(--primary-hover);
+    }
+
+    .task-inline-link-wrapper { display: block; margin: 8px 0; clear: both; }
+    .task-inline-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(91, 159, 252, 0.15);
+      border: 1px solid var(--accent-blue);
+      border-radius: var(--radius-pill);
+      color: var(--accent-blue);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none !important;
+      cursor: pointer;
+      user-select: none;
+      vertical-align: middle;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+    }
+    .task-inline-link:hover { background: rgba(91, 159, 252, 0.28); }
+    .task-inline-link:active { transform: scale(0.96); }
+    .task-inline-link.task-done {
+      background: rgba(131, 136, 150, 0.15);
+      border-color: var(--text-muted);
+      color: var(--text-muted);
+      text-decoration: line-through !important;
+    }
+    .task-inline-link svg {
+      width: 14px; height: 14px;
+      stroke: currentColor; fill: none; stroke-width: 2.2;
+    }
+
+    #colorPickerModal { z-index: 2000 !important; }
+    .color-picker-box {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 20px;
+      padding: 14px;
+    }
+    .picker-surface-row { display: flex; gap: 14px; height: 180px; }
+    .picker-canvas-wrap {
+      flex: 1;
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: crosshair;
+      touch-action: none;
+    }
+    #pickerSatValCanvas { width: 100%; height: 100%; display: block; }
+    .picker-canvas-cursor {
+      position: absolute;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 4px rgba(0,0,0,0.7);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+    .picker-hue-wrap {
+      width: 22px; height: 100%;
+      position: relative;
+      border-radius: 12px;
+      cursor: pointer;
+      touch-action: none;
+      background: linear-gradient(to bottom, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%);
+    }
+    .picker-hue-thumb {
+      position: absolute; left: 50%;
+      width: 26px; height: 10px;
+      border-radius: 6px;
+      background: #ffffff;
+      border: 1.5px solid rgba(0,0,0,0.4);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+    .picker-footer-row { display: flex; align-items: center; gap: 10px; }
+    .picker-hex-input-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 10px;
+      padding: 0 10px;
+      height: 38px;
+    }
+    .picker-hex-input {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 0.85rem;
+      font-weight: 700;
+      width: 100%;
+      outline: none;
+      text-transform: uppercase;
+    }
+    .picker-preview-bubble {
+      width: 38px; height: 38px;
+      border-radius: 12px;
+      border: 1px solid var(--input-border);
+      flex-shrink: 0;
+    }
+    .picker-presets-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .picker-preset-dot {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: transform 0.15s ease;
+    }
+    .picker-preset-dot:active { transform: scale(0.88); }
   </style>
 </head>
 <body>
@@ -976,6 +1292,10 @@
       <button class="drawer-item" data-tab="pending">
         <svg viewBox="0 0 24 24"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path></svg>
         <span>Висящие задачи</span>
+      </button>
+      <button class="drawer-item" data-tab="notes">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        <span>Заметки и списки</span>
       </button>
       <button class="drawer-item" data-tab="events">
         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -1055,114 +1375,88 @@
     <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
   </button>
 
-  <div class="modal-backdrop" id="filterModal">
+  <div class="modal-backdrop" id="fullscreenNoteModal">
+    <div class="fullscreen-note-view">
+      <div class="fullscreen-note-nav">
+        <div class="header-left">
+          <button class="menu-trigger-btn" id="noteMenuBtn" title="Меню">
+            <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <h1 id="noteHeadingLogo" title="Master Schedule">Master Schedule</h1>
+        </div>
+        <div class="header-right">
+          <button class="header-btn" id="noteSettingsBtn" title="Настройки">
+            <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+          </button>
+          <button class="today-link" id="noteTodayNavBtn">Сегодня</button>
+        </div>
+      </div>
+
+      <div class="fullscreen-note-body">
+        <input type="text" class="fullscreen-note-title" id="fullscreenNoteTitleInput" placeholder="Название заметки..." />
+
+        <div class="note-top-toolbar" id="noteTopToolbar">
+          <div style="position:relative; display:flex; align-items:center;">
+            <button class="color-swatch-btn" id="openTextColorPaletteBtn" title="Выбрать цвет текста"></button>
+            <div class="note-color-palette-popover" id="noteColorPalettePopover">
+              <div class="palette-dot" data-color="#f4f5f8" style="background:#f4f5f8;" title="Стандартный"></div>
+              <div class="palette-dot" data-color="#cbf532" style="background:#cbf532;" title="Салатовый"></div>
+              <div class="palette-dot" data-color="#5b9ffc" style="background:#5b9ffc;" title="Синий"></div>
+              <div class="palette-dot" data-color="#a78bfa" style="background:#a78bfa;" title="Фиолетовый"></div>
+              <div class="palette-dot" data-color="#FF652F" style="background:#FF652F;" title="Оранжевый"></div>
+              <div class="palette-dot" data-color="#f472b6" style="background:#f472b6;" title="Розовый"></div>
+            </div>
+          </div>
+
+          <div class="toolbar-divider"></div>
+
+          <button class="tool-pill-btn" data-cmd="bold" title="Жирный"><b>B</b></button>
+          <button class="tool-pill-btn" data-cmd="italic" title="Курсив"><i>I</i></button>
+          <button class="tool-pill-btn" data-cmd="underline" title="Подчеркнутый"><u>U</u></button>
+          <button class="tool-pill-btn" data-cmd="strikeThrough" title="Зачеркнутый"><s>S</s></button>
+          
+          <div class="toolbar-divider"></div>
+
+          <button class="tool-pill-btn" id="btnInsertChecklist" title="Чеклист с галочками" style="color:var(--primary);">
+            <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+          </button>
+          <button class="tool-pill-btn" data-cmd="insertUnorderedList" title="Маркированный список" style="font-size:1.15rem; line-height:1;">•</button>
+          <button class="tool-pill-btn" data-cmd="insertOrderedList" title="Нумерованный список" style="font-size:0.8rem; font-weight:800;">1.</button>
+
+          <div class="toolbar-divider"></div>
+
+          <button class="tool-pill-btn" id="btnInsertTaskInline" title="Прикрепить задачу" style="color:var(--accent-blue);">
+            <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+          </button>
+        </div>
+
+        <div class="fullscreen-note-editor" id="fullscreenNoteEditorArea" contenteditable="true" placeholder="Начните писать заметку, список или прикрепите задачи..."></div>
+      </div>
+
+      <button class="note-done-floating-btn" id="saveFullscreenNoteBtn">Готово</button>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="insertTaskModal" style="z-index:750;">
     <div class="modal-sheet">
       <div class="modal-sheet-header">
-        <h2 id="filterModalTitle">Фильтр</h2>
-        <button class="modal-close-x" id="closeFilterXBtn">&times;</button>
+        <h2>Прикрепить задачу в текст</h2>
+        <button class="modal-close-x" id="closeInsertTaskXBtn">&times;</button>
       </div>
       <div class="modal-sheet-body">
-        <div id="allTasksFiltersBox" style="display:none; flex-direction:column; gap:12px;">
-          <div class="field-group">
-            <label>Период</label>
-            <select class="form-ctrl" id="filterPeriod">
-              <option value="all">Все даты</option>
-              <option value="today">Сегодня</option>
-              <option value="upcoming">Предстоящие</option>
-              <option value="past">Прошедшие</option>
-              <option value="this_week">Текущая неделя (Пн–Вс)</option>
-              <option value="next_week">Следующая неделя (Пн–Вс)</option>
-              <option value="this_month">Текущий месяц</option>
-              <option value="next_month">Следующий месяц</option>
-              <option value="custom">Свой период...</option>
-            </select>
-          </div>
-          <div class="form-row" id="customDateRangeRow" style="display:none;">
-            <div class="field-group">
-              <label>С даты</label>
-              <input type="date" class="form-ctrl" id="filterCustomStartDate" />
-            </div>
-            <div class="field-group">
-              <label>По дату</label>
-              <input type="date" class="form-ctrl" id="filterCustomEndDate" />
-            </div>
-          </div>
-          <div class="field-group">
-            <label>Статусы</label>
-            <div class="filter-chips-grid" id="statusChipsGrid">
-              <button class="multi-chip-btn" data-status="active">Активные</button>
-              <button class="multi-chip-btn" data-status="completed">Выполненные</button>
-              <button class="multi-chip-btn" data-status="overdue">Просроченные</button>
-            </div>
-          </div>
-          <div class="field-group">
-            <label>Теги</label>
-            <div class="filter-chips-grid" id="taskTagsChipsGrid"></div>
-          </div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <p style="font-size:0.85rem; color:var(--text-muted);">Выберите задачу из календаря или висящих:</p>
+          <button class="modal-btn btn-cancel" id="btnQuickCreateTaskForNote" style="padding:6px 12px; font-size:0.8rem;">+ Новая задача</button>
         </div>
-
-        <div id="pendingFiltersBox" style="display:none; flex-direction:column; gap:12px;">
-          <div class="field-group">
-            <label>Время выполнения</label>
-            <select class="form-ctrl" id="pendingDurationFilter">
-              <option value="all">Любое время</option>
-              <option value="quick">До 30 мин</option>
-              <option value="medium">30 мин – 2 часа</option>
-              <option value="long">Более 2 часов</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label>Теги</label>
-            <div class="filter-chips-grid" id="pendingTagsChipsGrid"></div>
-          </div>
-        </div>
-
-        <div id="eventsFiltersBox" style="display:none; flex-direction:column; gap:12px;">
-          <div class="field-group">
-            <label>Период</label>
-            <select class="form-ctrl" id="eventsPeriodFilter">
-              <option value="all">Все даты</option>
-              <option value="this_week">Текущая неделя (Пн–Вс)</option>
-              <option value="next_week">Следующая неделя (Пн–Вс)</option>
-              <option value="this_month">Текущий месяц</option>
-              <option value="next_month">Следующий месяц</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label>Типы событий</label>
-            <div class="filter-chips-grid" id="eventTypesChipsGrid">
-              <button class="multi-chip-btn" data-eventtype="birthday">День рождения</button>
-              <button class="multi-chip-btn" data-eventtype="holiday">Праздник</button>
-              <button class="multi-chip-btn" data-eventtype="important">Важное событие</button>
-            </div>
-          </div>
-        </div>
+        <div id="insertTaskModalList" style="display:flex; flex-direction:column; gap:8px;"></div>
       </div>
       <div class="modal-sheet-footer">
-        <button class="modal-btn btn-save" style="width:100%;" id="applyFilterBtn">Применить</button>
+        <button class="modal-btn btn-cancel" style="width:100%;" id="closeInsertTaskBtn">Отмена</button>
       </div>
     </div>
   </div>
 
-  <div class="modal-backdrop" id="sortModal">
-    <div class="modal-sheet">
-      <div class="modal-sheet-header">
-        <h2>Сортировка</h2>
-        <button class="modal-close-x" id="closeSortXBtn">&times;</button>
-      </div>
-      <div class="modal-sheet-body">
-        <div class="field-group">
-          <label>Порядок отображения</label>
-          <select class="form-ctrl" id="activeSortSelect"></select>
-        </div>
-      </div>
-      <div class="modal-sheet-footer">
-        <button class="modal-btn btn-save" style="width:100%;" id="applySortBtn">Готово</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-backdrop" id="entryModal">
+  <div class="modal-backdrop" id="entryModal" style="z-index:800;">
     <div class="modal-sheet">
       <div class="modal-sheet-header">
         <h2 id="modalSheetHeading">Новая запись</h2>
@@ -1259,6 +1553,15 @@
           <select class="form-ctrl" id="entryCategorySelect"></select>
         </div>
 
+        <div class="field-group" id="noteAttachmentFieldGroup">
+          <label>Прикрепленная заметка</label>
+          <div style="display:flex; gap:8px;">
+            <select class="form-ctrl" id="entryAttachedNoteSelect" style="flex:1;">
+              <option value="">Без заметки</option>
+            </select>
+          </div>
+        </div>
+
         <div class="switch-row" id="repeatSwitchRow">
           <span class="switch-label">Повторять каждый год</span>
           <label class="switch">
@@ -1277,6 +1580,109 @@
           <button class="modal-btn btn-cancel" id="closeEntryModalBtn">Отмена</button>
           <button class="modal-btn btn-save" id="saveEntryBtn">Сохранить</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="filterModal">
+    <div class="modal-sheet">
+      <div class="modal-sheet-header">
+        <h2 id="filterModalTitle">Фильтр</h2>
+        <button class="modal-close-x" id="closeFilterXBtn">&times;</button>
+      </div>
+      <div class="modal-sheet-body">
+        <div id="allTasksFiltersBox" style="display:none; flex-direction:column; gap:12px;">
+          <div class="field-group">
+            <label>Период</label>
+            <select class="form-ctrl" id="filterPeriod">
+              <option value="all">Все даты</option>
+              <option value="today">Сегодня</option>
+              <option value="upcoming">Предстоящие</option>
+              <option value="past">Прошедшие</option>
+              <option value="this_week">Текущая неделя (Пн–Вс)</option>
+              <option value="next_week">Следующая неделя (Пн–Вс)</option>
+              <option value="this_month">Текущий месяц</option>
+              <option value="next_month">Следующий месяц</option>
+              <option value="custom">Свой период...</option>
+            </select>
+          </div>
+          <div class="form-row" id="customDateRangeRow" style="display:none;">
+            <div class="field-group">
+              <label>С даты</label>
+              <input type="date" class="form-ctrl" id="filterCustomStartDate" />
+            </div>
+            <div class="field-group">
+              <label>По дату</label>
+              <input type="date" class="form-ctrl" id="filterCustomEndDate" />
+            </div>
+          </div>
+          <div class="field-group">
+            <label>Статусы</label>
+            <div class="filter-chips-grid" id="statusChipsGrid">
+              <button class="multi-chip-btn" data-status="active">Активные</button>
+              <button class="multi-chip-btn" data-status="completed">Выполненные</button>
+              <button class="multi-chip-btn" data-status="overdue">Просроченные</button>
+            </div>
+          </div>
+          <div class="field-group">
+            <label>Теги</label>
+            <div class="filter-chips-grid" id="taskTagsChipsGrid"></div>
+          </div>
+        </div>
+
+        <div id="pendingFiltersBox" style="display:none; flex-direction:column; gap:12px;">
+          <div class="field-group">
+            <label>Время выполнения</label>
+            <select class="form-ctrl" id="pendingDurationFilter">
+              <option value="all">Любое время</option>
+              <option value="quick">До 30 мин</option>
+              <option value="medium">30 мин – 2 часа</option>
+              <option value="long">Более 2 часов</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label>Теги</label>
+            <div class="filter-chips-grid" id="pendingTagsChipsGrid"></div>
+          </div>
+        </div>
+
+        <div id="eventsFiltersBox" style="display:none; flex-direction:column; gap:12px;">
+          <div class="field-group">
+            <label>Период</label>
+            <select class="form-ctrl" id="eventsPeriodFilter">
+              <option value="all">Все даты</option>
+              <option value="this_week">Текущая неделя (Пн–Вс)</option>
+              <option value="next_week">Следующая неделя (Пн–Вс)</option>
+              <option value="this_month">Текущий месяц</option>
+              <option value="next_month">Следующий месяц</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label>Типы событий</label>
+            <div class="filter-chips-grid" id="eventTypesChipsGrid"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-sheet-footer">
+        <button class="modal-btn btn-save" style="width:100%;" id="applyFilterBtn">Применить</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="sortModal">
+    <div class="modal-sheet">
+      <div class="modal-sheet-header">
+        <h2>Сортировка</h2>
+        <button class="modal-close-x" id="closeSortXBtn">&times;</button>
+      </div>
+      <div class="modal-sheet-body">
+        <div class="field-group">
+          <label>Порядок отображения</label>
+          <select class="form-ctrl" id="activeSortSelect"></select>
+        </div>
+      </div>
+      <div class="modal-sheet-footer">
+        <button class="modal-btn btn-save" style="width:100%;" id="applySortBtn">Готово</button>
       </div>
     </div>
   </div>
@@ -1398,89 +1804,205 @@
         <button class="modal-close-x" id="closeSettingsXBtn">&times;</button>
       </div>
       <div class="modal-sheet-body">
-        <div class="field-group">
-          <label>Тема оформления</label>
-          <select class="form-ctrl" id="themeSelect">
-            <option value="dark">Тёмная</option>
-            <option value="light">Светлая</option>
-          </select>
+        <div class="subtabs-bar" style="margin-bottom:12px;">
+          <button class="subtab-btn active" id="stTabGeneral">Общие</button>
+          <button class="subtab-btn" id="stTabTags">Теги</button>
+          <button class="subtab-btn" id="stTabData">Данные</button>
+          <button class="subtab-btn" id="stTabNotif">Уведомления</button>
         </div>
 
-        <div class="settings-section-title" style="font-size:0.82rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase; margin-top:6px;">Уведомления</div>
-        
-        <div style="background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; padding:10px; display:flex; flex-direction:column; gap:8px;">
-          <div class="switch-row">
-            <span class="switch-label">Задачи на сегодня</span>
-            <label class="switch">
-              <input type="checkbox" id="notifTodayEnabled" />
-              <span class="slider"></span>
-            </label>
-          </div>
+        <div id="settingsSectionGeneral" style="display:flex; flex-direction:column; gap:14px;">
           <div class="field-group">
-            <input type="time" class="form-ctrl" id="notifTodayTime" value="09:00" />
-          </div>
-        </div>
-
-        <div style="background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; padding:10px; display:flex; flex-direction:column; gap:8px;">
-          <div class="switch-row">
-            <span class="switch-label">Задачи на завтра</span>
-            <label class="switch">
-              <input type="checkbox" id="notifTomorrowEnabled" />
-              <span class="slider"></span>
-            </label>
-          </div>
-          <div class="field-group">
-            <input type="time" class="form-ctrl" id="notifTomorrowTime" value="20:00" />
-          </div>
-        </div>
-
-        <div style="background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; padding:10px; display:flex; flex-direction:column; gap:8px;">
-          <div class="switch-row">
-            <span class="switch-label">Планы на выходные (в пятницу)</span>
-            <label class="switch">
-              <input type="checkbox" id="notifWeekendEnabled" />
-              <span class="slider"></span>
-            </label>
-          </div>
-          <div class="field-group">
-            <input type="time" class="form-ctrl" id="notifWeekendTime" value="18:00" />
-          </div>
-        </div>
-
-        <div class="settings-section-title" style="font-size:0.82rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase; margin-top:6px;">Автобэкап в Telegram</div>
-        <div style="background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; padding:10px; display:flex; flex-direction:column; gap:8px;">
-          <div class="field-group">
-            <label>Telegram Bot Token</label>
-            <input type="password" class="form-ctrl" id="tgBotToken" placeholder="123456789:ABCdefGHIjkl..." />
-          </div>
-          <div class="field-group">
-            <label>Telegram Chat ID</label>
-            <input type="text" class="form-ctrl" id="tgChatId" placeholder="Например: 987654321" />
-          </div>
-          <div class="field-group">
-            <label>Периодичность автобэкапа</label>
-            <select class="form-ctrl" id="tgBackupInterval">
-              <option value="disabled">Отключено</option>
-              <option value="daily">Раз в сутки</option>
-              <option value="3days">Каждые 3 дня</option>
-              <option value="weekly">Раз в неделю</option>
-              <option value="on_change">При каждом изменении</option>
+            <label>Тема оформления</label>
+            <select class="form-ctrl" id="themeSelect">
+              <option value="dark">Тёмная</option>
+              <option value="light">Светлая</option>
             </select>
           </div>
-          <button class="modal-btn btn-cancel" id="sendTgBackupBtn" style="margin-top:4px;">Отправить копию в Telegram сейчас</button>
         </div>
 
-        <div class="settings-section-title" style="font-size:0.82rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase; margin-top:6px;">Локальная резервная копия</div>
-        <div style="display:flex; gap:10px;">
-          <button class="modal-btn btn-cancel" style="flex:1;" id="backupExportBtn">Скачать копию</button>
-          <label class="modal-btn btn-cancel" style="flex:1; text-align:center; cursor:pointer;">
-            Загрузить копию
-            <input type="file" id="backupImportInput" accept=".json" style="display:none;" />
-          </label>
+        <div id="settingsSectionTags" style="display:none; flex-direction:column; gap:14px;">
+          <div style="font-size:0.8rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase;">Категории задач</div>
+          <div id="taskTagsEditorList" style="display:flex; flex-direction:column; gap:8px;"></div>
+          <button class="modal-btn btn-cancel" id="addNewTaskTagBtn" style="font-size:0.85rem; padding:10px;">+ Добавить категорию задачи</button>
+
+          <div style="font-size:0.8rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase; margin-top:8px;">Типы событий</div>
+          <div id="eventTagsEditorList" style="display:flex; flex-direction:column; gap:8px;"></div>
+          <button class="modal-btn btn-cancel" id="addNewEventTagBtn" style="font-size:0.85rem; padding:10px;">+ Добавить тип события</button>
         </div>
+
+        <div id="settingsSectionData" style="display:none; flex-direction:column; gap:14px;">
+          <div style="font-size:0.8rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase;">Автобэкап в Telegram</div>
+          <div style="background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; padding:10px; display:flex; flex-direction:column; gap:8px;">
+            <div class="field-group">
+              <label>Telegram Bot Token (бэкап)</label>
+              <input type="password" class="form-ctrl" id="tgBotToken" placeholder="123456789:ABCdefGHI..." autocomplete="off" />
+            </div>
+            <div class="field-group">
+              <label>Telegram Chat ID</label>
+              <input type="text" class="form-ctrl" id="tgChatId" placeholder="Например: 987654321" autocomplete="off" />
+            </div>
+            <div style="display:flex; gap:8px; margin-top:2px;">
+              <button class="modal-btn btn-save" id="saveBackupBotCredsBtn" style="flex:1; padding:9px 12px; font-size:0.82rem;">Сохранить данные бота</button>
+            </div>
+            <div class="field-group" style="margin-top:4px;">
+              <label>Периодичность автобэкапа</label>
+              <select class="form-ctrl" id="tgBackupInterval">
+                <option value="disabled">Отключено</option>
+                <option value="daily">Раз в сутки</option>
+                <option value="3days">Каждые 3 дня</option>
+                <option value="weekly">Раз в неделю</option>
+                <option value="on_change">При каждом изменении</option>
+              </select>
+            </div>
+            <button class="modal-btn btn-cancel" id="sendTgBackupBtn" style="margin-top:4px;">Отправить копию в Telegram сейчас</button>
+          </div>
+
+          <div style="font-size:0.8rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase; margin-top:4px;">Локальная копия файла</div>
+          <div style="display:flex; gap:10px;">
+            <button class="modal-btn btn-cancel" style="flex:1;" id="backupExportBtn">Скачать копию</button>
+            <label class="modal-btn btn-cancel" style="flex:1; text-align:center; cursor:pointer;">
+              Загрузить копию
+              <input type="file" id="backupImportInput" accept=".json" style="display:none;" />
+            </label>
+          </div>
+        </div>
+
+        <div id="settingsSectionNotif" style="display:none; flex-direction:column; gap:14px;">
+          <div style="font-size:0.8rem; font-weight:700; color:var(--accent-blue); text-transform:uppercase;">Бот для напоминаний в Telegram</div>
+          <div style="background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; padding:10px; display:flex; flex-direction:column; gap:8px;">
+            <div class="field-group">
+              <label>Telegram Bot Token (напоминания)</label>
+              <input type="password" class="form-ctrl" id="notifTgBotToken" placeholder="Токен отдельного бота..." autocomplete="off" />
+            </div>
+            <div class="field-group">
+              <label>Telegram Chat ID</label>
+              <input type="text" class="form-ctrl" id="notifTgChatId" placeholder="Ваш ID чата..." autocomplete="off" />
+            </div>
+            <div style="display:flex; gap:8px; margin-top:2px;">
+              <button class="modal-btn btn-save" id="saveNotifBotCredsBtn" style="flex:1; padding:9px 12px; font-size:0.82rem;">Сохранить данные бота</button>
+              <button class="modal-btn btn-cancel" id="testNotifTgBtn" style="flex:1; padding:9px 12px; font-size:0.82rem;">Тест сообщения</button>
+            </div>
+          </div>
+
+          <div style="background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px;">
+            <div class="switch-row">
+              <span class="switch-label">Дела на сегодня</span>
+              <label class="switch">
+                <input type="checkbox" id="notifTodayEnabled" />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="field-group">
+              <label>Время отправки</label>
+              <input type="time" class="form-ctrl" id="notifTodayTime" value="09:00" />
+            </div>
+            <div class="field-group">
+              <label>Дни недели</label>
+              <div class="notif-days-picker" id="notifTodayDaysPicker">
+                <div class="notif-day-btn" data-day="1">Пн</div>
+                <div class="notif-day-btn" data-day="2">Вт</div>
+                <div class="notif-day-btn" data-day="3">Ср</div>
+                <div class="notif-day-btn" data-day="4">Чт</div>
+                <div class="notif-day-btn" data-day="5">Пт</div>
+                <div class="notif-day-btn" data-day="6">Сб</div>
+                <div class="notif-day-btn" data-day="0">Вс</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px;">
+            <div class="switch-row">
+              <span class="switch-label">Дела на завтра</span>
+              <label class="switch">
+                <input type="checkbox" id="notifTomorrowEnabled" />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="field-group">
+              <label>Время отправки</label>
+              <input type="time" class="form-ctrl" id="notifTomorrowTime" value="20:00" />
+            </div>
+            <div class="field-group">
+              <label>Дни недели</label>
+              <div class="notif-days-picker" id="notifTomorrowDaysPicker">
+                <div class="notif-day-btn" data-day="1">Пн</div>
+                <div class="notif-day-btn" data-day="2">Вт</div>
+                <div class="notif-day-btn" data-day="3">Ср</div>
+                <div class="notif-day-btn" data-day="4">Чт</div>
+                <div class="notif-day-btn" data-day="5">Пт</div>
+                <div class="notif-day-btn" data-day="6">Сб</div>
+                <div class="notif-day-btn" data-day="0">Вс</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px;">
+            <div class="switch-row">
+              <span class="switch-label">Планы на выходные</span>
+              <label class="switch">
+                <input type="checkbox" id="notifWeekendEnabled" />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="field-group">
+              <label>Время отправки</label>
+              <input type="time" class="form-ctrl" id="notifWeekendTime" value="18:00" />
+            </div>
+            <div class="field-group">
+              <label>Дни недели</label>
+              <div class="notif-days-picker" id="notifWeekendDaysPicker">
+                <div class="notif-day-btn" data-day="1">Пн</div>
+                <div class="notif-day-btn" data-day="2">Вт</div>
+                <div class="notif-day-btn" data-day="3">Ср</div>
+                <div class="notif-day-btn" data-day="4">Чт</div>
+                <div class="notif-day-btn" data-day="5">Пт</div>
+                <div class="notif-day-btn" data-day="6">Сб</div>
+                <div class="notif-day-btn" data-day="0">Вс</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
       <div class="modal-sheet-footer">
         <button class="modal-btn btn-save" style="width:100%;" id="closeSettingsBtn">Готово</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="colorPickerModal">
+    <div class="modal-sheet" style="max-width:360px;">
+      <div class="modal-sheet-header">
+        <h2>Выбор цвета</h2>
+        <button class="modal-close-x" id="closeColorPickerXBtn">&times;</button>
+      </div>
+      <div class="modal-sheet-body">
+        <div class="color-picker-box">
+          <div class="picker-surface-row">
+            <div class="picker-canvas-wrap" id="pickerSatValWrap">
+              <canvas id="pickerSatValCanvas" width="240" height="180"></canvas>
+              <div class="picker-canvas-cursor" id="pickerSatValCursor"></div>
+            </div>
+            <div class="picker-hue-wrap" id="pickerHueWrap">
+              <div class="picker-hue-thumb" id="pickerHueThumb"></div>
+            </div>
+          </div>
+          <div class="picker-footer-row">
+            <div class="picker-hex-input-wrap">
+              <span style="font-size:0.85rem; font-weight:700; color:var(--text-muted); margin-right:4px;">#</span>
+              <input type="text" class="picker-hex-input" id="pickerHexInput" maxlength="6" />
+            </div>
+            <div class="picker-preview-bubble" id="pickerPreviewBubble"></div>
+          </div>
+          <div class="picker-presets-grid" id="pickerPresetsGrid"></div>
+        </div>
+      </div>
+      <div class="modal-sheet-footer">
+        <div class="modal-actions">
+          <button class="modal-btn btn-cancel" id="cancelColorPickerBtn">Отмена</button>
+          <button class="modal-btn btn-save" id="applyColorPickerBtn">Выбрать</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1495,36 +2017,83 @@
       { bgDark: '#2a2410', borderDark: '#facc15', colorDark: '#facc15', bgLight: '#fef9c3', borderLight: '#facc15', colorLight: '#854d0e', darkText: true }
     ];
 
+    const DEFAULT_TASK_TAGS = {
+      work: { label: 'Работа', color: '#5b9ffc' },
+      home: { label: 'Дом', color: '#cbf532' },
+      hobby: { label: 'Хобби', color: '#a78bfa' },
+      meeting: { label: 'Встречи', color: '#FF652F' },
+      procedure: { label: 'Процедуры', color: '#f472b6' },
+      rest: { label: 'Отдых', color: '#fbbf24' },
+      other: { label: 'Прочее', color: '#94a3b8' }
+    };
+
+    const DEFAULT_EVENT_TAGS = {
+      birthday: { label: 'День рождения', color: '#EF3838' },
+      holiday: { label: 'Праздник', color: '#FF652F' },
+      important: { label: 'Важное событие', color: '#a855f7' }
+    };
+
+    const PRESET_PALETTE = [
+      '#EF3838', '#FF652F', '#facc15', '#22c55e',
+      '#5b9ffc', '#a855f7', '#f472b6', '#94a3b8',
+      '#dc2626', '#ea580c', '#ca8a04', '#16a34a',
+      '#2563eb', '#9333ea', '#db2777', '#475569'
+    ];
+
+    let customTaskTags = JSON.parse(localStorage.getItem('master_schedule_task_tags') || 'null') || DEFAULT_TASK_TAGS;
+    let customEventTags = JSON.parse(localStorage.getItem('master_schedule_event_tags') || 'null') || DEFAULT_EVENT_TAGS;
+
+    function hexToRgba(hex, alpha) {
+      hex = (hex || '#888888').replace('#', '');
+      if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+      const num = parseInt(hex, 16);
+      return `rgba(${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255}, ${alpha})`;
+    }
+
+    function isLightColor(hex) {
+      hex = (hex || '#ffffff').replace('#', '');
+      if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+      const num = parseInt(hex, 16);
+      return (((num >> 16) & 255) * 299 + ((num >> 8) & 255) * 587 + (num & 255) * 114) / 1000 > 155;
+    }
+
+    function hsvToRgb(h, s, v) {
+      let f = (n, k = (n + h / 60) % 6) => v - v * s * Math.max(Math.min(k, 4 - k, 1), 0);
+      return [Math.round(f(5) * 255), Math.round(f(3) * 255), Math.round(f(1) * 255)];
+    }
+
+    function rgbToHex(r, g, b) {
+      return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
+    }
+
+    function hexToHsv(hex) {
+      hex = (hex || '#5b9ffc').replace('#', '');
+      if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+      const num = parseInt(hex, 16);
+      let r = ((num >> 16) & 255) / 255, g = ((num >> 8) & 255) / 255, b = (num & 255) / 255;
+      let max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;
+      let h = 0, s = max === 0 ? 0 : d / max, v = max;
+      if (max !== min) {
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      return { h: Math.round(h * 360), s, v };
+    }
+
     function getThemeColors() {
       const isLight = document.body.classList.contains('light-theme');
-      return {
-        taskTags: {
-          work: { label: 'Работа', color: isLight ? '#2563eb' : '#5b9ffc', bg: isLight ? '#eff6ff' : '#0f1f38' },
-          home: { label: 'Дом', color: isLight ? '#16a34a' : '#cbf532', bg: isLight ? '#f0fdf4' : '#1e2810', darkText: !isLight },
-          hobby: { label: 'Хобби', color: isLight ? '#8b5cf6' : '#a78bfa', bg: isLight ? '#f5f3ff' : '#231834' },
-          meeting: { label: 'Встречи', color: isLight ? '#c2410c' : '#FF652F', bg: isLight ? '#fff7ed' : '#341B12' },
-          procedure: { label: 'Процедуры', color: isLight ? '#db2777' : '#f472b6', bg: isLight ? '#fdf2f8' : '#2b1424' },
-          rest: { label: 'Отдых', color: isLight ? '#d97706' : '#fbbf24', bg: isLight ? '#fffbeb' : '#2a2410', darkText: !isLight },
-          other: { label: 'Прочее', color: isLight ? '#64748b' : '#94a3b8', bg: isLight ? '#f8fafc' : '#181b22' }
-        },
-        eventTags: {
-          birthday: { 
-            label: 'День рождения', 
-            color: isLight ? '#DC2626' : '#EF3838', 
-            bg: isLight ? '#fee2e2' : '#321315' 
-          },
-          holiday: { 
-            label: 'Праздник', 
-            color: isLight ? '#EA580C' : '#FF652F', 
-            bg: isLight ? '#ffedd5' : '#341B12' 
-          },
-          important: { 
-            label: 'Важное событие', 
-            color: isLight ? '#9333ea' : '#a855f7', 
-            bg: isLight ? '#f3e8ff' : '#261338' 
-          }
-        }
-      };
+      const compiledTask = {}, compiledEvent = {};
+      for (const [k, v] of Object.entries(customTaskTags)) {
+        compiledTask[k] = { label: v.label, color: v.color, bg: hexToRgba(v.color, isLight ? 0.12 : 0.16), darkText: isLightColor(v.color) };
+      }
+      for (const [k, v] of Object.entries(customEventTags)) {
+        compiledEvent[k] = { label: v.label, color: v.color, bg: hexToRgba(v.color, isLight ? 0.12 : 0.16), darkText: isLightColor(v.color) };
+      }
+      return { taskTags: compiledTask, eventTags: compiledEvent };
     }
 
     function getHabitStyle(index) {
@@ -1539,7 +2108,6 @@
 
     let activeTab = 'today';
     let habitSubTab = 'daily';
-
     let habitOffsetWeeks = 0;
     let habitOffsetMonths = 0;
 
@@ -1548,9 +2116,9 @@
     let selectedMinutesVal = 30;
 
     let editingId = null;
+    let editingNoteId = null;
     let itemPendingDeletion = null;
     let datePendingDeletion = null;
-
     let onConfirmCallback = null;
 
     let allTasksFilter = { period: 'all', startDate: '', endDate: '', statuses: [], tags: [] };
@@ -1565,47 +2133,33 @@
 
     let entries = JSON.parse(localStorage.getItem('master_schedule_data') || '[]');
     let habits = JSON.parse(localStorage.getItem('master_schedule_habits') || '[]');
+    let notes = JSON.parse(localStorage.getItem('master_schedule_notes') || '[]');
     let trashItems = JSON.parse(localStorage.getItem('master_schedule_trash') || '[]');
 
     let settings = JSON.parse(localStorage.getItem('master_schedule_settings') || JSON.stringify({
       theme: 'dark',
-      notifToday: false, todayTime: '09:00',
-      notifTomorrow: false, tomorrowTime: '20:00',
-      notifWeekend: false, weekendTime: '18:00',
-      tgBotToken: '',
-      tgChatId: '',
-      tgBackupInterval: 'daily'
+      tgBotToken: '', tgChatId: '', tgBackupInterval: 'daily',
+      notifTgBotToken: '', notifTgChatId: '',
+      notifToday: false, notifTodayTime: '09:00', notifTodayDays: [1, 2, 3, 4, 5, 6, 0],
+      notifTomorrow: false, notifTomorrowTime: '20:00', notifTomorrowDays: [1, 2, 3, 4, 5, 6, 0],
+      notifWeekend: false, notifWeekendTime: '18:00', notifWeekendDays: [5]
     }));
+
+    settings.notifTodayDays = Array.isArray(settings.notifTodayDays) ? settings.notifTodayDays : [1, 2, 3, 4, 5, 6, 0];
+    settings.notifTomorrowDays = Array.isArray(settings.notifTomorrowDays) ? settings.notifTomorrowDays : [1, 2, 3, 4, 5, 6, 0];
+    settings.notifWeekendDays = Array.isArray(settings.notifWeekendDays) ? settings.notifWeekendDays : [5];
 
     function syncBodyModalState() {
       const anyModalOpen = document.querySelectorAll('.modal-backdrop[style*="display: flex"], .drawer-backdrop.active').length > 0;
-      if (anyModalOpen) {
-        document.body.classList.add('modal-open');
-      } else {
-        document.body.classList.remove('modal-open');
-      }
+      document.body.classList.toggle('modal-open', anyModalOpen);
     }
 
-    function showModal(el) {
-      el.style.display = 'flex';
-      syncBodyModalState();
-    }
+    function showModal(el) { el.style.display = 'flex'; syncBodyModalState(); }
+    function hideModal(el) { el.style.display = 'none'; syncBodyModalState(); }
 
-    function hideModal(el) {
-      el.style.display = 'none';
-      syncBodyModalState();
+    if (navigator.storage && navigator.storage.persist) {
+      navigator.storage.persist().catch(e => console.warn('Storage persistence failed:', e));
     }
-
-    async function requestPersistentStorage() {
-      if (navigator.storage && navigator.storage.persist) {
-        try {
-          await navigator.storage.persist();
-        } catch (e) {
-          console.warn('Storage persistence request failed:', e);
-        }
-      }
-    }
-    requestPersistentStorage();
 
     function cleanupTrash() {
       const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
@@ -1615,8 +2169,7 @@
     cleanupTrash();
 
     function applyTheme(theme) {
-      if (theme === 'light') document.body.classList.add('light-theme');
-      else document.body.classList.remove('light-theme');
+      document.body.classList.toggle('light-theme', theme === 'light');
       initFilterChips();
       renderCalendar();
       renderItems();
@@ -1626,47 +2179,28 @@
     function triggerOnChangeBackup() {
       if (settings.tgBackupInterval === 'on_change') {
         clearTimeout(tgDebounceTimer);
-        tgDebounceTimer = setTimeout(() => {
-          sendBackupToTelegram(true);
-        }, 5000);
+        tgDebounceTimer = setTimeout(() => sendBackupToTelegram(true), 5000);
       }
     }
 
-    function saveEntries() {
-      localStorage.setItem('master_schedule_data', JSON.stringify(entries));
-      renderCalendar();
-      renderItems();
-      triggerOnChangeBackup();
-    }
-    function saveHabits() {
-      localStorage.setItem('master_schedule_habits', JSON.stringify(habits));
-      renderItems();
-      triggerOnChangeBackup();
-    }
-    function saveTrash() {
-      localStorage.setItem('master_schedule_trash', JSON.stringify(trashItems));
-      renderItems();
-      triggerOnChangeBackup();
-    }
-    function saveSettings() {
-      localStorage.setItem('master_schedule_settings', JSON.stringify(settings));
+    function saveEntries() { localStorage.setItem('master_schedule_data', JSON.stringify(entries)); renderCalendar(); renderItems(); triggerOnChangeBackup(); }
+    function saveHabits() { localStorage.setItem('master_schedule_habits', JSON.stringify(habits)); renderItems(); triggerOnChangeBackup(); }
+    function saveNotes() { localStorage.setItem('master_schedule_notes', JSON.stringify(notes)); renderItems(); triggerOnChangeBackup(); }
+    function saveTrash() { localStorage.setItem('master_schedule_trash', JSON.stringify(trashItems)); renderItems(); triggerOnChangeBackup(); }
+    function saveSettings() { localStorage.setItem('master_schedule_settings', JSON.stringify(settings)); }
+    function saveCustomTags() {
+      localStorage.setItem('master_schedule_task_tags', JSON.stringify(customTaskTags));
+      localStorage.setItem('master_schedule_event_tags', JSON.stringify(customEventTags));
+      initFilterChips(); renderCalendar(); renderItems(); triggerOnChangeBackup();
     }
 
     function moveToTrash(type, item) {
-      trashItems.push({
-        trashId: generateUniqueId(),
-        deletedAt: Date.now(),
-        originalType: type,
-        data: item
-      });
+      trashItems.push({ trashId: generateUniqueId(), deletedAt: Date.now(), originalType: type, data: item });
       saveTrash();
     }
 
     function formatDateKey(date) {
-      const y = date.getFullYear();
-      const m = String(date.getMonth() + 1).padStart(2, '0');
-      const d = String(date.getDate()).padStart(2, '0');
-      return `${y}-${m}-${d}`;
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     }
 
     function parseDateKey(str) {
@@ -1676,57 +2210,46 @@
     }
 
     function formatShortDateKey(date) {
-      const m = String(date.getMonth() + 1).padStart(2, '0');
-      const d = String(date.getDate()).padStart(2, '0');
-      return `${m}-${d}`;
+      return `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     }
 
     function formatDisplayDate(dateStr) {
       if (!dateStr) return '';
       const parts = dateStr.split('-');
-      if (parts.length === 3) return `${parts[2]}.${parts[1]}.${parts[0]}`;
-      return dateStr;
+      return parts.length === 3 ? `${parts[2]}.${parts[1]}.${parts[0]}` : dateStr;
     }
 
     function matchesPeriodFilter(dateKey, period, customStart, customEnd) {
-      const now = new Date();
-      const todayStr = formatDateKey(now);
-
+      const now = new Date(), todayStr = formatDateKey(now);
       if (period === 'all') return true;
       if (period === 'today') return dateKey === todayStr;
       if (period === 'upcoming') return dateKey >= todayStr;
       if (period === 'past') return dateKey < todayStr;
-
       if (period === 'this_week') {
         const curDay = (now.getDay() + 6) % 7;
         const mon = new Date(now.getFullYear(), now.getMonth(), now.getDate() - curDay);
         const sun = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + 6);
         return dateKey >= formatDateKey(mon) && dateKey <= formatDateKey(sun);
       }
-
       if (period === 'next_week') {
         const curDay = (now.getDay() + 6) % 7;
         const nextMon = new Date(now.getFullYear(), now.getMonth(), now.getDate() - curDay + 7);
         const nextSun = new Date(nextMon.getFullYear(), nextMon.getMonth(), nextMon.getDate() + 6);
         return dateKey >= formatDateKey(nextMon) && dateKey <= formatDateKey(nextSun);
       }
-
       if (period === 'this_month') {
         const first = new Date(now.getFullYear(), now.getMonth(), 1);
         const last = new Date(now.getFullYear(), now.getMonth() + 1, 0);
         return dateKey >= formatDateKey(first) && dateKey <= formatDateKey(last);
       }
-
       if (period === 'next_month') {
         const first = new Date(now.getFullYear(), now.getMonth() + 1, 1);
         const last = new Date(now.getFullYear(), now.getMonth() + 2, 0);
         return dateKey >= formatDateKey(first) && dateKey <= formatDateKey(last);
       }
-
       if (period === 'custom') {
         if (customStart && dateKey < customStart) return false;
         if (customEnd && dateKey > customEnd) return false;
-        return true;
       }
       return true;
     }
@@ -1739,31 +2262,25 @@
       if (task.type !== 'task') return false;
       if (task.excludedDates && task.excludedDates.includes(dateKey)) return false;
       if (!task.isRecurring) return task.date === dateKey;
-
       if (dateKey < task.date) return false;
-      const targetDate = parseDateKey(dateKey);
-      const startDate = parseDateKey(task.date);
+      const targetDate = parseDateKey(dateKey), startDate = parseDateKey(task.date);
       const freq = task.recurringConfig?.frequency || 'weekly';
 
       if (freq === 'weekly') {
-        const diffDays = Math.round((targetDate - startDate) / (1000 * 60 * 60 * 24));
-        return diffDays % 7 === 0;
+        return Math.round((targetDate - startDate) / 86400000) % 7 === 0;
       } else if (freq === 'monthly') {
         return targetDate.getDate() === startDate.getDate();
       } else if (freq === 'interval_weeks') {
         const n = parseInt(task.recurringConfig?.intervalN, 10) || 2;
-        const diffDays = Math.round((targetDate - startDate) / (1000 * 60 * 60 * 24));
-        return (diffDays % (7 * n) === 0);
+        return Math.round((targetDate - startDate) / 86400000) % (7 * n) === 0;
       } else if (freq === 'weekdays') {
-        const days = task.recurringConfig?.weekdays || [];
-        return days.includes(targetDate.getDay());
+        return (task.recurringConfig?.weekdays || []).includes(targetDate.getDay());
       }
       return false;
     }
 
     function isTaskCompletedOnDate(task, dateKey) {
-      if (!task.isRecurring) return !!task.completed;
-      return !!(task.completedDates && task.completedDates.includes(dateKey));
+      return !task.isRecurring ? !!task.completed : !!(task.completedDates && task.completedDates.includes(dateKey));
     }
 
     function setTaskCompletedOnDate(task, dateKey, isDone) {
@@ -1771,11 +2288,8 @@
         task.completed = isDone;
       } else {
         task.completedDates = task.completedDates || [];
-        if (isDone && !task.completedDates.includes(dateKey)) {
-          task.completedDates.push(dateKey);
-        } else if (!isDone) {
-          task.completedDates = task.completedDates.filter(d => d !== dateKey);
-        }
+        if (isDone && !task.completedDates.includes(dateKey)) task.completedDates.push(dateKey);
+        else if (!isDone) task.completedDates = task.completedDates.filter(d => d !== dateKey);
       }
       saveEntries();
     }
@@ -1783,92 +2297,78 @@
     function getDaysUntilEvent(eventItem) {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-
       const parts = eventItem.date.split('-').map(Number);
       let target = new Date(parts[0], parts[1] - 1, parts[2], 0, 0, 0, 0);
 
       if (eventItem.isYearly) {
         target = new Date(today.getFullYear(), parts[1] - 1, parts[2], 0, 0, 0, 0);
-        if (target < today) {
-          target = new Date(today.getFullYear() + 1, parts[1] - 1, parts[2], 0, 0, 0, 0);
-        }
+        if (target < today) target = new Date(today.getFullYear() + 1, parts[1] - 1, parts[2], 0, 0, 0, 0);
       }
-
-      return Math.round((target - today) / (1000 * 60 * 60 * 24));
+      return Math.round((target - today) / 86400000);
     }
 
-    const monthNames = [
-      'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
-    ];
-    const monthNamesGenitive = [
-      'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
-      'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
-    ];
-    const weekDaysFull = [
-      'Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'
-    ];
+    const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+    const monthNamesGenitive = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+    const weekDaysFull = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
 
     function initFilterChips() {
-      const { taskTags } = getThemeColors();
+      const { taskTags, eventTags } = getThemeColors();
       const taskTagsContainer = document.getElementById('taskTagsChipsGrid');
       const pendingTagsContainer = document.getElementById('pendingTagsChipsGrid');
+      const eventTypesContainer = document.getElementById('eventTypesChipsGrid');
       const habitCatSelect = document.getElementById('habitCategorySelect');
 
       taskTagsContainer.innerHTML = '';
       pendingTagsContainer.innerHTML = '';
+      eventTypesContainer.innerHTML = '';
       habitCatSelect.innerHTML = '';
 
       for (const [k, v] of Object.entries(taskTags)) {
         const btn1 = document.createElement('button');
-        btn1.className = 'multi-chip-btn';
-        btn1.dataset.tag = k;
-        btn1.textContent = v.label;
+        btn1.className = `multi-chip-btn ${allTasksFilter.tags.includes(k) ? 'active' : ''}`;
+        btn1.dataset.tag = k; btn1.textContent = v.label;
         btn1.onclick = () => btn1.classList.toggle('active');
         taskTagsContainer.appendChild(btn1);
 
         const btn2 = document.createElement('button');
-        btn2.className = 'multi-chip-btn';
-        btn2.dataset.tag = k;
-        btn2.textContent = v.label;
+        btn2.className = `multi-chip-btn ${pendingFilter.tags.includes(k) ? 'active' : ''}`;
+        btn2.dataset.tag = k; btn2.textContent = v.label;
         btn2.onclick = () => btn2.classList.toggle('active');
         pendingTagsContainer.appendChild(btn2);
 
         const opt = document.createElement('option');
-        opt.value = k;
-        opt.textContent = v.label;
+        opt.value = k; opt.textContent = v.label;
         habitCatSelect.appendChild(opt);
       }
 
-      document.querySelectorAll('#statusChipsGrid .multi-chip-btn').forEach(btn => {
+      for (const [k, v] of Object.entries(eventTags)) {
+        const btn = document.createElement('button');
+        btn.className = `multi-chip-btn ${eventsFilter.types.includes(k) ? 'active' : ''}`;
+        btn.dataset.eventtype = k; btn.textContent = v.label;
         btn.onclick = () => btn.classList.toggle('active');
-      });
-      document.querySelectorAll('#eventTypesChipsGrid .multi-chip-btn').forEach(btn => {
+        eventTypesContainer.appendChild(btn);
+      }
+
+      document.querySelectorAll('#statusChipsGrid .multi-chip-btn').forEach(btn => {
         btn.onclick = () => btn.classList.toggle('active');
       });
     }
 
     const drawerPanel = document.getElementById('drawerPanel');
     const drawerBackdrop = document.getElementById('drawerBackdrop');
-    document.getElementById('openDrawerBtn').onclick = () => {
-      drawerBackdrop.classList.add('active');
-      drawerPanel.classList.add('active');
-      syncBodyModalState();
-    };
-    function closeDrawer() {
-      drawerBackdrop.classList.remove('active');
-      drawerPanel.classList.remove('active');
-      syncBodyModalState();
-    }
+    function openDrawer() { drawerBackdrop.classList.add('active'); drawerPanel.classList.add('active'); syncBodyModalState(); }
+    function closeDrawer() { drawerBackdrop.classList.remove('active'); drawerPanel.classList.remove('active'); syncBodyModalState(); }
+    
+    document.getElementById('openDrawerBtn').onclick = openDrawer;
+    document.getElementById('noteMenuBtn').onclick = () => { saveCurrentNoteData(); openDrawer(); };
     document.getElementById('closeDrawerXBtn').onclick = closeDrawer;
     drawerBackdrop.onclick = closeDrawer;
 
     document.querySelectorAll('.drawer-item[data-tab]').forEach(btn => {
       btn.onclick = () => {
         const tab = btn.dataset.tab;
-        if (tab === 'tasks') {
-          viewDate = new Date();
-        }
+        if (tab === 'tasks') viewDate = new Date();
+        if (fullscreenNoteModal.style.display === 'flex') hideModal(fullscreenNoteModal);
         setActiveTab(tab);
         closeDrawer();
       };
@@ -1876,21 +2376,22 @@
 
     function openCalendarSection() {
       viewDate = new Date();
+      if (fullscreenNoteModal.style.display === 'flex') { saveCurrentNoteData(); hideModal(fullscreenNoteModal); }
       setActiveTab('tasks');
       closeDrawer();
     }
     document.getElementById('screenHeading').onclick = openCalendarSection;
+    document.getElementById('noteHeadingLogo').onclick = openCalendarSection;
     document.getElementById('drawerHeadingLogo').onclick = openCalendarSection;
 
     document.getElementById('todayNavBtn').onclick = () => {
-      if (activeTab === 'today') {
-        viewDate = new Date();
-        setActiveTab('tasks');
-      } else {
-        selectedDate = new Date();
-        setActiveTab('today');
-      }
+      if (activeTab === 'today') { viewDate = new Date(); setActiveTab('tasks'); }
+      else { selectedDate = new Date(); setActiveTab('today'); }
       closeDrawer();
+    };
+    document.getElementById('noteTodayNavBtn').onclick = () => {
+      saveCurrentNoteData(); hideModal(fullscreenNoteModal);
+      selectedDate = new Date(); setActiveTab('today'); closeDrawer();
     };
 
     const calendarCard = document.getElementById('calendarCard');
@@ -1902,17 +2403,13 @@
 
     function setActiveTab(tab) {
       activeTab = tab;
-      document.querySelectorAll('.drawer-item[data-tab]').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.tab === tab);
-      });
+      document.querySelectorAll('.drawer-item[data-tab]').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tab));
 
       const todayNavBtn = document.getElementById('todayNavBtn');
-      if (todayNavBtn) {
-        todayNavBtn.textContent = (tab === 'today') ? 'Календарь' : 'Сегодня';
-      }
+      if (todayNavBtn) todayNavBtn.textContent = (tab === 'today') ? 'Календарь' : 'Сегодня';
 
       calendarCard.style.display = (tab === 'tasks') ? 'block' : 'none';
-      openAddModalBtn.style.display = (tab === 'today' || tab === 'tasks' || tab === 'all' || tab === 'pending' || tab === 'events' || tab === 'habits') ? 'grid' : 'none';
+      openAddModalBtn.style.display = ['today', 'tasks', 'all', 'pending', 'events', 'habits', 'notes'].includes(tab) ? 'grid' : 'none';
 
       renderSubtabs();
       if (tab === 'tasks') renderCalendar();
@@ -1938,14 +2435,11 @@
 
     function renderCalendar() {
       const { taskTags, eventTags } = getThemeColors();
-      const year = viewDate.getFullYear();
-      const month = viewDate.getMonth();
+      const year = viewDate.getFullYear(), month = viewDate.getMonth();
       document.getElementById('monthYearLabel').textContent = `${monthNames[month]} ${year}`;
 
-      const firstDay = new Date(year, month, 1);
-      const lastDay = new Date(year, month + 1, 0);
+      const firstDay = new Date(year, month, 1), lastDay = new Date(year, month + 1, 0);
       const startDay = (firstDay.getDay() + 6) % 7;
-
       const daysGrid = document.getElementById('daysGrid');
       daysGrid.innerHTML = '';
 
@@ -1957,14 +2451,11 @@
         daysGrid.appendChild(cell);
       }
 
-      const today = new Date();
-      const isCurMonth = today.getFullYear() === year && today.getMonth() === month;
+      const today = new Date(), isCurMonth = today.getFullYear() === year && today.getMonth() === month;
 
       for (let d = 1; d <= lastDay.getDate(); d++) {
         const cellDate = new Date(year, month, d);
-        const cellKey = formatDateKey(cellDate);
-        const cellShort = formatShortDateKey(cellDate);
-
+        const cellKey = formatDateKey(cellDate), cellShort = formatShortDateKey(cellDate);
         const cell = document.createElement('div');
         cell.className = 'day-cell';
         cell.textContent = d;
@@ -1982,7 +2473,7 @@
           cell.classList.add('has-entry');
           const firstItem = dayEntries[0];
           const tagObj = (firstItem.type === 'event') ? eventTags[firstItem.category] : taskTags[firstItem.category];
-          const dominantColor = tagObj?.color || taskTags.work.color;
+          const dominantColor = tagObj?.color || '#5b9ffc';
           const isDarkText = !!tagObj?.darkText;
 
           cell.style.backgroundColor = dominantColor;
@@ -2009,31 +2500,22 @@
       }
     }
 
-    document.getElementById('prevMonthBtn').onclick = () => {
-      viewDate.setMonth(viewDate.getMonth() - 1);
-      renderCalendar();
-    };
-    document.getElementById('nextMonthBtn').onclick = () => {
-      viewDate.setMonth(viewDate.getMonth() + 1);
-      renderCalendar();
-    };
+    document.getElementById('prevMonthBtn').onclick = () => { viewDate.setMonth(viewDate.getMonth() - 1); renderCalendar(); };
+    document.getElementById('nextMonthBtn').onclick = () => { viewDate.setMonth(viewDate.getMonth() + 1); renderCalendar(); };
 
     const editIconSvg = `<svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>`;
     const planToCalendarSvg = `<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
     const deleteIconSvg = `<svg viewBox="0 0 24 24"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>`;
     const badgeDateSvg = `<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
     const badgeTimeSvg = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
-    const flameIconSvg = `<svg viewBox="0 0 24 24" style="width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17c1.38 0 2.5-1.12 2.5-2.5 0-1.63-1.07-2.71-1.78-3.43A6.27 6.27 0 0 1 10 7c0 2.5-3 4-3 6.5a2.5 2.5 0 0 0 1.5 1"></path><path d="M12 2c5.5 6 2 11 2 15a6 6 0 0 1-12 0c0-4 3-7 5-10 1 3 3 4 5 5z"></path></svg>`;
-    const pendingHourglassSvg = `<svg viewBox="0 0 24 24" style="width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path></svg>`;
-
-    const iconGiftSvg = `<svg viewBox="0 0 24 24" style="width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>`;
-    const iconCalendarEventSvg = `<svg viewBox="0 0 24 24" style="width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
-    const iconPartyPopperSvg = `<svg viewBox="0 0 24 24" style="width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;"><path d="M4 22V2"></path><path d="M4 3h14l-3 5 3 5H4"></path></svg>`;
+    const badgeNoteSvg = `<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>`;
+    const flameIconSvg = `<svg viewBox="0 0 24 24" style="width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2.2;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17c1.38 0 2.5-1.12 2.5-2.5 0-1.63-1.07-2.71-1.78-3.43A6.27 6.27 0 0 1 10 7c0 2.5-3 4-3 6.5a2.5 2.5 0 0 0 1.5 1"></path><path d="M12 2c5.5 6 2 11 2 15a6 6 0 0 1-12 0c0-4 3-7 5-10 1 3 3 4 5 5z"></path></svg>`;
+    const pendingHourglassSvg = `<svg viewBox="0 0 24 24" style="width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2;"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path></svg>`;
 
     function getEventIcon(category) {
-      if (category === 'birthday') return iconGiftSvg;
-      if (category === 'important') return iconCalendarEventSvg;
-      return iconPartyPopperSvg;
+      if (category === 'birthday') return `<svg viewBox="0 0 24 24" style="width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2;"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>`;
+      if (category === 'important') return `<svg viewBox="0 0 24 24" style="width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
+      return `<svg viewBox="0 0 24 24" style="width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2;"><path d="M4 22V2"></path><path d="M4 3h14l-3 5 3 5H4"></path></svg>`;
     }
 
     function createRoundCheckButton(isChecked, color, onToggle, isDisabled = false) {
@@ -2084,22 +2566,12 @@
       const listContainer = document.getElementById('itemsList');
       const targetDate = parseDateKey(targetDateKey);
       const targetShort = formatShortDateKey(targetDate);
-      const todayStr = formatDateKey(new Date());
-      const isFutureDate = targetDateKey > todayStr;
+      const isFutureDate = targetDateKey > formatDateKey(new Date());
 
-      const dayEvents = entries.filter(e => {
-        if (e.type !== 'event') return false;
-        return e.isYearly ? e.date.endsWith(targetShort) : e.date === targetDateKey;
-      });
+      const dayEvents = entries.filter(e => e.type === 'event' && (e.isYearly ? e.date.endsWith(targetShort) : e.date === targetDateKey));
+      const dayTasks = entries.filter(e => e.type === 'task' && taskOccursOnDate(e, targetDateKey));
 
-      const dayTasks = entries.filter(e => {
-        if (e.type !== 'task') return false;
-        return taskOccursOnDate(e, targetDateKey);
-      });
-
-      const totalItemsCount = dayEvents.length + dayTasks.length + habits.length;
-
-      if (totalItemsCount === 0) {
+      if (dayEvents.length + dayTasks.length + habits.length === 0) {
         listContainer.innerHTML = `<div class="empty-state-text">На этот день ничего не запланировано.<br>Нажмите «+», чтобы создать запись.</div>`;
         return;
       }
@@ -2111,7 +2583,7 @@
         listContainer.appendChild(eventsHeader);
 
         dayEvents.forEach(item => {
-          const cat = eventTags[item.category] || eventTags.holiday;
+          const cat = eventTags[item.category] || { label: 'Событие', color: '#FF652F', bg: hexToRgba('#FF652F', 0.16) };
           const card = document.createElement('div');
           card.className = 'bento-entry-card';
           card.style.background = cat.bg;
@@ -2151,7 +2623,7 @@
         listContainer.appendChild(tasksHeader);
 
         dayTasks.forEach(item => {
-          const cat = taskTags[item.category] || taskTags.other;
+          const cat = taskTags[item.category] || { label: 'Прочее', color: '#94a3b8', bg: hexToRgba('#94a3b8', 0.16) };
           const isCompleted = isTaskCompletedOnDate(item, targetDateKey);
 
           const card = document.createElement('div');
@@ -2159,16 +2631,23 @@
           card.style.background = cat.bg;
           card.style.borderColor = cat.color;
 
-          const checkBtn = createRoundCheckButton(isCompleted, cat.color, (nextVal) => {
-            setTaskCompletedOnDate(item, targetDateKey, nextVal);
-          });
+          const checkBtn = createRoundCheckButton(isCompleted, cat.color, (nextVal) => setTaskCompletedOnDate(item, targetDateKey, nextVal));
+          const linkedNote = item.noteId ? notes.find(n => n.id === item.noteId) : null;
+          const noteBadgeHtml = linkedNote ? `
+            <span class="badge note-badge" style="background:${cat.color}25; color:${cat.color};" title="Открыть заметку: ${escapeHtml(linkedNote.title)}">
+              ${badgeNoteSvg} ${escapeHtml(linkedNote.title || 'Заметка')}
+            </span>
+          ` : '';
 
           card.innerHTML = `
             <div class="bento-entry-left">
               <div class="check-slot"></div>
               <div class="bento-entry-info">
                 <div class="bento-entry-title" style="color:${cat.color};">${escapeHtml(item.title)}</div>
-                ${item.time ? `<div class="bento-entry-badges"><span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeTimeSvg}${escapeHtml(item.time)}</span></div>` : ''}
+                <div class="bento-entry-badges">
+                  ${item.time ? `<span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeTimeSvg}${escapeHtml(item.time)}</span>` : ''}
+                  ${noteBadgeHtml}
+                </div>
                 ${item.notes ? `<div class="bento-entry-notes" style="color:${cat.color};">${escapeHtml(item.notes)}</div>` : ''}
               </div>
             </div>
@@ -2179,6 +2658,11 @@
           `;
 
           card.querySelector('.check-slot').replaceWith(checkBtn);
+          if (linkedNote) {
+            const nb = card.querySelector('.note-badge');
+            if (nb) nb.onclick = (e) => { e.stopPropagation(); openFullscreenNote(linkedNote); };
+          }
+
           card.querySelector('.bento-entry-info').onclick = () => openEditModal(item);
           card.querySelector('.edit-btn').onclick = () => openEditModal(item);
           card.querySelector('.del-btn').onclick = () => promptDeleteTask(item, targetDateKey);
@@ -2205,11 +2689,8 @@
 
           const checkBtn = createRoundCheckButton(isDone, hStyle.cardBorder, (nextVal) => {
             if (isFutureDate) return;
-            if (nextVal) {
-              if (!habit.doneDates.includes(targetDateKey)) habit.doneDates.push(targetDateKey);
-            } else {
-              habit.doneDates = habit.doneDates.filter(d => d !== targetDateKey);
-            }
+            if (nextVal) { if (!habit.doneDates.includes(targetDateKey)) habit.doneDates.push(targetDateKey); }
+            else { habit.doneDates = habit.doneDates.filter(d => d !== targetDateKey); }
             saveHabits();
           }, isFutureDate);
 
@@ -2218,7 +2699,7 @@
               <div style="display:flex; align-items:center; gap:12px;">
                 <div class="habit-check-slot"></div>
                 <div>
-                  <div class="habit-bento-title" style="color:${hStyle.accentColor}; font-size:1rem;">${escapeHtml(habit.title)}</div>
+                  <div class="habit-bento-title" style="color:${hStyle.accentColor}; font-size:1.05rem;">${escapeHtml(habit.title)}</div>
                   <div style="font-size:0.75rem; color:${hStyle.accentColor}; opacity:0.85; margin-top:2px;">${flameIconSvg} Серия: ${calculateStreak(habit)} дн.</div>
                 </div>
               </div>
@@ -2226,11 +2707,7 @@
           `;
 
           card.querySelector('.habit-check-slot').replaceWith(checkBtn);
-          card.onclick = () => {
-            habitSubTab = 'daily';
-            setActiveTab('habits');
-          };
-
+          card.onclick = () => { habitSubTab = 'daily'; setActiveTab('habits'); };
           listContainer.appendChild(card);
         });
       }
@@ -2244,27 +2721,19 @@
       const todayStr = formatDateKey(new Date());
 
       listContainer.innerHTML = '';
-      tabControls.style.display = (activeTab === 'all' || activeTab === 'pending' || activeTab === 'events') ? 'flex' : 'none';
+      tabControls.style.display = ['all', 'pending', 'events'].includes(activeTab) ? 'flex' : 'none';
 
       if (activeTab === 'today') {
         todayHeroHeader.style.display = 'block';
         daySummaryHeader.style.display = 'none';
         const now = new Date();
-        const dayName = weekDaysFull[now.getDay()];
-        const dayNum = now.getDate();
-        const monthNameGen = monthNamesGenitive[now.getMonth()];
-        todayHeroTitle.textContent = `${dayName}, ${dayNum} ${monthNameGen}`;
-
+        todayHeroTitle.textContent = `${weekDaysFull[now.getDay()]}, ${now.getDate()} ${monthNamesGenitive[now.getMonth()]}`;
         renderDaySchedule(todayStr);
 
       } else if (activeTab === 'tasks') {
         todayHeroHeader.style.display = 'none';
         daySummaryHeader.style.display = 'flex';
-        const dayName = weekDaysFull[selectedDate.getDay()];
-        const dayNum = selectedDate.getDate();
-        const monthNameGen = monthNamesGenitive[selectedDate.getMonth()];
-        headerTitle.textContent = `${dayName}, ${dayNum} ${monthNameGen}`;
-
+        headerTitle.textContent = `${weekDaysFull[selectedDate.getDay()]}, ${selectedDate.getDate()} ${monthNamesGenitive[selectedDate.getMonth()]}`;
         renderDaySchedule(formatDateKey(selectedDate));
 
       } else if (activeTab === 'all') {
@@ -2301,17 +2770,20 @@
         }
 
         filtered.forEach(item => {
-          const cat = taskTags[item.category] || taskTags.other;
+          const cat = taskTags[item.category] || { label: 'Прочее', color: '#94a3b8', bg: hexToRgba('#94a3b8', 0.16) };
           const isCompleted = isTaskCompletedOnDate(item, item.date);
-
           const row = document.createElement('div');
           row.className = 'bento-entry-card';
           row.style.background = cat.bg;
           row.style.borderColor = cat.color;
 
-          const checkBtn = createRoundCheckButton(isCompleted, cat.color, (nextVal) => {
-            setTaskCompletedOnDate(item, item.date, nextVal);
-          });
+          const checkBtn = createRoundCheckButton(isCompleted, cat.color, (nextVal) => setTaskCompletedOnDate(item, item.date, nextVal));
+          const linkedNote = item.noteId ? notes.find(n => n.id === item.noteId) : null;
+          const noteBadgeHtml = linkedNote ? `
+            <span class="badge note-badge" style="background:${cat.color}25; color:${cat.color};" title="Открыть заметку: ${escapeHtml(linkedNote.title)}">
+              ${badgeNoteSvg} ${escapeHtml(linkedNote.title || 'Заметка')}
+            </span>
+          ` : '';
 
           row.innerHTML = `
             <div class="bento-entry-left">
@@ -2321,6 +2793,7 @@
                 <div class="bento-entry-badges">
                   <span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeDateSvg}${formatDisplayDate(item.date)}</span>
                   ${item.time ? `<span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeTimeSvg}${escapeHtml(item.time)}</span>` : ''}
+                  ${noteBadgeHtml}
                 </div>
                 ${item.notes ? `<div class="bento-entry-notes" style="color:${cat.color};">${escapeHtml(item.notes)}</div>` : ''}
               </div>
@@ -2332,6 +2805,10 @@
           `;
 
           row.querySelector('.check-slot').replaceWith(checkBtn);
+          if (linkedNote) {
+            const nb = row.querySelector('.note-badge');
+            if (nb) nb.onclick = (e) => { e.stopPropagation(); openFullscreenNote(linkedNote); };
+          }
           row.querySelector('.bento-entry-info').onclick = () => openEditModal(item);
           row.querySelector('.edit-btn').onclick = () => openEditModal(item);
           row.querySelector('.del-btn').onclick = () => promptDeleteTask(item, item.date);
@@ -2357,7 +2834,7 @@
 
         filtered.sort((a, b) => {
           if (pendingSort === 'category_asc') return (a.category || '').localeCompare(b.category || '');
-          const minsA = (parseInt(a.durationHours, 10) || 0) * 60 + (parseInt(b.durationMinutes, 10) || 0);
+          const minsA = (parseInt(a.durationHours, 10) || 0) * 60 + (parseInt(a.durationMinutes, 10) || 0);
           const minsB = (parseInt(b.durationHours, 10) || 0) * 60 + (parseInt(b.durationMinutes, 10) || 0);
           if (pendingSort === 'dur_asc') return minsA - minsB;
           if (pendingSort === 'dur_desc') return minsB - minsA;
@@ -2371,10 +2848,15 @@
         }
 
         filtered.forEach(item => {
-          const cat = taskTags[item.category] || taskTags.other;
-          const h = parseInt(item.durationHours, 10) || 0;
-          const m = parseInt(item.durationMinutes, 10) || 0;
+          const cat = taskTags[item.category] || { label: 'Прочее', color: '#94a3b8', bg: hexToRgba('#94a3b8', 0.16) };
+          const h = parseInt(item.durationHours, 10) || 0, m = parseInt(item.durationMinutes, 10) || 0;
           const durStr = `${h ? h + ' ч ' : ''}${m ? m + ' мин' : ''}`.trim() || 'Не указано';
+          const linkedNote = item.noteId ? notes.find(n => n.id === item.noteId) : null;
+          const noteBadgeHtml = linkedNote ? `
+            <span class="badge note-badge" style="background:${cat.color}25; color:${cat.color};" title="Открыть заметку: ${escapeHtml(linkedNote.title)}">
+              ${badgeNoteSvg} ${escapeHtml(linkedNote.title || 'Заметка')}
+            </span>
+          ` : '';
 
           const card = document.createElement('div');
           card.className = 'bento-entry-card';
@@ -2388,6 +2870,7 @@
                 <div class="bento-entry-title" style="color:${cat.color};">${escapeHtml(item.title)}</div>
                 <div class="bento-entry-badges">
                   <span class="badge" style="background:${cat.color}25; color:${cat.color};">${badgeTimeSvg}${escapeHtml(durStr)}</span>
+                  ${noteBadgeHtml}
                 </div>
                 ${item.notes ? `<div class="bento-entry-notes" style="color:${cat.color};">${escapeHtml(item.notes)}</div>` : ''}
               </div>
@@ -2399,16 +2882,66 @@
             </div>
           `;
 
-          card.querySelector('.plan-btn').onclick = (e) => {
-            e.stopPropagation();
-            openSchedulePendingModal(item);
-          };
+          if (linkedNote) {
+            const nb = card.querySelector('.note-badge');
+            if (nb) nb.onclick = (e) => { e.stopPropagation(); openFullscreenNote(linkedNote); };
+          }
+
+          card.querySelector('.plan-btn').onclick = (e) => { e.stopPropagation(); openSchedulePendingModal(item); };
           card.querySelector('.bento-entry-info').onclick = () => openEditModal(item);
           card.querySelector('.edit-btn').onclick = () => openEditModal(item);
           card.querySelector('.del-btn').onclick = () => {
             openBentoConfirm('Удаление задачи', `Удалить висящую задачу «${item.title}»?`, () => {
               moveToTrash('task', item);
               entries = entries.filter(e => e.id !== item.id);
+              saveEntries();
+            });
+          };
+          listContainer.appendChild(card);
+        });
+
+      } else if (activeTab === 'notes') {
+        todayHeroHeader.style.display = 'none';
+        daySummaryHeader.style.display = 'flex';
+        headerTitle.textContent = 'Заметки и списки';
+
+        if (notes.length === 0) {
+          listContainer.innerHTML = `<div class="empty-state-text">Заметок пока нет.<br>Нажмите «+», чтобы создать новую заметку.</div>`;
+          return;
+        }
+
+        notes.slice().reverse().forEach(note => {
+          const card = document.createElement('div');
+          card.className = 'note-bento-card';
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = note.content || '';
+          const plainText = tempDiv.textContent || tempDiv.innerText || 'Пустая заметка';
+
+          card.innerHTML = `
+            <div class="note-card-header">
+              <div class="note-card-title">
+                <svg viewBox="0 0 24 24" style="width:18px; height:18px; stroke:var(--primary); fill:none; stroke-width:2;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                <span>${escapeHtml(note.title || 'Без названия')}</span>
+              </div>
+              <div class="item-actions">
+                <button class="action-icon-btn del-note-btn" title="Удалить">${deleteIconSvg}</button>
+              </div>
+            </div>
+            <div class="note-content-preview">${escapeHtml(plainText)}</div>
+          `;
+
+          card.onclick = (e) => {
+            if (e.target.closest('.del-note-btn')) return;
+            openFullscreenNote(note);
+          };
+
+          card.querySelector('.del-note-btn').onclick = (e) => {
+            e.stopPropagation();
+            openBentoConfirm('Удаление заметки', `Удалить заметку «${note.title}»?`, () => {
+              moveToTrash('note', note);
+              notes = notes.filter(n => n.id !== note.id);
+              entries.forEach(item => { if (item.noteId === note.id) item.noteId = ''; });
+              saveNotes();
               saveEntries();
             });
           };
@@ -2437,7 +2970,7 @@
         }
 
         filtered.forEach(item => {
-          const cat = eventTags[item.category] || eventTags.holiday;
+          const cat = eventTags[item.category] || { label: 'Событие', color: '#FF652F', bg: hexToRgba('#FF652F', 0.16) };
           const card = document.createElement('div');
           card.className = 'bento-entry-card';
           card.style.background = cat.bg;
@@ -2486,22 +3019,12 @@
           const navRow = document.createElement('div');
           navRow.className = 'nav-header-row';
           navRow.innerHTML = `
-            <button class="nav-arrow-btn" id="prevDayHabit" aria-label="Предыдущий день">
-              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
+            <button class="nav-arrow-btn" id="prevDayHabit" aria-label="Предыдущий день"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
             <span class="nav-header-title">${formatDisplayDate(formatDateKey(selectedDate))}</span>
-            <button class="nav-arrow-btn" id="nextDayHabit" aria-label="Следующий день">
-              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
+            <button class="nav-arrow-btn" id="nextDayHabit" aria-label="Следующий день"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
           `;
-          navRow.querySelector('#prevDayHabit').onclick = () => {
-            selectedDate.setDate(selectedDate.getDate() - 1);
-            renderItems();
-          };
-          navRow.querySelector('#nextDayHabit').onclick = () => {
-            selectedDate.setDate(selectedDate.getDate() + 1);
-            renderItems();
-          };
+          navRow.querySelector('#prevDayHabit').onclick = () => { selectedDate.setDate(selectedDate.getDate() - 1); renderItems(); };
+          navRow.querySelector('#nextDayHabit').onclick = () => { selectedDate.setDate(selectedDate.getDate() + 1); renderItems(); };
           listContainer.appendChild(navRow);
 
           const targetKey = formatDateKey(selectedDate);
@@ -2511,7 +3034,6 @@
             const hStyle = getHabitStyle(hIdx);
             habit.doneDates = habit.doneDates || [];
             const isDone = habit.doneDates.includes(targetKey);
-
             const card = document.createElement('div');
             card.className = 'habit-bento-card';
             card.style.background = hStyle.cardBg;
@@ -2520,11 +3042,8 @@
 
             const checkBtn = createRoundCheckButton(isDone, hStyle.cardBorder, (nextVal) => {
               if (isFutureDay) return;
-              if (nextVal) {
-                if (!habit.doneDates.includes(targetKey)) habit.doneDates.push(targetKey);
-              } else {
-                habit.doneDates = habit.doneDates.filter(d => d !== targetKey);
-              }
+              if (nextVal) { if (!habit.doneDates.includes(targetKey)) habit.doneDates.push(targetKey); }
+              else { habit.doneDates = habit.doneDates.filter(d => d !== targetKey); }
               saveHabits();
             }, isFutureDay);
 
@@ -2551,7 +3070,6 @@
                 saveHabits();
               });
             };
-
             listContainer.appendChild(card);
           });
 
@@ -2564,13 +3082,9 @@
           const navRow = document.createElement('div');
           navRow.className = 'nav-header-row';
           navRow.innerHTML = `
-            <button class="nav-arrow-btn" id="prevWeekHabit" aria-label="Предыдущая неделя">
-              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
+            <button class="nav-arrow-btn" id="prevWeekHabit" aria-label="Предыдущая неделя"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
             <span class="nav-header-title">${formatDisplayDate(formatDateKey(monday))} — ${formatDisplayDate(formatDateKey(sunday))}</span>
-            <button class="nav-arrow-btn" id="nextWeekHabit" aria-label="Следующая неделя">
-              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
+            <button class="nav-arrow-btn" id="nextWeekHabit" aria-label="Следующая неделя"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
           `;
           navRow.querySelector('#prevWeekHabit').onclick = () => { habitOffsetWeeks--; renderItems(); };
           navRow.querySelector('#nextWeekHabit').onclick = () => { habitOffsetWeeks++; renderItems(); };
@@ -2585,13 +3099,12 @@
           habits.forEach((habit, hIdx) => {
             const hStyle = getHabitStyle(hIdx);
             habit.doneDates = habit.doneDates || [];
-
             const card = document.createElement('div');
             card.className = 'habit-bento-card';
             card.style.background = hStyle.cardBg;
             card.style.borderColor = hStyle.cardBorder;
 
-            let circlesHtml = weekDays.map(wd => {
+            const circlesHtml = weekDays.map(wd => {
               const isDone = habit.doneDates.includes(wd.key);
               const isFuture = wd.key > todayStr;
               return `
@@ -2633,28 +3146,21 @@
                 saveHabits();
               });
             };
-
             listContainer.appendChild(card);
           });
 
         } else {
           const targetMonth = new Date(viewDate.getFullYear(), viewDate.getMonth() + habitOffsetMonths, 1);
-          const y = targetMonth.getFullYear();
-          const m = targetMonth.getMonth();
-          const firstDay = new Date(y, m, 1);
-          const lastD = new Date(y, m + 1, 0).getDate();
+          const y = targetMonth.getFullYear(), m = targetMonth.getMonth();
+          const firstDay = new Date(y, m, 1), lastD = new Date(y, m + 1, 0).getDate();
           const startDay = (firstDay.getDay() + 6) % 7;
 
           const navRow = document.createElement('div');
           navRow.className = 'nav-header-row';
           navRow.innerHTML = `
-            <button class="nav-arrow-btn" id="prevMonthMatrix" aria-label="Предыдущий месяц">
-              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
+            <button class="nav-arrow-btn" id="prevMonthMatrix" aria-label="Предыдущий месяц"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
             <span class="nav-header-title">${monthNames[m]} ${y}</span>
-            <button class="nav-arrow-btn" id="nextMonthMatrix" aria-label="Следующий месяц">
-              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
+            <button class="nav-arrow-btn" id="nextMonthMatrix" aria-label="Следующий месяц"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
           `;
           navRow.querySelector('#prevMonthMatrix').onclick = () => { habitOffsetMonths--; renderItems(); };
           navRow.querySelector('#nextMonthMatrix').onclick = () => { habitOffsetMonths++; renderItems(); };
@@ -2663,17 +3169,13 @@
           habits.forEach((habit, hIdx) => {
             const hStyle = getHabitStyle(hIdx);
             habit.doneDates = habit.doneDates || [];
-
             let dotsHtml = '';
-            for (let i = 0; i < startDay; i++) {
-              dotsHtml += `<div class="dot-box" style="opacity:0.04; cursor:default;"></div>`;
-            }
+            for (let i = 0; i < startDay; i++) dotsHtml += `<div class="dot-box" style="opacity:0.04; cursor:default;"></div>`;
 
             for (let d = 1; d <= lastD; d++) {
               const dKey = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
               const isDone = habit.doneDates.includes(dKey);
-              const isToday = dKey === todayStr;
-              const isFuture = dKey > todayStr;
+              const isToday = dKey === todayStr, isFuture = dKey > todayStr;
 
               dotsHtml += `
                 <div class="dot-box ${isDone ? 'active' : ''} ${isToday ? 'today' : ''} ${isFuture ? 'is-future' : ''}" 
@@ -2720,7 +3222,6 @@
                 saveHabits();
               });
             };
-
             listContainer.appendChild(card);
           });
         }
@@ -2747,10 +3248,6 @@
         };
         listContainer.appendChild(clearBtn);
 
-        const trashTasks = trashItems.filter(t => t.originalType === 'task');
-        const trashEvents = trashItems.filter(t => t.originalType === 'event');
-        const trashHabits = trashItems.filter(t => t.originalType === 'habit');
-
         function renderTrashSection(title, list) {
           if (list.length === 0) return;
           const secTitle = document.createElement('div');
@@ -2759,7 +3256,7 @@
           listContainer.appendChild(secTitle);
 
           list.slice().reverse().forEach(t => {
-            const daysLeft = Math.max(1, 7 - Math.floor((Date.now() - t.deletedAt) / (24 * 60 * 60 * 1000)));
+            const daysLeft = Math.max(1, 7 - Math.floor((Date.now() - t.deletedAt) / 86400000));
             const item = document.createElement('div');
             item.className = 'bento-entry-card';
             item.style.background = 'var(--input-bg)';
@@ -2780,53 +3277,41 @@
             `;
 
             item.querySelector('.restore-btn').onclick = () => {
-              if (t.originalType === 'task' || t.originalType === 'event') {
-                entries.push(t.data);
-                saveEntries();
-              } else if (t.originalType === 'habit') {
-                habits.push(t.data);
-                saveHabits();
-              }
+              if (t.originalType === 'task' || t.originalType === 'event') entries.push(t.data), saveEntries();
+              else if (t.originalType === 'habit') habits.push(t.data), saveHabits();
+              else if (t.originalType === 'note') notes.push(t.data), saveNotes();
               trashItems = trashItems.filter(x => x.trashId !== t.trashId);
               saveTrash();
             };
-
             listContainer.appendChild(item);
           });
         }
 
-        renderTrashSection('Задачи', trashTasks);
-        renderTrashSection('События', trashEvents);
-        renderTrashSection('Привычки', trashHabits);
+        renderTrashSection('Задачи', trashItems.filter(t => t.originalType === 'task'));
+        renderTrashSection('События', trashItems.filter(t => t.originalType === 'event'));
+        renderTrashSection('Привычки', trashItems.filter(t => t.originalType === 'habit'));
+        renderTrashSection('Заметки', trashItems.filter(t => t.originalType === 'note'));
       }
     }
 
     function calculateStreak(habit) {
       if (!habit.doneDates || habit.doneDates.length === 0) return 0;
       const doneSet = new Set(habit.doneDates);
-
       const check = new Date();
       check.setHours(0, 0, 0, 0);
 
       const todayKey = formatDateKey(check);
       const yesterday = new Date(check);
       yesterday.setDate(yesterday.getDate() - 1);
-      const yesterdayKey = formatDateKey(yesterday);
 
-      if (!doneSet.has(todayKey) && !doneSet.has(yesterdayKey)) {
-        return 0;
-      }
-
-      if (!doneSet.has(todayKey)) {
-        check.setDate(check.getDate() - 1);
-      }
+      if (!doneSet.has(todayKey) && !doneSet.has(formatDateKey(yesterday))) return 0;
+      if (!doneSet.has(todayKey)) check.setDate(check.getDate() - 1);
 
       let streak = 0;
       while (doneSet.has(formatDateKey(check))) {
         streak++;
         check.setDate(check.getDate() - 1);
       }
-
       return streak;
     }
 
@@ -2878,8 +3363,13 @@
         showModal(habitModal);
         return;
       }
+      if (activeTab === 'notes') {
+        openFullscreenNote(null);
+        return;
+      }
 
       editingId = null;
+      document.getElementById('modalSheetHeading').textContent = 'Новая запись';
       document.getElementById('entryTitleInput').value = '';
       document.getElementById('entryNotesInput').value = '';
       document.getElementById('entryTimeInput').value = '';
@@ -2888,11 +3378,7 @@
       document.getElementById('recurringOptionsContainer').style.display = 'none';
 
       updateStepperUI(0, 30);
-
-      if (activeTab === 'pending') entryTypeSelect.value = 'pending';
-      else if (activeTab === 'events') entryTypeSelect.value = 'event';
-      else entryTypeSelect.value = 'task';
-
+      entryTypeSelect.value = (activeTab === 'pending') ? 'pending' : (activeTab === 'events' ? 'event' : 'task');
       syncModalFields();
       showModal(entryModal);
     };
@@ -2900,12 +3386,7 @@
     document.getElementById('saveHabitBtn').onclick = () => {
       const title = document.getElementById('habitTitleInput').value.trim();
       if (!title) return;
-      habits.push({
-        id: generateUniqueId(),
-        title,
-        category: document.getElementById('habitCategorySelect').value,
-        doneDates: []
-      });
+      habits.push({ id: generateUniqueId(), title, category: document.getElementById('habitCategorySelect').value, doneDates: [] });
       hideModal(habitModal);
       saveHabits();
     };
@@ -2915,6 +3396,17 @@
     const entryModal = document.getElementById('entryModal');
     const entryTypeSelect = document.getElementById('entryTypeSelect');
     const entryCategorySelect = document.getElementById('entryCategorySelect');
+    const entryAttachedNoteSelect = document.getElementById('entryAttachedNoteSelect');
+
+    function populateAttachedNoteOptions(currentNoteId) {
+      entryAttachedNoteSelect.innerHTML = '<option value="">Без заметки</option>';
+      notes.forEach(n => {
+        const opt = document.createElement('option');
+        opt.value = n.id; opt.textContent = n.title || 'Без названия';
+        if (n.id === currentNoteId) opt.selected = true;
+        entryAttachedNoteSelect.appendChild(opt);
+      });
+    }
 
     function syncModalFields() {
       const { taskTags, eventTags } = getThemeColors();
@@ -2923,8 +3415,7 @@
       const tags = (type === 'event') ? eventTags : taskTags;
       for (const [k, v] of Object.entries(tags)) {
         const opt = document.createElement('option');
-        opt.value = k;
-        opt.textContent = v.label;
+        opt.value = k; opt.textContent = v.label;
         entryCategorySelect.appendChild(opt);
       }
 
@@ -2932,6 +3423,7 @@
       document.getElementById('recurringTaskBlock').style.display = (type === 'task') ? 'block' : 'none';
       document.getElementById('durationSingleField').style.display = (type === 'pending') ? 'flex' : 'none';
       document.getElementById('repeatSwitchRow').style.display = (type === 'event') ? 'flex' : 'none';
+      document.getElementById('noteAttachmentFieldGroup').style.display = (type === 'event') ? 'none' : 'flex';
     }
     entryTypeSelect.onchange = syncModalFields;
 
@@ -2976,14 +3468,14 @@
       const isRecurring = (type === 'task') && document.getElementById('entryRecurringToggle').checked;
       let recurringConfig = null;
       if (isRecurring) {
-        const freq = document.getElementById('recurringFrequencySelect').value;
-        const selectedDays = Array.from(document.querySelectorAll('#recurringWeekdaysPicker .dot-box.active')).map(b => parseInt(b.dataset.day, 10));
         recurringConfig = {
-          frequency: freq,
+          frequency: document.getElementById('recurringFrequencySelect').value,
           intervalN: parseInt(document.getElementById('recurringIntervalN').value, 10) || 2,
-          weekdays: selectedDays
+          weekdays: Array.from(document.querySelectorAll('#recurringWeekdaysPicker .dot-box.active')).map(b => parseInt(b.dataset.day, 10))
         };
       }
+
+      const noteId = (type !== 'event') ? entryAttachedNoteSelect.value : '';
 
       if (editingId) {
         const idx = entries.findIndex(e => e.id === editingId);
@@ -2997,26 +3489,40 @@
             durationMinutes: (type === 'pending') ? selectedMinutesVal : '',
             category: entryCategorySelect.value,
             notes: document.getElementById('entryNotesInput').value.trim(),
+            noteId,
             isYearly: (type === 'event') ? document.getElementById('entryYearlyToggle').checked : false,
             isRecurring, recurringConfig
           };
         }
       } else {
-        entries.push({
-          id: generateUniqueId(),
-          type, title,
+        const newTaskId = generateUniqueId();
+        const newTaskObj = {
+          id: newTaskId, type, title,
           date: (type === 'pending') ? '' : dateVal,
           time: (type === 'task') ? document.getElementById('entryTimeInput').value : '',
           durationHours: (type === 'pending') ? selectedHoursVal : '',
           durationMinutes: (type === 'pending') ? selectedMinutesVal : '',
           category: entryCategorySelect.value,
           notes: document.getElementById('entryNotesInput').value.trim(),
+          noteId,
           isYearly: (type === 'event') ? document.getElementById('entryYearlyToggle').checked : false,
           isRecurring, recurringConfig,
-          completed: false,
-          completedDates: [],
-          excludedDates: []
-        });
+          completed: false, completedDates: [], excludedDates: []
+        };
+        entries.push(newTaskObj);
+
+        if (fullscreenNoteModal.style.display === 'flex') insertTaskLinkIntoEditor(newTaskObj);
+
+        if (noteId) {
+          const targetNote = notes.find(n => n.id === noteId);
+          if (targetNote) {
+            targetNote.linkedTaskIds = targetNote.linkedTaskIds || [];
+            if (!targetNote.linkedTaskIds.includes(newTaskId)) {
+              targetNote.linkedTaskIds.push(newTaskId);
+              saveNotes();
+            }
+          }
+        }
       }
 
       hideModal(entryModal);
@@ -3027,7 +3533,9 @@
       editingId = item.id;
       entryTypeSelect.value = item.type;
       syncModalFields();
+      populateAttachedNoteOptions(item.noteId || '');
 
+      document.getElementById('modalSheetHeading').textContent = 'Редактировать запись';
       document.getElementById('entryTitleInput').value = item.title;
       document.getElementById('entryDateInput').value = item.date || formatDateKey(selectedDate);
       document.getElementById('entryTimeInput').value = item.time || '';
@@ -3035,9 +3543,7 @@
       document.getElementById('entryNotesInput').value = item.notes || '';
       document.getElementById('entryYearlyToggle').checked = !!item.isYearly;
 
-      const h = parseInt(item.durationHours, 10) || 0;
-      const m = parseInt(item.durationMinutes, 10) || 0;
-      updateStepperUI(h, m);
+      updateStepperUI(parseInt(item.durationHours, 10) || 0, parseInt(item.durationMinutes, 10) || 0);
 
       const isRecur = !!item.isRecurring;
       document.getElementById('entryRecurringToggle').checked = isRecur;
@@ -3049,6 +3555,362 @@
     document.getElementById('closeEntryModalBtn').onclick = () => hideModal(entryModal);
     document.getElementById('closeEntryModalXBtn').onclick = () => hideModal(entryModal);
 
+    /* ----------------------------------------------------
+       ПОЛНОЭКРАННЫЙ РЕДАКТОР ЗАМЕТОК
+    ---------------------------------------------------- */
+    const fullscreenNoteModal = document.getElementById('fullscreenNoteModal');
+    const fullscreenNoteTitleInput = document.getElementById('fullscreenNoteTitleInput');
+    const fullscreenNoteEditorArea = document.getElementById('fullscreenNoteEditorArea');
+    const insertTaskModal = document.getElementById('insertTaskModal');
+    const insertTaskModalList = document.getElementById('insertTaskModalList');
+    const openTextColorPaletteBtn = document.getElementById('openTextColorPaletteBtn');
+    const noteColorPalettePopover = document.getElementById('noteColorPalettePopover');
+    let savedEditorRange = null;
+
+    function saveEditorSelection() {
+      const sel = window.getSelection();
+      if (sel.getRangeAt && sel.rangeCount) savedEditorRange = sel.getRangeAt(0);
+    }
+
+    function restoreEditorSelection() {
+      if (savedEditorRange) {
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(savedEditorRange);
+      }
+    }
+
+    function updateToolbarState() {
+      if (!fullscreenNoteEditorArea) return;
+      document.querySelectorAll('.tool-pill-btn[data-cmd]').forEach(btn => {
+        try {
+          btn.classList.toggle('active', document.queryCommandState(btn.dataset.cmd));
+        } catch (e) {}
+      });
+    }
+
+    ['keyup', 'mouseup', 'touchend', 'click'].forEach(ev => {
+      fullscreenNoteEditorArea.addEventListener(ev, () => {
+        saveEditorSelection();
+        updateToolbarState();
+      });
+    });
+    document.addEventListener('selectionchange', () => {
+      if (fullscreenNoteModal.style.display === 'flex') updateToolbarState();
+    });
+
+    openTextColorPaletteBtn.addEventListener('mousedown', e => { e.preventDefault(); saveEditorSelection(); });
+    openTextColorPaletteBtn.onclick = e => { e.stopPropagation(); noteColorPalettePopover.classList.toggle('open'); };
+
+    document.querySelectorAll('.palette-dot').forEach(dot => {
+      dot.addEventListener('mousedown', e => e.preventDefault());
+      dot.onclick = e => {
+        e.stopPropagation();
+        const chosenColor = dot.dataset.color;
+        openTextColorPaletteBtn.style.backgroundColor = chosenColor;
+        fullscreenNoteEditorArea.focus();
+        restoreEditorSelection();
+        document.execCommand('styleWithCSS', false, true);
+        document.execCommand('foreColor', false, chosenColor);
+        saveEditorSelection();
+        noteColorPalettePopover.classList.remove('open');
+      };
+    });
+
+    document.addEventListener('click', e => {
+      if (!e.target.closest('#openTextColorPaletteBtn') && !e.target.closest('#noteColorPalettePopover')) {
+        noteColorPalettePopover.classList.remove('open');
+      }
+    });
+
+    function openFullscreenNote(note) {
+      editingNoteId = note ? note.id : null;
+      fullscreenNoteTitleInput.value = note ? (note.title || '') : '';
+      fullscreenNoteEditorArea.innerHTML = note ? (note.content || '') : '';
+      
+      refreshInlineTaskLinks(fullscreenNoteEditorArea);
+      bindChecklistHandlers(fullscreenNoteEditorArea);
+      updateToolbarState();
+      
+      history.pushState({ modal: 'note_editor' }, '');
+      showModal(fullscreenNoteModal);
+    }
+
+    window.addEventListener('popstate', () => {
+      if (fullscreenNoteModal.style.display === 'flex') {
+        saveCurrentNoteData();
+        hideModal(fullscreenNoteModal);
+      }
+    });
+
+    function refreshInlineTaskLinks(container) {
+      container.querySelectorAll('.task-inline-link').forEach(link => {
+        const taskId = link.dataset.taskId;
+        const task = entries.find(e => e.id === taskId);
+        if (task) {
+          const isDone = (task.type === 'task') ? isTaskCompletedOnDate(task, task.date) : !!task.completed;
+          link.classList.toggle('task-done', isDone);
+          const tSpan = link.querySelector('.task-inline-title');
+          if (tSpan) tSpan.textContent = task.title;
+        }
+        link.onclick = (e) => {
+          e.preventDefault(); e.stopPropagation();
+          if (task) openEditModal(task);
+          else alert('Задача была удалена.');
+        };
+      });
+    }
+
+    function bindChecklistHandlers(container) {
+      container.querySelectorAll('.checklist-box').forEach(box => {
+        box.onclick = (e) => {
+          e.preventDefault(); e.stopPropagation();
+          box.classList.toggle('checked');
+          const textEl = box.nextElementSibling;
+          if (textEl && textEl.classList.contains('checklist-text')) {
+            textEl.classList.toggle('checked', box.classList.contains('checked'));
+          }
+        };
+      });
+    }
+
+    document.getElementById('btnInsertChecklist').onclick = (e) => {
+      e.preventDefault();
+      fullscreenNoteEditorArea.focus();
+      restoreEditorSelection();
+
+      if (document.queryCommandState('insertUnorderedList')) document.execCommand('insertUnorderedList', false, null);
+      if (document.queryCommandState('insertOrderedList')) document.execCommand('insertOrderedList', false, null);
+
+      const row = document.createElement('div');
+      row.className = 'checklist-row';
+      row.innerHTML = `
+        <div class="checklist-box" contenteditable="false"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+        <div class="checklist-text" contenteditable="true"></div>
+      `;
+
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount) {
+        const range = sel.getRangeAt(0);
+        range.deleteContents();
+        range.insertNode(row);
+      } else {
+        fullscreenNoteEditorArea.appendChild(row);
+      }
+
+      const textEl = row.querySelector('.checklist-text');
+      bindChecklistHandlers(row);
+      
+      const newRange = document.createRange();
+      newRange.selectNodeContents(textEl);
+      newRange.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(newRange);
+      textEl.focus();
+      saveEditorSelection();
+    };
+
+    document.querySelectorAll('.tool-pill-btn[data-cmd]').forEach(btn => {
+      btn.addEventListener('mousedown', e => { e.preventDefault(); saveEditorSelection(); });
+      btn.onclick = (e) => {
+        e.preventDefault();
+        const cmd = btn.dataset.cmd;
+
+        if (cmd === 'insertUnorderedList' || cmd === 'insertOrderedList') {
+          const sel = window.getSelection();
+          if (sel && sel.rangeCount) {
+            const node = sel.anchorNode;
+            const row = (node.nodeType === 3 ? node.parentElement : node).closest('.checklist-row');
+            if (row) {
+              const textEl = row.querySelector('.checklist-text');
+              const p = document.createElement('div');
+              p.innerHTML = textEl ? textEl.innerHTML : '<br>';
+              row.replaceWith(p);
+              const r = document.createRange();
+              r.selectNodeContents(p);
+              r.collapse(false);
+              sel.removeAllRanges();
+              sel.addRange(r);
+            }
+          }
+        }
+
+        document.execCommand(cmd, false, null);
+        fullscreenNoteEditorArea.focus();
+        updateToolbarState();
+      };
+    });
+
+    fullscreenNoteEditorArea.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const sel = window.getSelection();
+        if (!sel.rangeCount) return;
+        const currentTarget = sel.anchorNode;
+        const currentItem = currentTarget.nodeType === 3 ? currentTarget.parentElement : currentTarget;
+        const checklistItem = currentItem.closest('.checklist-text');
+
+        if (checklistItem) {
+          e.preventDefault();
+          const parentRow = checklistItem.closest('.checklist-row');
+          const rowText = checklistItem.innerText.trim();
+
+          if (!rowText) {
+            parentRow.remove();
+            const p = document.createElement('div');
+            p.innerHTML = '<br>';
+            fullscreenNoteEditorArea.appendChild(p);
+            const range = document.createRange();
+            range.selectNodeContents(p);
+            range.collapse(false);
+            sel.removeAllRanges();
+            sel.addRange(range);
+            return;
+          }
+
+          const newRow = document.createElement('div');
+          newRow.className = 'checklist-row';
+          newRow.innerHTML = `
+            <div class="checklist-box" contenteditable="false"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            <div class="checklist-text" contenteditable="true"></div>
+          `;
+          parentRow.after(newRow);
+          bindChecklistHandlers(newRow);
+
+          const newText = newRow.querySelector('.checklist-text');
+          const range = document.createRange();
+          range.selectNodeContents(newText);
+          range.collapse(false);
+          sel.removeAllRanges();
+          sel.addRange(range);
+          newText.focus();
+        }
+      }
+    });
+
+    document.getElementById('saveFullscreenNoteBtn').onclick = () => {
+      saveCurrentNoteData();
+      if (history.state && history.state.modal === 'note_editor') history.back();
+      else hideModal(fullscreenNoteModal);
+    };
+
+    function saveCurrentNoteData() {
+      const title = fullscreenNoteTitleInput.value.trim() || 'Без названия';
+      const content = fullscreenNoteEditorArea.innerHTML;
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = content;
+      const linkedIds = Array.from(tempDiv.querySelectorAll('.task-inline-link')).map(el => el.dataset.taskId).filter(Boolean);
+
+      if (editingNoteId) {
+        const idx = notes.findIndex(n => n.id === editingNoteId);
+        if (idx !== -1) {
+          notes[idx].title = title;
+          notes[idx].content = content;
+          notes[idx].linkedTaskIds = Array.from(new Set([...(notes[idx].linkedTaskIds || []), ...linkedIds]));
+        }
+      } else {
+        const newNoteId = generateUniqueId();
+        editingNoteId = newNoteId;
+        notes.push({ id: newNoteId, title, content, linkedTaskIds: linkedIds });
+      }
+
+      linkedIds.forEach(tId => {
+        const t = entries.find(e => e.id === tId);
+        if (t) t.noteId = editingNoteId;
+      });
+
+      saveNotes();
+      saveEntries();
+    }
+
+    document.getElementById('btnInsertTaskInline').onclick = () => {
+      saveEditorSelection();
+      openInsertTaskModal();
+    };
+
+    function openInsertTaskModal() {
+      insertTaskModalList.innerHTML = '';
+      const existingTasks = entries.filter(e => e.type === 'task' || e.type === 'pending');
+
+      if (existingTasks.length === 0) {
+        insertTaskModalList.innerHTML = `<span style="font-size:0.85rem; color:var(--text-muted);">Задач пока нет. Нажмите «+ Новая задача», чтобы создать.</span>`;
+        showModal(insertTaskModal);
+        return;
+      }
+
+      existingTasks.forEach(task => {
+        const row = document.createElement('div');
+        row.className = 'bento-entry-card';
+        row.style.padding = '10px 14px';
+        row.style.background = 'var(--input-bg)';
+        row.style.border = '1px solid var(--input-border)';
+        row.style.cursor = 'pointer';
+
+        row.innerHTML = `
+          <div style="display:flex; flex-direction:column; gap:2px; flex:1;">
+            <span style="font-weight:700; font-size:0.92rem;">${escapeHtml(task.title)}</span>
+            <span style="font-size:0.75rem; color:var(--text-muted);">${task.date ? formatDisplayDate(task.date) : 'Висящая задача'}</span>
+          </div>
+          <button class="multi-chip-btn" style="pointer-events:none;">Вставить</button>
+        `;
+
+        row.onclick = () => {
+          insertTaskLinkIntoEditor(task);
+          hideModal(insertTaskModal);
+        };
+        insertTaskModalList.appendChild(row);
+      });
+
+      showModal(insertTaskModal);
+    }
+
+    function insertTaskLinkIntoEditor(task) {
+      fullscreenNoteEditorArea.focus();
+      restoreEditorSelection();
+
+      const isDone = (task.type === 'task') ? isTaskCompletedOnDate(task, task.date) : !!task.completed;
+      const wrapper = document.createElement('div');
+      wrapper.className = 'task-inline-link-wrapper';
+      wrapper.innerHTML = `<span class="task-inline-link ${isDone ? 'task-done' : ''}" data-task-id="${task.id}" contenteditable="false"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><span class="task-inline-title">${escapeHtml(task.title)}</span></span>`;
+
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount) {
+        const range = sel.getRangeAt(0);
+        range.collapse(false);
+        range.insertNode(wrapper);
+
+        const nextLine = document.createElement('div');
+        nextLine.innerHTML = '<br>';
+        wrapper.after(nextLine);
+
+        const newRange = document.createRange();
+        newRange.selectNodeContents(nextLine);
+        newRange.collapse(false);
+        sel.removeAllRanges();
+        sel.addRange(newRange);
+      } else {
+        fullscreenNoteEditorArea.appendChild(wrapper);
+      }
+
+      refreshInlineTaskLinks(fullscreenNoteEditorArea);
+    }
+
+    document.getElementById('closeInsertTaskBtn').onclick = () => hideModal(insertTaskModal);
+    document.getElementById('closeInsertTaskXBtn').onclick = () => hideModal(insertTaskModal);
+
+    document.getElementById('btnQuickCreateTaskForNote').onclick = () => {
+      hideModal(insertTaskModal);
+      editingId = null;
+      document.getElementById('modalSheetHeading').textContent = 'Новая запись';
+      document.getElementById('entryTitleInput').value = '';
+      document.getElementById('entryNotesInput').value = '';
+      document.getElementById('entryTimeInput').value = '';
+      document.getElementById('entryDateInput').value = formatDateKey(new Date());
+      entryTypeSelect.value = 'task';
+      syncModalFields();
+      if (editingNoteId) populateAttachedNoteOptions(editingNoteId);
+      showModal(entryModal);
+    };
+
     const schedulePendingModal = document.getElementById('schedulePendingModal');
     const splitTaskToggle = document.getElementById('splitTaskToggle');
     const singleScheduleContainer = document.getElementById('singleScheduleContainer');
@@ -3058,8 +3920,7 @@
     function openSchedulePendingModal(item) {
       schedulingPendingItem = item;
       document.getElementById('schedulePendingOriginalTitle').textContent = item.title;
-      const h = parseInt(item.durationHours, 10) || 0;
-      const m = parseInt(item.durationMinutes, 10) || 0;
+      const h = parseInt(item.durationHours, 10) || 0, m = parseInt(item.durationMinutes, 10) || 0;
       const durStr = `${h ? h + ' ч ' : ''}${m ? m + ' мин' : ''}`.trim();
       document.getElementById('schedulePendingDurationText').textContent = durStr ? `Оценка: ${durStr}` : 'Время не указано';
 
@@ -3133,6 +3994,7 @@
             time: row.querySelector('.split-time').value || '',
             category: schedulingPendingItem.category,
             notes: schedulingPendingItem.notes || '',
+            noteId: schedulingPendingItem.noteId || '',
             isYearly: false,
             completed: false
           });
@@ -3217,76 +4079,38 @@
       renderItems();
     };
 
-    const settingsModal = document.getElementById('settingsModal');
-    document.getElementById('openSettingsBtn').onclick = async () => {
-      document.getElementById('themeSelect').value = settings.theme;
-      document.getElementById('notifTodayEnabled').checked = !!settings.notifToday;
-      document.getElementById('notifTodayTime').value = settings.todayTime || '09:00';
-      document.getElementById('notifTomorrowEnabled').checked = !!settings.notifTomorrow;
-      document.getElementById('notifTomorrowTime').value = settings.tomorrowTime || '20:00';
-      document.getElementById('notifWeekendEnabled').checked = !!settings.notifWeekend;
-      document.getElementById('notifWeekendTime').value = settings.weekendTime || '18:00';
-      
-      document.getElementById('tgBotToken').value = settings.tgBotToken || '';
-      document.getElementById('tgChatId').value = settings.tgChatId || '';
-      document.getElementById('tgBackupInterval').value = settings.tgBackupInterval || 'daily';
-      
-      showModal(settingsModal);
-    };
-
-    async function requestNotificationPermission() {
-      if (!('Notification' in window)) return false;
-      if (Notification.permission === 'granted') return true;
-      if (Notification.permission !== 'denied') {
-        const permission = await Notification.requestPermission();
-        return permission === 'granted';
-      }
-      return false;
-    }
-
-    document.querySelectorAll('#notifTodayEnabled, #notifTomorrowEnabled, #notifWeekendEnabled').forEach(input => {
-      input.addEventListener('change', async (e) => {
-        if (e.target.checked) {
-          const granted = await requestNotificationPermission();
-          if (!granted) {
-            e.target.checked = false;
-            alert('Для отправки уведомлений необходимо разрешить доступ к уведомлениям в настройках браузера.');
-          }
-        }
-      });
-    });
-
+    /* ----------------------------------------------------
+       БЭКАП В TELEGRAM (БОТ 1)
+    ---------------------------------------------------- */
     async function sendBackupToTelegram(isAuto = false) {
-      const token = settings.tgBotToken || document.getElementById('tgBotToken')?.value.trim();
-      const chatId = settings.tgChatId || document.getElementById('tgChatId')?.value.trim();
+      const token = (document.getElementById('tgBotToken')?.value.trim()) || settings.tgBotToken;
+      const chatId = (document.getElementById('tgChatId')?.value.trim()) || settings.tgChatId;
 
       if (!token || !chatId) {
-        if (!isAuto) alert('Укажите Telegram Bot Token и Chat ID в настройках!');
+        if (!isAuto) alert('Укажите Telegram Bot Token и Chat ID во вкладке «Данные»!');
         return false;
       }
 
+      settings.tgBotToken = token;
+      settings.tgChatId = chatId;
+      saveSettings();
+
       const backupData = {
-        entries,
-        habits,
-        trashItems,
-        settings,
+        entries, habits, notes, trashItems, settings,
+        customTaskTags, customEventTags,
         backupDate: formatDateKey(new Date()),
         timestamp: Date.now()
       };
 
-      const jsonStr = JSON.stringify(backupData, null, 2);
-      const blob = new Blob([jsonStr], { type: 'application/json' });
-      const filename = `master_schedule_backup_${formatDateKey(new Date())}.json`;
-
+      const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
       const formData = new FormData();
       formData.append('chat_id', chatId);
-      formData.append('document', blob, filename);
+      formData.append('document', blob, `master_schedule_backup_${formatDateKey(new Date())}.json`);
       formData.append('caption', `📦 Автобэкап Master Schedule\n📅 Дата: ${formatDisplayDate(formatDateKey(new Date()))}`);
 
       try {
         const response = await fetch(`https://api.telegram.org/bot${token}/sendDocument`, {
-          method: 'POST',
-          body: formData
+          method: 'POST', body: formData
         });
         const res = await response.json();
         if (res.ok) {
@@ -3294,12 +4118,10 @@
           if (!isAuto) alert('Бэкап успешно отправлен в Telegram!');
           return true;
         } else {
-          console.error('Ошибка Telegram API:', res);
           if (!isAuto) alert('Ошибка отправки в Telegram: ' + (res.description || 'Неизвестная ошибка'));
           return false;
         }
       } catch (err) {
-        console.error('Сетевая ошибка при отправке в Telegram:', err);
         if (!isAuto) alert('Не удалось отправить файл в Telegram. Проверьте интернет-соединение.');
         return false;
       }
@@ -3313,30 +4135,302 @@
 
       const lastBackup = parseInt(localStorage.getItem('last_tg_backup_timestamp') || '0', 10);
       const now = Date.now();
-
-      const intervalsMs = {
-        daily: 24 * 60 * 60 * 1000,
-        '3days': 3 * 24 * 60 * 60 * 1000,
-        weekly: 7 * 24 * 60 * 60 * 1000
-      };
+      const intervalsMs = { daily: 86400000, '3days': 259200000, weekly: 604800000 };
 
       if (intervalsMs[interval] && now - lastBackup >= intervalsMs[interval]) {
         sendBackupToTelegram(true);
       }
     }
 
+    /* ----------------------------------------------------
+       НАПОМИНАНИЯ В TELEGRAM (БОТ 2)
+    ---------------------------------------------------- */
+    async function sendTelegramMessage(text) {
+      const token = settings.notifTgBotToken;
+      const chatId = settings.notifTgChatId;
+      if (!token || !chatId) return false;
+
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' })
+        });
+        const data = await res.json();
+        return data.ok;
+      } catch (err) {
+        console.error('Ошибка отправки напоминания:', err);
+        return false;
+      }
+    }
+
+    function formatItemsForNotification(targetDateKey, dateTitle) {
+      const { taskTags, eventTags } = getThemeColors();
+      const targetDate = parseDateKey(targetDateKey);
+      const targetShort = formatShortDateKey(targetDate);
+
+      const dayEvents = entries.filter(e => e.type === 'event' && (e.isYearly ? e.date.endsWith(targetShort) : e.date === targetDateKey));
+      const dayTasks = entries.filter(e => e.type === 'task' && taskOccursOnDate(e, targetDateKey));
+
+      if (dayEvents.length === 0 && dayTasks.length === 0) return null;
+
+      let lines = [];
+      if (dateTitle) lines.push(`<b>📅 ${dateTitle} (${formatDisplayDate(targetDateKey)}):</b>`);
+
+      dayEvents.forEach(e => {
+        const cat = eventTags[e.category]?.label || 'Событие';
+        let line = `• 🎉 <b>${escapeHtml(e.title)}</b> [${cat}]`;
+        if (e.notes) line += `\n  <i>Примечание: ${escapeHtml(e.notes)}</i>`;
+        lines.push(line);
+      });
+
+      dayTasks.forEach(t => {
+        const isDone = isTaskCompletedOnDate(t, targetDateKey);
+        const icon = isDone ? '✅' : '▫️';
+        const cat = taskTags[t.category]?.label || 'Дело';
+        let line = `• ${icon} <b>${escapeHtml(t.title)}</b>`;
+        if (t.time) line += ` в ${t.time}`;
+        line += ` [${cat}]`;
+        if (t.notes) line += `\n  <i>Примечание: ${escapeHtml(t.notes)}</i>`;
+        lines.push(line);
+      });
+
+      return lines.join('\n');
+    }
+
+    function checkAndTriggerTelegramNotifications() {
+      if (!settings.notifTgBotToken || !settings.notifTgChatId) return;
+
+      const now = new Date();
+      const curTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const curDayOfWeek = now.getDay();
+      const todayKey = formatDateKey(now);
+      const sentHistory = JSON.parse(localStorage.getItem('sent_tg_notif_log') || '{}');
+
+      if (settings.notifToday && settings.notifTodayTime === curTime && settings.notifTodayDays.includes(curDayOfWeek)) {
+        if (sentHistory.today !== todayKey) {
+          const content = formatItemsForNotification(todayKey, '');
+          sendTelegramMessage(`Посмотрите дела на сегодня:\n\n${content || 'На сегодня ничего не запланировано! ✨'}`);
+          sentHistory.today = todayKey;
+          localStorage.setItem('sent_tg_notif_log', JSON.stringify(sentHistory));
+        }
+      }
+
+      if (settings.notifTomorrow && settings.notifTomorrowTime === curTime && settings.notifTomorrowDays.includes(curDayOfWeek)) {
+        if (sentHistory.tomorrow !== todayKey) {
+          const tomorrow = new Date(now);
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          const tomorrowKey = formatDateKey(tomorrow);
+          const content = formatItemsForNotification(tomorrowKey, '');
+          sendTelegramMessage(`Посмотрите дела на завтра:\n\n${content || 'На завтра ничего не запланировано! ✨'}`);
+          sentHistory.tomorrow = todayKey;
+          localStorage.setItem('sent_tg_notif_log', JSON.stringify(sentHistory));
+        }
+      }
+
+      if (settings.notifWeekend && settings.notifWeekendTime === curTime && settings.notifWeekendDays.includes(curDayOfWeek)) {
+        if (sentHistory.weekend !== todayKey) {
+          const sat = new Date(now);
+          sat.setDate(sat.getDate() + ((6 - curDayOfWeek + 7) % 7));
+          const sun = new Date(sat);
+          sun.setDate(sun.getDate() + 1);
+
+          const satContent = formatItemsForNotification(formatDateKey(sat), 'Суббота');
+          const sunContent = formatItemsForNotification(formatDateKey(sun), 'Воскресенье');
+
+          let combined = [];
+          if (satContent) combined.push(satContent);
+          if (sunContent) combined.push(sunContent);
+
+          sendTelegramMessage(`Посмотрите дела на выходные:\n\n${combined.length > 0 ? combined.join('\n\n') : 'На выходные пока ничего не запланировано! 🏖️'}`);
+          sentHistory.weekend = todayKey;
+          localStorage.setItem('sent_tg_notif_log', JSON.stringify(sentHistory));
+        }
+      }
+    }
+
+    function setupDaysPicker(pickerId, initialDays, onUpdate) {
+      const container = document.getElementById(pickerId);
+      if (!container) return;
+      const daysArray = Array.isArray(initialDays) ? initialDays : [1, 2, 3, 4, 5, 6, 0];
+      container.querySelectorAll('.notif-day-btn').forEach(btn => {
+        const d = parseInt(btn.dataset.day, 10);
+        btn.classList.toggle('active', daysArray.includes(d));
+        btn.onclick = () => {
+          btn.classList.toggle('active');
+          const activeDays = Array.from(container.querySelectorAll('.notif-day-btn.active')).map(b => parseInt(b.dataset.day, 10));
+          onUpdate(activeDays);
+        };
+      });
+    }
+
+    document.getElementById('saveBackupBotCredsBtn')?.addEventListener('click', () => {
+      settings.tgBotToken = document.getElementById('tgBotToken').value.trim();
+      settings.tgChatId = document.getElementById('tgChatId').value.trim();
+      saveSettings();
+      alert('Данные бота автобэкапа успешно сохранены!');
+    });
+
+    document.getElementById('saveNotifBotCredsBtn')?.addEventListener('click', () => {
+      settings.notifTgBotToken = document.getElementById('notifTgBotToken').value.trim();
+      settings.notifTgChatId = document.getElementById('notifTgChatId').value.trim();
+      saveSettings();
+      alert('Данные бота напоминаний успешно сохранены!');
+    });
+
+    ['tgBotToken', 'tgChatId'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', () => { settings[id] = el.value.trim(); saveSettings(); });
+    });
+
+    ['notifTgBotToken', 'notifTgChatId'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', () => { settings[id] = el.value.trim(); saveSettings(); });
+    });
+
+    document.getElementById('testNotifTgBtn')?.addEventListener('click', async () => {
+      const token = document.getElementById('notifTgBotToken').value.trim();
+      const chatId = document.getElementById('notifTgChatId').value.trim();
+      if (!token || !chatId) {
+        alert('Введите Token и Chat ID бота напоминаний!');
+        return;
+      }
+      settings.notifTgBotToken = token;
+      settings.notifTgChatId = chatId;
+      saveSettings();
+
+      const todayKey = formatDateKey(new Date());
+      const content = formatItemsForNotification(todayKey, '');
+      const sampleText = `Посмотрите дела на сегодня:\n\n` + (content || `На сегодня ничего не запланировано! ✨`);
+      
+      const ok = await sendTelegramMessage(`🔔 Тестовое напоминание:\n\n` + sampleText);
+      alert(ok ? 'Тестовое уведомление успешно отправлено в Telegram!' : 'Не удалось отправить сообщение. Проверьте токен, Chat ID и нажмите Start в диалоге с ботом!');
+    });
+
+    const tabBtns = { general: document.getElementById('stTabGeneral'), tags: document.getElementById('stTabTags'), data: document.getElementById('stTabData'), notif: document.getElementById('stTabNotif') };
+    const tabSections = { general: document.getElementById('settingsSectionGeneral'), tags: document.getElementById('settingsSectionTags'), data: document.getElementById('settingsSectionData'), notif: document.getElementById('settingsSectionNotif') };
+
+    function setSettingsTab(activeKey) {
+      for (const [k, btn] of Object.entries(tabBtns)) btn.classList.toggle('active', k === activeKey);
+      for (const [k, sec] of Object.entries(tabSections)) sec.style.display = (k === activeKey) ? 'flex' : 'none';
+    }
+
+    tabBtns.general.onclick = () => setSettingsTab('general');
+    tabBtns.tags.onclick = () => { setSettingsTab('tags'); renderTagsEditor(); };
+    tabBtns.data.onclick = () => setSettingsTab('data');
+    tabBtns.notif.onclick = () => setSettingsTab('notif');
+
+    function renderTagsEditor() {
+      const taskList = document.getElementById('taskTagsEditorList');
+      const eventList = document.getElementById('eventTagsEditorList');
+      if (!taskList || !eventList) return;
+      taskList.innerHTML = '';
+      eventList.innerHTML = '';
+
+      for (const [key, val] of Object.entries(customTaskTags)) {
+        const row = document.createElement('div');
+        row.className = 'tag-manage-row';
+        row.innerHTML = `
+          <button class="tag-color-preview-btn" style="background-color:${val.color};" title="Выбрать цвет"></button>
+          <input type="text" class="tag-label-input" value="${escapeHtml(val.label)}" />
+          <button class="action-icon-btn del-btn" title="Удалить">${deleteIconSvg}</button>
+        `;
+        row.querySelector('.tag-color-preview-btn').onclick = (e) => { e.stopPropagation(); openColorPicker('task', key, val.color); };
+        row.querySelector('.tag-label-input').onchange = (e) => {
+          const newName = e.target.value.trim();
+          if (newName) { customTaskTags[key].label = newName; saveCustomTags(); }
+        };
+        row.querySelector('.del-btn').onclick = () => {
+          if (Object.keys(customTaskTags).length <= 1) { alert('Должна остаться хотя бы одна категория задач.'); return; }
+          openBentoConfirm('Удаление категории', `Удалить категорию «${val.label}»?`, () => {
+            delete customTaskTags[key]; saveCustomTags(); renderTagsEditor();
+          });
+        };
+        taskList.appendChild(row);
+      }
+
+      for (const [key, val] of Object.entries(customEventTags)) {
+        const row = document.createElement('div');
+        row.className = 'tag-manage-row';
+        row.innerHTML = `
+          <button class="tag-color-preview-btn" style="background-color:${val.color};" title="Выбрать цвет"></button>
+          <input type="text" class="tag-label-input" value="${escapeHtml(val.label)}" />
+          <button class="action-icon-btn del-btn" title="Удалить">${deleteIconSvg}</button>
+        `;
+        row.querySelector('.tag-color-preview-btn').onclick = (e) => { e.stopPropagation(); openColorPicker('event', key, val.color); };
+        row.querySelector('.tag-label-input').onchange = (e) => {
+          const newName = e.target.value.trim();
+          if (newName) { customEventTags[key].label = newName; saveCustomTags(); }
+        };
+        row.querySelector('.del-btn').onclick = () => {
+          if (Object.keys(customEventTags).length <= 1) { alert('Должен остаться хотя бы один тип события.'); return; }
+          openBentoConfirm('Удаление типа события', `Удалить тип события «${val.label}»?`, () => {
+            delete customEventTags[key]; saveCustomTags(); renderTagsEditor();
+          });
+        };
+        eventList.appendChild(row);
+      }
+    }
+
+    document.getElementById('addNewTaskTagBtn').onclick = () => {
+      customTaskTags['custom_' + Date.now().toString(36)] = { label: 'Новая категория', color: '#5b9ffc' };
+      saveCustomTags();
+      renderTagsEditor();
+    };
+
+    document.getElementById('addNewEventTagBtn').onclick = () => {
+      customEventTags['event_' + Date.now().toString(36)] = { label: 'Новое событие', color: '#a855f7' };
+      saveCustomTags();
+      renderTagsEditor();
+    };
+
+    function openSettingsDialog() {
+      settings.notifTodayDays = Array.isArray(settings.notifTodayDays) ? settings.notifTodayDays : [1, 2, 3, 4, 5, 6, 0];
+      settings.notifTomorrowDays = Array.isArray(settings.notifTomorrowDays) ? settings.notifTomorrowDays : [1, 2, 3, 4, 5, 6, 0];
+      settings.notifWeekendDays = Array.isArray(settings.notifWeekendDays) ? settings.notifWeekendDays : [5];
+
+      if (document.getElementById('themeSelect')) document.getElementById('themeSelect').value = settings.theme || 'dark';
+      if (document.getElementById('tgBotToken')) document.getElementById('tgBotToken').value = settings.tgBotToken || '';
+      if (document.getElementById('tgChatId')) document.getElementById('tgChatId').value = settings.tgChatId || '';
+      if (document.getElementById('tgBackupInterval')) document.getElementById('tgBackupInterval').value = settings.tgBackupInterval || 'daily';
+
+      if (document.getElementById('notifTgBotToken')) document.getElementById('notifTgBotToken').value = settings.notifTgBotToken || '';
+      if (document.getElementById('notifTgChatId')) document.getElementById('notifTgChatId').value = settings.notifTgChatId || '';
+
+      if (document.getElementById('notifTodayEnabled')) document.getElementById('notifTodayEnabled').checked = !!settings.notifToday;
+      if (document.getElementById('notifTodayTime')) document.getElementById('notifTodayTime').value = settings.notifTodayTime || '09:00';
+      setupDaysPicker('notifTodayDaysPicker', settings.notifTodayDays, (days) => { settings.notifTodayDays = days; });
+
+      if (document.getElementById('notifTomorrowEnabled')) document.getElementById('notifTomorrowEnabled').checked = !!settings.notifTomorrow;
+      if (document.getElementById('notifTomorrowTime')) document.getElementById('notifTomorrowTime').value = settings.notifTomorrowTime || '20:00';
+      setupDaysPicker('notifTomorrowDaysPicker', settings.notifTomorrowDays, (days) => { settings.notifTomorrowDays = days; });
+
+      if (document.getElementById('notifWeekendEnabled')) document.getElementById('notifWeekendEnabled').checked = !!settings.notifWeekend;
+      if (document.getElementById('notifWeekendTime')) document.getElementById('notifWeekendTime').value = settings.notifWeekendTime || '18:00';
+      setupDaysPicker('notifWeekendDaysPicker', settings.notifWeekendDays, (days) => { settings.notifWeekendDays = days; });
+
+      renderTagsEditor();
+      setSettingsTab('general');
+      showModal(settingsModal);
+    }
+
+    const settingsModal = document.getElementById('settingsModal');
+    document.getElementById('openSettingsBtn').onclick = openSettingsDialog;
+    document.getElementById('noteSettingsBtn').onclick = () => { saveCurrentNoteData(); openSettingsDialog(); };
+
     document.getElementById('closeSettingsBtn').onclick = () => {
       settings.theme = document.getElementById('themeSelect').value;
-      settings.notifToday = document.getElementById('notifTodayEnabled').checked;
-      settings.todayTime = document.getElementById('notifTodayTime').value;
-      settings.notifTomorrow = document.getElementById('notifTomorrowEnabled').checked;
-      settings.tomorrowTime = document.getElementById('notifTomorrowTime').value;
-      settings.notifWeekend = document.getElementById('notifWeekendEnabled').checked;
-      settings.weekendTime = document.getElementById('notifWeekendTime').value;
-
       settings.tgBotToken = document.getElementById('tgBotToken').value.trim();
       settings.tgChatId = document.getElementById('tgChatId').value.trim();
       settings.tgBackupInterval = document.getElementById('tgBackupInterval').value;
+      settings.notifTgBotToken = document.getElementById('notifTgBotToken').value.trim();
+      settings.notifTgChatId = document.getElementById('notifTgChatId').value.trim();
+      settings.notifToday = document.getElementById('notifTodayEnabled').checked;
+      settings.notifTodayTime = document.getElementById('notifTodayTime').value;
+      settings.notifTomorrow = document.getElementById('notifTomorrowEnabled').checked;
+      settings.notifTomorrowTime = document.getElementById('notifTomorrowTime').value;
+      settings.notifWeekend = document.getElementById('notifWeekendEnabled').checked;
+      settings.notifWeekendTime = document.getElementById('notifWeekendTime').value;
 
       applyTheme(settings.theme);
       saveSettings();
@@ -3345,14 +4439,143 @@
     };
     document.getElementById('closeSettingsXBtn').onclick = () => hideModal(settingsModal);
 
+    /* ----------------------------------------------------
+       КАСТОМНЫЙ COLOR PICKER (HSV Canvas + Sliders + Presets)
+    ---------------------------------------------------- */
+    let currentPickerTarget = null;
+    let pickerState = { h: 210, s: 0.6, v: 0.95 };
+
+    const pickerSatValCanvas = document.getElementById('pickerSatValCanvas');
+    const pickerSatValWrap = document.getElementById('pickerSatValWrap');
+    const pickerSatValCursor = document.getElementById('pickerSatValCursor');
+    const pickerHueWrap = document.getElementById('pickerHueWrap');
+    const pickerHueThumb = document.getElementById('pickerHueThumb');
+    const pickerHexInput = document.getElementById('pickerHexInput');
+    const pickerPreviewBubble = document.getElementById('pickerPreviewBubble');
+    const colorPickerModal = document.getElementById('colorPickerModal');
+
+    function renderSatValCanvas() {
+      const ctx = pickerSatValCanvas.getContext('2d');
+      const w = pickerSatValCanvas.width, h = pickerSatValCanvas.height;
+      const rgb = hsvToRgb(pickerState.h, 1, 1);
+
+      ctx.fillStyle = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+      ctx.fillRect(0, 0, w, h);
+
+      const gradH = ctx.createLinearGradient(0, 0, w, 0);
+      gradH.addColorStop(0, '#ffffff');
+      gradH.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = gradH;
+      ctx.fillRect(0, 0, w, h);
+
+      const gradV = ctx.createLinearGradient(0, 0, 0, h);
+      gradV.addColorStop(0, 'rgba(0,0,0,0)');
+      gradV.addColorStop(1, '#000000');
+      ctx.fillStyle = gradV;
+      ctx.fillRect(0, 0, w, h);
+    }
+
+    function updatePickerUI() {
+      renderSatValCanvas();
+      const rect = pickerSatValWrap.getBoundingClientRect();
+      pickerSatValCursor.style.left = `${pickerState.s * (rect.width || 240)}px`;
+      pickerSatValCursor.style.top = `${(1 - pickerState.v) * (rect.height || 180)}px`;
+      pickerHueThumb.style.top = `${(pickerState.h / 360) * (pickerHueWrap.clientHeight || 180)}px`;
+
+      const rgb = hsvToRgb(pickerState.h, pickerState.s, pickerState.v);
+      const hex = rgbToHex(rgb[0], rgb[1], rgb[2]);
+      pickerPreviewBubble.style.backgroundColor = hex;
+      if (document.activeElement !== pickerHexInput) pickerHexInput.value = hex.replace('#', '');
+    }
+
+    function initPickerPresets() {
+      const grid = document.getElementById('pickerPresetsGrid');
+      grid.innerHTML = '';
+      PRESET_PALETTE.forEach(c => {
+        const dot = document.createElement('div');
+        dot.className = 'picker-preset-dot';
+        dot.style.backgroundColor = c;
+        dot.onclick = () => { pickerState = hexToHsv(c); updatePickerUI(); };
+        grid.appendChild(dot);
+      });
+    }
+    initPickerPresets();
+
+    function handleSatValPointer(e) {
+      const rect = pickerSatValWrap.getBoundingClientRect();
+      let x = (e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0].clientX)) - rect.left;
+      let y = (e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0].clientY)) - rect.top;
+      pickerState.s = Math.max(0, Math.min(rect.width, x)) / rect.width;
+      pickerState.v = 1 - (Math.max(0, Math.min(rect.height, y)) / rect.height);
+      updatePickerUI();
+    }
+
+    function handleHuePointer(e) {
+      const rect = pickerHueWrap.getBoundingClientRect();
+      let y = (e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0].clientY)) - rect.top;
+      pickerState.h = Math.round((Math.max(0, Math.min(rect.height, y)) / rect.height) * 360) % 360;
+      updatePickerUI();
+    }
+
+    let isDraggingSatVal = false;
+    pickerSatValWrap.addEventListener('pointerdown', (e) => {
+      isDraggingSatVal = true;
+      pickerSatValWrap.setPointerCapture(e.pointerId);
+      handleSatValPointer(e);
+    });
+    pickerSatValWrap.addEventListener('pointermove', (e) => { if (isDraggingSatVal) handleSatValPointer(e); });
+    pickerSatValWrap.addEventListener('pointerup', () => { isDraggingSatVal = false; });
+    pickerSatValWrap.addEventListener('pointercancel', () => { isDraggingSatVal = false; });
+
+    let isDraggingHue = false;
+    pickerHueWrap.addEventListener('pointerdown', (e) => {
+      isDraggingHue = true;
+      pickerHueWrap.setPointerCapture(e.pointerId);
+      handleHuePointer(e);
+    });
+    pickerHueWrap.addEventListener('pointermove', (e) => { if (isDraggingHue) handleHuePointer(e); });
+    pickerHueWrap.addEventListener('pointerup', () => { isDraggingHue = false; });
+    pickerHueWrap.addEventListener('pointercancel', () => { isDraggingHue = false; });
+
+    pickerHexInput.addEventListener('input', () => {
+      const val = pickerHexInput.value.trim();
+      if (/^[0-9A-Fa-f]{6}$/.test(val)) {
+        pickerState = hexToHsv('#' + val);
+        updatePickerUI();
+      }
+    });
+
+    function openColorPicker(targetType, key, currentHex) {
+      currentPickerTarget = { type: targetType, key };
+      pickerState = hexToHsv(currentHex || '#5b9ffc');
+      showModal(colorPickerModal);
+      requestAnimationFrame(() => updatePickerUI());
+    }
+
+    document.getElementById('closeColorPickerXBtn').onclick = () => hideModal(colorPickerModal);
+    document.getElementById('cancelColorPickerBtn').onclick = () => hideModal(colorPickerModal);
+
+    document.getElementById('applyColorPickerBtn').onclick = () => {
+      if (!currentPickerTarget) return;
+      const rgb = hsvToRgb(pickerState.h, pickerState.s, pickerState.v);
+      const chosenHex = rgbToHex(rgb[0], rgb[1], rgb[2]);
+
+      if (currentPickerTarget.type === 'task') customTaskTags[currentPickerTarget.key].color = chosenHex;
+      else if (currentPickerTarget.type === 'event') customEventTags[currentPickerTarget.key].color = chosenHex;
+
+      saveCustomTags();
+      renderTagsEditor();
+      hideModal(colorPickerModal);
+    };
+
     document.getElementById('backupExportBtn').onclick = () => {
       const backupData = {
-        entries, habits, trashItems, settings,
+        entries, habits, notes, trashItems, settings,
+        customTaskTags, customEventTags,
         backupDate: formatDateKey(new Date())
       };
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
       const a = document.createElement('a');
-      a.href = dataStr;
+      a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
       a.download = `master_schedule_backup_${formatDateKey(new Date())}.json`;
       document.body.appendChild(a);
       a.click();
@@ -3368,9 +4591,12 @@
           const imp = JSON.parse(event.target.result);
           if (imp.entries) entries = imp.entries;
           if (imp.habits) habits = imp.habits;
+          if (imp.notes) notes = imp.notes;
           if (imp.trashItems) trashItems = imp.trashItems;
+          if (imp.customTaskTags) customTaskTags = imp.customTaskTags;
+          if (imp.customEventTags) customEventTags = imp.customEventTags;
           if (imp.settings) settings = { ...settings, ...imp.settings };
-          saveEntries(); saveHabits(); saveTrash(); saveSettings();
+          saveEntries(); saveHabits(); saveNotes(); saveTrash(); saveCustomTags(); saveSettings();
           alert('Резервная копия загружена!');
         } catch {
           alert('Ошибка при чтении файла.');
@@ -3379,67 +4605,9 @@
       reader.readAsText(file);
     };
 
-    async function sendPushNotification(title, body) {
-      if (!('Notification' in window) || Notification.permission !== 'granted') return;
-      if ('serviceWorker' in navigator) {
-        const reg = await navigator.serviceWorker.ready;
-        if (reg && reg.showNotification) {
-          reg.showNotification(title, {
-            body,
-            icon: './icon-192.png',
-            badge: './icon-192.png'
-          });
-          return;
-        }
-      }
-      new Notification(title, { body, icon: './icon-192.png' });
-    }
-
-    function checkAndTriggerNotifications() {
-      if (!('Notification' in window) || Notification.permission !== 'granted') return;
-
-      const now = new Date();
-      const curTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-      const todayKey = formatDateKey(now);
-      const dayOfWeek = now.getDay();
-      const sentHistory = JSON.parse(localStorage.getItem('sent_notif_log') || '{}');
-
-      if (settings.notifToday && settings.todayTime === curTime && sentHistory.today !== todayKey) {
-        const todayTasks = entries.filter(e => e.type === 'task' && taskOccursOnDate(e, todayKey) && !isTaskCompletedOnDate(e, todayKey));
-        if (todayTasks.length > 0) {
-          sendPushNotification('Планы на сегодня 📅', `У вас запланировано ${todayTasks.length} невыполненных задач.`);
-        }
-        sentHistory.today = todayKey;
-        localStorage.setItem('sent_notif_log', JSON.stringify(sentHistory));
-      }
-
-      if (settings.notifTomorrow && settings.tomorrowTime === curTime && sentHistory.tomorrow !== todayKey) {
-        const tomorrow = new Date(now);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const tomorrowKey = formatDateKey(tomorrow);
-        const tomorrowTasks = entries.filter(e => e.type === 'task' && taskOccursOnDate(e, tomorrowKey));
-        if (tomorrowTasks.length > 0) {
-          sendPushNotification('Планы на завтра 🗓️', `На завтра запланировано задач: ${tomorrowTasks.length}.`);
-        }
-        sentHistory.tomorrow = todayKey;
-        localStorage.setItem('sent_notif_log', JSON.stringify(sentHistory));
-      }
-
-      if (settings.notifWeekend && dayOfWeek === 5 && settings.weekendTime === curTime && sentHistory.weekend !== todayKey) {
-        const sat = new Date(now); sat.setDate(sat.getDate() + 1);
-        const sun = new Date(now); sun.setDate(sun.getDate() + 2);
-        const satKey = formatDateKey(sat);
-        const sunKey = formatDateKey(sun);
-        const weekendTasks = entries.filter(e => e.type === 'task' && (taskOccursOnDate(e, satKey) || taskOccursOnDate(e, sunKey)));
-        sendPushNotification('Выходные близко ✨', weekendTasks.length > 0 ? `На выходные запланировано задач: ${weekendTasks.length}.` : 'На выходные пока ничего не запланировано!');
-        sentHistory.weekend = todayKey;
-        localStorage.setItem('sent_notif_log', JSON.stringify(sentHistory));
-      }
-    }
-
-    setInterval(checkAndTriggerNotifications, 30000);
     checkPeriodicTelegramBackup();
     setInterval(checkPeriodicTelegramBackup, 15 * 60 * 1000);
+    setInterval(checkAndTriggerTelegramNotifications, 30000);
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
