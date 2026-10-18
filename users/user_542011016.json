@@ -746,9 +746,9 @@
     {
       "id": "1792211022877_k9z1j",
       "type": "task",
-      "title": "Сходить в зал",
-      "date": "2026-10-18",
-      "time": "",
+      "title": "Тренировка",
+      "date": "2026-10-20",
+      "time": "18:00",
       "durationHours": "",
       "durationMinutes": "",
       "category": "hobby",
@@ -896,5 +896,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-18T15:53:44.150Z"
+  "updatedAt": "2026-10-18T15:54:11.711Z"
 }
