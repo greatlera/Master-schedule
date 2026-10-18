@@ -796,6 +796,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792339065746_1u0zj",
+      "type": "task",
+      "title": "Ресторан бабушка",
+      "date": "2026-10-25",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "meeting",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -932,5 +950,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-18T15:55:57.966Z"
+  "updatedAt": "2026-10-18T15:57:48.752Z"
 }
