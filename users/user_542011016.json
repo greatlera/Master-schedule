@@ -887,7 +887,14 @@
       ]
     }
   ],
-  "notes": [],
+  "notes": [
+    {
+      "id": "1792339237610_15kf0",
+      "title": "Список продуктов",
+      "content": "<div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\">Зубная нить</div>\n      </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Прокладки тонкие ежедневки</div>\n          </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\"></div>\n          </div>",
+      "linkedTaskIds": []
+    }
+  ],
   "trashItems": [
     {
       "trashId": "1792210013163_9xcv4",
@@ -988,5 +995,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-18T15:59:42.985Z"
+  "updatedAt": "2026-10-18T16:00:40.615Z"
 }
