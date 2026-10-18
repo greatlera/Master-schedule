@@ -1845,7 +1845,7 @@
             </div>
             <div class="field-group">
               <label>Репозиторий (владелец/название)</label>
-              <input type="text" class="form-ctrl" id="ghRepoInput" placeholder="например: username/just-my-calendar" autocomplete="off" />
+              <input type="text" class="form-ctrl" id="ghRepoInput" placeholder="например: greatlera/Master-schedule" autocomplete="off" />
             </div>
             <div class="field-group">
               <label>Периодичность автобэкапа в Telegram</label>
@@ -2174,7 +2174,10 @@
       const token = settings.ghToken;
       const repo = settings.ghRepo;
       const chatId = settings.notifTgChatId;
-      if (!token || !repo || !chatId) return;
+      if (!token || !repo || !chatId) {
+        alert('Заполните Chat ID, GitHub Token и имя репозитория во вкладке «Данные»!');
+        return false;
+      }
 
       const path = `users/user_${chatId}.json`;
       const url = `https://api.github.com/repos/${repo}/contents/${path}`;
@@ -2196,12 +2199,18 @@
             'Accept': 'application/vnd.github.v3+json'
           }
         });
+
+        if (getRes.status === 401) {
+          alert('Ошибка 401: Неверный GitHub Token или истек его срок действия. Проверьте токен!');
+          return false;
+        }
+
         if (getRes.ok) {
           const fileInfo = await getRes.json();
           sha = fileInfo.sha;
         }
 
-        await fetch(url, {
+        const putRes = await fetch(url, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -2214,9 +2223,18 @@
             sha: sha || undefined
           })
         });
-        console.log('GitHub sync completed');
+
+        if (!putRes.ok) {
+          const errData = await putRes.json().catch(() => ({}));
+          const msg = errData.message || putRes.statusText;
+          alert(`Ошибка GitHub API (${putRes.status}): ${msg}\nУбедитесь, что токен имеет галочку "repo", а имя репозитория введено верно.`);
+          return false;
+        }
+
+        return true;
       } catch (err) {
-        console.warn('GitHub sync failed:', err);
+        alert('Сетевая ошибка при синхронизации с GitHub: ' + err.message);
+        return false;
       }
     }
 
@@ -4148,8 +4166,10 @@
         return;
       }
 
-      await pushUserDataToGitHub();
-      alert('Данные и настройки успешно сохранены и отправлены на сервер GitHub!');
+      const success = await pushUserDataToGitHub();
+      if (success) {
+        alert('Файл успешно создан и синхронизирован с GitHub!');
+      }
     });
 
     const notifChatEl = document.getElementById('notifTgChatId');

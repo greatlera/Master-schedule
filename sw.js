@@ -11,14 +11,13 @@ const ASSETS_TO_CACHE = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
-      // Форсируем свежую загрузку index.html в обход промежуточного HTTP-кэша
+      // Форсируем загрузку свежих файлов в обход промежуточного кэша браузера
       for (const asset of ASSETS_TO_CACHE) {
         try {
           const req = new Request(asset, { cache: 'reload' });
           const res = await fetch(req);
           if (res.ok) await cache.put(asset, res);
         } catch (e) {
-          // Если офлайн при повторной установке, сохраняем базовый add
           await cache.add(asset).catch(() => {});
         }
       }
@@ -72,7 +71,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Для остальных локальных статических ресурсов (иконки, манифест)
+  // Для остальных локальных ресурсов (иконки, манифест)
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
