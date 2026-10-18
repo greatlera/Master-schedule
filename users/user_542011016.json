@@ -850,6 +850,24 @@
       "completed": true,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792340986213_yykik",
+      "type": "task",
+      "title": "Заехать в офис",
+      "date": "2026-10-19",
+      "time": "18:30",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "meeting",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -991,5 +1009,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-18T16:26:38.543Z"
+  "updatedAt": "2026-10-18T16:29:49.219Z"
 }
