@@ -814,6 +814,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792339125059_eab0s",
+      "type": "task",
+      "title": "Коллажный клуб",
+      "date": "2026-10-25",
+      "time": "14:00",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "hobby",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -950,5 +968,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-18T15:57:48.752Z"
+  "updatedAt": "2026-10-18T15:58:48.065Z"
 }
