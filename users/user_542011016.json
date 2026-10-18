@@ -924,17 +924,13 @@
       2,
       3,
       4,
-      5,
-      6,
-      0
+      5
     ],
     "notifTomorrowDays": [
       1,
       2,
       3,
       4,
-      5,
-      6,
       0
     ],
     "notifWeekendDays": [
@@ -942,9 +938,9 @@
     ],
     "notifTgBotToken": "8925380520:AAHWCFmO1fDWUYRDZy4_4fd88pHLP3PHckw",
     "notifTgChatId": "542011016",
-    "notifTodayTime": "09:45",
-    "notifTomorrowTime": "19:00",
-    "notifWeekendTime": "18:00",
+    "notifTodayTime": "08:30",
+    "notifTomorrowTime": "20:00",
+    "notifWeekendTime": "20:00",
     "ghRepo": "greatlera/Master-schedule"
   },
   "customTaskTags": {
@@ -995,5 +991,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-18T16:25:18.578Z"
+  "updatedAt": "2026-10-18T16:26:38.543Z"
 }
