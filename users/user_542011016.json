@@ -868,6 +868,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792341054357_2lneb",
+      "type": "task",
+      "title": "Померить одежду на ламоде",
+      "date": "2026-10-24",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "other",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1009,5 +1027,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-18T16:30:21.482Z"
+  "updatedAt": "2026-10-18T16:30:57.363Z"
 }
