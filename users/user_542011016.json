@@ -769,7 +769,7 @@
       "time": "",
       "durationHours": "",
       "durationMinutes": "",
-      "category": "work",
+      "category": "rest",
       "notes": "",
       "noteId": "",
       "isYearly": false,
@@ -914,5 +914,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-18T15:55:26.483Z"
+  "updatedAt": "2026-10-18T15:55:32.643Z"
 }
