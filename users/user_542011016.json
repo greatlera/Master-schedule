@@ -832,6 +832,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792339178483_imvdj",
+      "type": "task",
+      "title": "Помыть коврик для мышки",
+      "date": "2026-10-17",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "custom_mvbvaq8q",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": true,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -970,5 +988,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-18T15:59:15.748Z"
+  "updatedAt": "2026-10-18T15:59:42.985Z"
 }
