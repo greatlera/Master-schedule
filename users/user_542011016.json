@@ -760,6 +760,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792338921887_ch6ku",
+      "type": "task",
+      "title": "Поездка на Сарпинский",
+      "date": "2026-10-18",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "work",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": true,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -896,5 +914,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-18T15:54:11.711Z"
+  "updatedAt": "2026-10-18T15:55:26.483Z"
 }
