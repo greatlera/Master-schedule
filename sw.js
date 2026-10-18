@@ -1,4 +1,4 @@
-const CACHE_NAME = 'master-schedule-v8';
+const CACHE_NAME = 'master-schedule-v8.1';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -25,7 +25,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Активация: удаляем все старые версии кэша (v7 и ниже)
+// Активация: удаляем все старые версии кэша
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {

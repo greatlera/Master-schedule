@@ -2180,7 +2180,8 @@
       }
 
       const path = `users/user_${chatId}.json`;
-      const url = `https://api.github.com/repos/${repo}/contents/${path}`;
+      // Гарантируем получение свежего SHA в обход любого кэша браузера
+      const url = `https://api.github.com/repos/${repo}/contents/${path}?t=${Date.now()}`;
 
       // ИСКЛЮЧАЕМ ТОКЕН GITHUB ИЗ ПЕРЕДАВАЕМОГО ФАЙЛА ДЛЯ ЗАЩИТЫ
       const safeSettings = { ...settings };
@@ -2203,9 +2204,11 @@
       try {
         let sha = '';
         const getRes = await fetch(url, {
+          cache: 'no-store',
           headers: {
             'Authorization': `Bearer ${token}`,
-            'Accept': 'application/vnd.github.v3+json'
+            'Accept': 'application/vnd.github.v3+json',
+            'If-None-Match': ''
           }
         });
 
@@ -2219,7 +2222,7 @@
           sha = fileInfo.sha;
         }
 
-        const putRes = await fetch(url, {
+        const putRes = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
