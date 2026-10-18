@@ -844,7 +844,7 @@
     "notifTgBotToken": "8925380520:AAHWCFmO1fDWUYRDZy4_4fd88pHLP3PHckw",
     "notifTgChatId": "542011016",
     "notifTodayTime": "09:45",
-    "notifTomorrowTime": "22:10",
+    "notifTomorrowTime": "19:00",
     "notifWeekendTime": "18:00",
     "ghRepo": "greatlera/Master-schedule"
   },
@@ -896,5 +896,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-18T06:54:24.498Z"
+  "updatedAt": "2026-10-18T15:52:42.270Z"
 }
