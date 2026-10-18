@@ -778,6 +778,24 @@
       "completed": true,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792338942943_r247h",
+      "type": "task",
+      "title": "Приготовить еду",
+      "date": "2026-10-18",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "work",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -914,5 +932,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-18T15:55:32.643Z"
+  "updatedAt": "2026-10-18T15:55:45.949Z"
 }
