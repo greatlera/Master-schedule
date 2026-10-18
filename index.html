@@ -2182,9 +2182,18 @@
       const path = `users/user_${chatId}.json`;
       const url = `https://api.github.com/repos/${repo}/contents/${path}`;
 
+      // ИСКЛЮЧАЕМ ТОКЕН GITHUB ИЗ ПЕРЕДАВАЕМОГО ФАЙЛА ДЛЯ ЗАЩИТЫ
+      const safeSettings = { ...settings };
+      delete safeSettings.ghToken;
+
       const backupData = {
-        entries, habits, notes, trashItems, settings,
-        customTaskTags, customEventTags,
+        entries, 
+        habits, 
+        notes, 
+        trashItems, 
+        settings: safeSettings,
+        customTaskTags, 
+        customEventTags,
         updatedAt: new Date().toISOString()
       };
 
