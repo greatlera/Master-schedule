@@ -922,6 +922,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792387287241_dl3rk",
+      "type": "task",
+      "title": "Купить коту таблетки",
+      "date": "2026-10-19",
+      "time": "20:00",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "work",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1063,5 +1081,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-18T20:24:56.454Z"
+  "updatedAt": "2026-10-19T05:21:30.247Z"
 }
