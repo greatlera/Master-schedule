@@ -940,6 +940,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792402953475_7uxnd",
+      "type": "task",
+      "title": "Сделать маникюр",
+      "date": "2026-10-19",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "procedure",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1081,5 +1099,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-19T09:42:23.111Z"
+  "updatedAt": "2026-10-19T09:42:36.483Z"
 }
