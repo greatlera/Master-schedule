@@ -925,6 +925,24 @@
       "completed": true,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792519205795_6l6p5",
+      "type": "pending",
+      "title": "Отдать плёнку на проявку",
+      "date": "",
+      "time": "",
+      "durationHours": 0,
+      "durationMinutes": 30,
+      "category": "custom_mvbvaq8q",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1112,5 +1130,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-20T13:20:59.784Z"
+  "updatedAt": "2026-10-20T18:00:08.808Z"
 }
