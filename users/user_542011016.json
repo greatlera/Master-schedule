@@ -246,24 +246,22 @@
       "time": "19:00",
       "durationHours": "",
       "durationMinutes": "",
-      "category": "hobby",
+      "category": "custom_mvh6pe30",
       "notes": "Академическая ул., 22",
       "isYearly": false,
       "isRecurring": true,
       "recurringConfig": {
-        "frequency": "weekdays",
+        "frequency": "weekly",
         "intervalN": 2,
-        "weekdays": [
-          1,
-          4
-        ]
+        "weekdays": []
       },
       "completed": false,
       "completedDates": [
         "2026-10-15",
         "2026-10-19"
       ],
-      "excludedDates": []
+      "excludedDates": [],
+      "noteId": ""
     },
     {
       "id": "1792078323900_bcr24",
@@ -1135,5 +1133,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-20T21:17:59.234Z"
+  "updatedAt": "2026-10-20T21:18:06.563Z"
 }
