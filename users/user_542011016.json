@@ -154,23 +154,6 @@
       "excludedDates": []
     },
     {
-      "id": "1792066382438_rdnyl",
-      "type": "pending",
-      "title": "Доделать наличник",
-      "date": "",
-      "time": "",
-      "durationHours": 2,
-      "durationMinutes": 0,
-      "category": "hobby",
-      "notes": "",
-      "isYearly": false,
-      "isRecurring": false,
-      "recurringConfig": null,
-      "completed": false,
-      "completedDates": [],
-      "excludedDates": []
-    },
-    {
       "id": "1792066403704_h3cc2",
       "type": "pending",
       "title": "Сделать приложение-дневник",
@@ -1022,6 +1005,28 @@
         "completedDates": [],
         "excludedDates": []
       }
+    },
+    {
+      "trashId": "1792502456774_0u315",
+      "deletedAt": 1792502456774,
+      "originalType": "task",
+      "data": {
+        "id": "1792066382438_rdnyl",
+        "type": "pending",
+        "title": "Доделать наличник",
+        "date": "",
+        "time": "",
+        "durationHours": 2,
+        "durationMinutes": 0,
+        "category": "hobby",
+        "notes": "",
+        "isYearly": false,
+        "isRecurring": false,
+        "recurringConfig": null,
+        "completed": false,
+        "completedDates": [],
+        "excludedDates": []
+      }
     }
   ],
   "settings": {
@@ -1107,5 +1112,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-20T13:20:54.155Z"
+  "updatedAt": "2026-10-20T13:20:59.784Z"
 }
