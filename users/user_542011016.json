@@ -1117,8 +1117,8 @@
       "color": "#6188bd"
     },
     "custom_mvh6pe30": {
-      "label": "Новая категория",
-      "color": "#5b9ffc"
+      "label": "Спорт",
+      "color": "#16a34a"
     }
   },
   "customEventTags": {
@@ -1135,5 +1135,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-20T21:17:32.875Z"
+  "updatedAt": "2026-10-20T21:17:47.867Z"
 }
