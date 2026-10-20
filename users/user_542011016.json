@@ -1115,6 +1115,10 @@
     "custom_mvbvaq8q": {
       "label": "Рутина",
       "color": "#6188bd"
+    },
+    "custom_mvh6pe30": {
+      "label": "Новая категория",
+      "color": "#5b9ffc"
     }
   },
   "customEventTags": {
@@ -1131,5 +1135,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-20T21:17:16.701Z"
+  "updatedAt": "2026-10-20T21:17:32.875Z"
 }
