@@ -674,23 +674,6 @@
       "excludedDates": []
     },
     {
-      "id": "1792099757623_q1xq3",
-      "type": "pending",
-      "title": "Помыть коврик для мыши",
-      "date": "",
-      "time": "",
-      "durationHours": 0,
-      "durationMinutes": 30,
-      "category": "home",
-      "notes": "",
-      "isYearly": false,
-      "isRecurring": false,
-      "recurringConfig": null,
-      "completed": false,
-      "completedDates": [],
-      "excludedDates": []
-    },
-    {
       "id": "1792209651087_5dusy",
       "type": "task",
       "title": "Посмотреть сериал с Максимом",
@@ -1017,6 +1000,28 @@
         "content": "",
         "linkedTaskIds": []
       }
+    },
+    {
+      "trashId": "1792502451145_6dtjg",
+      "deletedAt": 1792502451145,
+      "originalType": "task",
+      "data": {
+        "id": "1792099757623_q1xq3",
+        "type": "pending",
+        "title": "Помыть коврик для мыши",
+        "date": "",
+        "time": "",
+        "durationHours": 0,
+        "durationMinutes": 30,
+        "category": "home",
+        "notes": "",
+        "isYearly": false,
+        "isRecurring": false,
+        "recurringConfig": null,
+        "completed": false,
+        "completedDates": [],
+        "excludedDates": []
+      }
     }
   ],
   "settings": {
@@ -1102,5 +1107,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-20T06:55:42.948Z"
+  "updatedAt": "2026-10-20T13:20:54.155Z"
 }
