@@ -1,0 +1,188 @@
+{
+  "entries": [
+    {
+      "id": "1791975301858_ofeix",
+      "type": "task",
+      "title": "Бачата",
+      "date": "2026-10-15",
+      "time": "19:00",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "hobby",
+      "notes": "",
+      "isYearly": false,
+      "isRecurring": true,
+      "recurringConfig": {
+        "frequency": "weekdays",
+        "intervalN": 2,
+        "weekdays": [
+          1,
+          4
+        ]
+      },
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
+    },
+    {
+      "id": "1792155385275_hgt64",
+      "type": "event",
+      "title": "День рождения бабы Зои",
+      "date": "2026-10-20",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "birthday",
+      "notes": "",
+      "isYearly": true,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
+    },
+    {
+      "id": "1792155412347_p62xv",
+      "type": "event",
+      "title": "День рождения любимой❤️",
+      "date": "2026-12-05",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "birthday",
+      "notes": "",
+      "isYearly": true,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
+    },
+    {
+      "id": "1792155486155_31l8x",
+      "type": "event",
+      "title": "Отпуск на Балканы",
+      "date": "2027-04-20",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "birthday",
+      "notes": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
+    }
+  ],
+  "habits": [],
+  "notes": [],
+  "trashItems": [
+    {
+      "trashId": "1791975125875_9ibn4",
+      "deletedAt": 1791975125875,
+      "originalType": "task",
+      "data": {
+        "id": "1791975102407_k855s",
+        "type": "pending",
+        "title": "234",
+        "date": "",
+        "time": "",
+        "durationHours": 0,
+        "durationMinutes": 30,
+        "category": "home",
+        "notes": "1",
+        "isYearly": false,
+        "isRecurring": false,
+        "recurringConfig": null,
+        "completed": false,
+        "completedDates": [],
+        "excludedDates": []
+      }
+    }
+  ],
+  "settings": {
+    "theme": "light",
+    "notifToday": true,
+    "todayTime": "03:04",
+    "notifTomorrow": false,
+    "tomorrowTime": "20:00",
+    "notifWeekend": false,
+    "weekendTime": "18:00",
+    "tgBotToken": "",
+    "tgChatId": "",
+    "tgBackupInterval": "3days",
+    "notifTodayDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      0
+    ],
+    "notifTomorrowDays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      0
+    ],
+    "notifWeekendDays": [
+      5
+    ],
+    "ghRepo": "greatlera/Master-schedule",
+    "notifTgChatId": "896137276",
+    "notifTodayTime": "09:00",
+    "notifTomorrowTime": "20:00",
+    "notifWeekendTime": "18:00"
+  },
+  "customTaskTags": {
+    "work": {
+      "label": "Работа",
+      "color": "#5b9ffc"
+    },
+    "home": {
+      "label": "Дом",
+      "color": "#cbf532"
+    },
+    "hobby": {
+      "label": "Хобби",
+      "color": "#a78bfa"
+    },
+    "meeting": {
+      "label": "Встречи",
+      "color": "#FF652F"
+    },
+    "procedure": {
+      "label": "Процедуры",
+      "color": "#f472b6"
+    },
+    "rest": {
+      "label": "Отдых",
+      "color": "#fbbf24"
+    },
+    "other": {
+      "label": "Прочее",
+      "color": "#94a3b8"
+    }
+  },
+  "customEventTags": {
+    "birthday": {
+      "label": "День рождения",
+      "color": "#EF3838"
+    },
+    "holiday": {
+      "label": "Праздник",
+      "color": "#FF652F"
+    },
+    "important": {
+      "label": "Важное событие",
+      "color": "#a855f7"
+    }
+  },
+  "updatedAt": "2026-10-20T08:30:32.137Z"
+}
