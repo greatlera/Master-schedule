@@ -251,9 +251,12 @@
       "isYearly": false,
       "isRecurring": true,
       "recurringConfig": {
-        "frequency": "weekly",
+        "frequency": "weekdays",
         "intervalN": 2,
-        "weekdays": []
+        "weekdays": [
+          1,
+          4
+        ]
       },
       "completed": false,
       "completedDates": [
@@ -1133,5 +1136,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-20T21:18:06.563Z"
+  "updatedAt": "2026-10-20T21:18:20.968Z"
 }
