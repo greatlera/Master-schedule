@@ -998,6 +998,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792605477969_9xqyb",
+      "type": "task",
+      "title": "Забрать заказ с вб",
+      "date": "2026-10-24",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "custom_mvbvaq8q",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1221,5 +1239,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-21T17:57:49.214Z"
+  "updatedAt": "2026-10-21T17:58:00.975Z"
 }
