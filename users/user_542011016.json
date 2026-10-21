@@ -676,24 +676,6 @@
       "excludedDates": []
     },
     {
-      "id": "1792209680704_x1kj4",
-      "type": "task",
-      "title": "Прикрутить сушилку",
-      "date": "2026-10-24",
-      "time": "18:00",
-      "durationHours": "",
-      "durationMinutes": "",
-      "category": "custom_mvbvaq8q",
-      "notes": "",
-      "noteId": "",
-      "isYearly": false,
-      "isRecurring": false,
-      "recurringConfig": null,
-      "completed": false,
-      "completedDates": [],
-      "excludedDates": []
-    },
-    {
       "id": "1792209714459_rs8yf",
       "type": "task",
       "title": "Убрать стройматериалы из комнаты",
@@ -1109,6 +1091,29 @@
         "completedDates": [],
         "excludedDates": []
       }
+    },
+    {
+      "trashId": "1792605444684_knh2r",
+      "deletedAt": 1792605444684,
+      "originalType": "task",
+      "data": {
+        "id": "1792209680704_x1kj4",
+        "type": "task",
+        "title": "Прикрутить сушилку",
+        "date": "2026-10-24",
+        "time": "18:00",
+        "durationHours": "",
+        "durationMinutes": "",
+        "category": "custom_mvbvaq8q",
+        "notes": "",
+        "noteId": "",
+        "isYearly": false,
+        "isRecurring": false,
+        "recurringConfig": null,
+        "completed": false,
+        "completedDates": [],
+        "excludedDates": []
+      }
     }
   ],
   "settings": {
@@ -1198,5 +1203,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-21T17:57:09.639Z"
+  "updatedAt": "2026-10-21T17:57:27.692Z"
 }
