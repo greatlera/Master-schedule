@@ -748,24 +748,6 @@
       "excludedDates": []
     },
     {
-      "id": "1792339065746_1u0zj",
-      "type": "task",
-      "title": "Ресторан бабушка",
-      "date": "2026-10-25",
-      "time": "",
-      "durationHours": "",
-      "durationMinutes": "",
-      "category": "meeting",
-      "notes": "",
-      "noteId": "",
-      "isYearly": false,
-      "isRecurring": false,
-      "recurringConfig": null,
-      "completed": false,
-      "completedDates": [],
-      "excludedDates": []
-    },
-    {
       "id": "1792339125059_eab0s",
       "type": "task",
       "title": "Коллажный клуб",
@@ -1168,6 +1150,29 @@
         "completedDates": [],
         "excludedDates": []
       }
+    },
+    {
+      "trashId": "1792605513471_wq7u6",
+      "deletedAt": 1792605513471,
+      "originalType": "task",
+      "data": {
+        "id": "1792339065746_1u0zj",
+        "type": "task",
+        "title": "Ресторан бабушка",
+        "date": "2026-10-25",
+        "time": "",
+        "durationHours": "",
+        "durationMinutes": "",
+        "category": "meeting",
+        "notes": "",
+        "noteId": "",
+        "isYearly": false,
+        "isRecurring": false,
+        "recurringConfig": null,
+        "completed": false,
+        "completedDates": [],
+        "excludedDates": []
+      }
     }
   ],
   "settings": {
@@ -1257,5 +1262,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-21T17:58:28.767Z"
+  "updatedAt": "2026-10-21T17:58:36.803Z"
 }
