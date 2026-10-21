@@ -980,6 +980,24 @@
       "completed": true,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792605460748_omdl5",
+      "type": "task",
+      "title": "Забрать заказ с озона",
+      "date": "2026-10-24",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "work",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1203,5 +1221,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-21T17:57:27.692Z"
+  "updatedAt": "2026-10-21T17:57:43.755Z"
 }
