@@ -1009,7 +1009,7 @@
       "durationHours": "",
       "durationMinutes": "",
       "category": "important",
-      "notes": "",
+      "notes": "Аллея героев, 1",
       "noteId": "",
       "isYearly": false,
       "isRecurring": false,
@@ -1326,5 +1326,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-22T09:18:28.972Z"
+  "updatedAt": "2026-10-22T09:20:09.826Z"
 }
