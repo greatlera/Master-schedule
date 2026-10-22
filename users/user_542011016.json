@@ -1130,7 +1130,7 @@
     {
       "id": "1792602792032_2jc4b",
       "title": "Задачи по работе",
-      "content": "<div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\">Поставить марки облачкам</div></div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Сделать спеки на листах</div>\n          </div><div class=\"checklist-row\">\n            <div class=\"checklist-box checked\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text checked\" contenteditable=\"true\">Двери переразмерить</div></div><div class=\"checklist-row\">\n          </div><div class=\"checklist-row\">\n          </div>",
+      "content": "<div class=\"checklist-row\">\n        <div class=\"checklist-box checked\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text checked\" contenteditable=\"true\">Поставить марки облачкам</div></div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Сделать спеки на листах</div>\n          </div><div class=\"checklist-row\">\n            <div class=\"checklist-box checked\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text checked\" contenteditable=\"true\">Двери переразмерить</div></div><div class=\"checklist-row\">\n          </div><div class=\"checklist-row\">\n          </div>",
       "linkedTaskIds": [
         "1792602818166_i7so6"
       ]
@@ -1326,5 +1326,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-22T09:20:18.541Z"
+  "updatedAt": "2026-10-22T13:20:57.006Z"
 }
