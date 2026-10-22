@@ -1108,6 +1108,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792702499248_9vtd1",
+      "type": "task",
+      "title": "Приготовить покушать",
+      "date": "2026-10-24",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "home",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1363,5 +1381,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-22T20:48:34.698Z"
+  "updatedAt": "2026-10-22T20:55:02.618Z"
 }
