@@ -1009,7 +1009,7 @@
       "durationHours": "",
       "durationMinutes": "",
       "category": "important",
-      "notes": "Аллея героев, 1",
+      "notes": "Аллея героев, 1, ресторан Маруся",
       "noteId": "",
       "isYearly": false,
       "isRecurring": false,
@@ -1326,5 +1326,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-22T09:20:09.826Z"
+  "updatedAt": "2026-10-22T09:20:18.541Z"
 }
