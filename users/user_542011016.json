@@ -932,7 +932,7 @@
       "id": "1792602749893_su4ke",
       "type": "task",
       "title": "Работа",
-      "date": "2026-10-22",
+      "date": "2026-10-23",
       "time": "",
       "durationHours": "",
       "durationMinutes": "",
@@ -1050,7 +1050,7 @@
       "isYearly": false,
       "isRecurring": false,
       "recurringConfig": null,
-      "completed": false,
+      "completed": true,
       "completedDates": [],
       "excludedDates": []
     },
@@ -1326,5 +1326,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-22T13:20:57.006Z"
+  "updatedAt": "2026-10-22T13:21:14.310Z"
 }
