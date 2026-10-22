@@ -261,7 +261,8 @@
       "completed": false,
       "completedDates": [
         "2026-10-15",
-        "2026-10-19"
+        "2026-10-19",
+        "2026-10-22"
       ],
       "excludedDates": [],
       "noteId": ""
@@ -1068,7 +1069,7 @@
       "isYearly": false,
       "isRecurring": false,
       "recurringConfig": null,
-      "completed": false,
+      "completed": true,
       "completedDates": [],
       "excludedDates": []
     }
@@ -1326,5 +1327,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-22T17:42:26.790Z"
+  "updatedAt": "2026-10-22T17:42:32.141Z"
 }
