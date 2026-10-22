@@ -1079,7 +1079,7 @@
     {
       "id": "1792339237610_15kf0",
       "title": "Список продуктов",
-      "content": "<div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\">Зубная нить</div>\n      </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Прокладки тонкие ежедневки</div>\n          </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\"></div>\n          </div>",
+      "content": "<div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\">Зубная нить</div>\n      </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Прокладки тонкие ежедневки</div>\n          </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Несквик&nbsp;</div>\n          </div>",
       "linkedTaskIds": []
     },
     {
@@ -1281,5 +1281,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-22T07:00:24.866Z"
+  "updatedAt": "2026-10-22T07:00:35.385Z"
 }
