@@ -1035,6 +1035,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792652455632_whuqj",
+      "type": "task",
+      "title": "Помыть голову",
+      "date": "2026-10-22",
+      "time": "13:00",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "procedure",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1281,5 +1299,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-22T07:00:35.385Z"
+  "updatedAt": "2026-10-22T07:00:58.639Z"
 }
