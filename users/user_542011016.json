@@ -1053,6 +1053,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792660666794_4onv8",
+      "type": "task",
+      "title": "Отправить заказ на авито",
+      "date": "2026-10-22",
+      "time": "20:00",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "custom_mvbvaq8q",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1308,5 +1326,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-22T09:01:16.525Z"
+  "updatedAt": "2026-10-22T09:17:49.806Z"
 }
