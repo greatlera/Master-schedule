@@ -1126,6 +1126,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792703663567_i6oek",
+      "type": "pending",
+      "title": "Помыть все кисти",
+      "date": "",
+      "time": "",
+      "durationHours": 0,
+      "durationMinutes": 15,
+      "category": "home",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1381,5 +1399,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-22T20:55:02.618Z"
+  "updatedAt": "2026-10-22T21:14:26.583Z"
 }
