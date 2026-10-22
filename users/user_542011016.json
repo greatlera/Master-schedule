@@ -1032,7 +1032,7 @@
       "isYearly": false,
       "isRecurring": false,
       "recurringConfig": null,
-      "completed": false,
+      "completed": true,
       "completedDates": [],
       "excludedDates": []
     },
@@ -1326,5 +1326,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-22T09:17:49.806Z"
+  "updatedAt": "2026-10-22T09:17:53.611Z"
 }
