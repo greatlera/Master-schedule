@@ -1097,7 +1097,9 @@
       "id": "1792652541786_t9hzk",
       "title": "Креатин",
       "category": "custom_mvbvaq8q",
-      "doneDates": []
+      "doneDates": [
+        "2026-10-22"
+      ]
     }
   ],
   "notes": [
@@ -1306,5 +1308,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-22T07:02:24.792Z"
+  "updatedAt": "2026-10-22T07:03:17.116Z"
 }
