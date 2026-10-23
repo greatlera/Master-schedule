@@ -159,8 +159,8 @@
       "title": "Сделать приложение-дневник",
       "date": "",
       "time": "",
-      "durationHours": 0,
-      "durationMinutes": 30,
+      "durationHours": 6,
+      "durationMinutes": 0,
       "category": "hobby",
       "notes": "",
       "isYearly": false,
@@ -168,7 +168,8 @@
       "recurringConfig": null,
       "completed": false,
       "completedDates": [],
-      "excludedDates": []
+      "excludedDates": [],
+      "noteId": ""
     },
     {
       "id": "1792066642202_s2zn2",
@@ -1646,5 +1647,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T22:21:51.946Z"
+  "updatedAt": "2026-10-23T22:22:24.793Z"
 }
