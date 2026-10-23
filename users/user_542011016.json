@@ -1144,6 +1144,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792756300167_fvqua",
+      "type": "task",
+      "title": "Созвон",
+      "date": "2026-10-26",
+      "time": "15:00",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "work",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1399,5 +1417,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T11:50:58.896Z"
+  "updatedAt": "2026-10-23T11:51:43.176Z"
 }
