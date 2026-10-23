@@ -1297,7 +1297,7 @@
       "time": "",
       "durationHours": "",
       "durationMinutes": "",
-      "category": "work",
+      "category": "home",
       "notes": "",
       "noteId": "",
       "isYearly": false,
@@ -1592,5 +1592,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T21:48:29.038Z"
+  "updatedAt": "2026-10-23T21:48:37.109Z"
 }
