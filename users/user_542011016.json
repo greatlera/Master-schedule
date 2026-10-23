@@ -1288,6 +1288,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792792106030_qit8z",
+      "type": "task",
+      "title": "Повесить жалюзи",
+      "date": "2026-10-26",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "work",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1574,5 +1592,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T21:47:52.241Z"
+  "updatedAt": "2026-10-23T21:48:29.038Z"
 }
