@@ -1426,6 +1426,17 @@
         "completedDates": [],
         "excludedDates": []
       }
+    },
+    {
+      "trashId": "1792790796532_ns5vo",
+      "deletedAt": 1792790796532,
+      "originalType": "note",
+      "data": {
+        "id": "1792790794701_nk0rs",
+        "title": "Без названия",
+        "content": "<div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\"><div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\"><div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\"><div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\"><div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\"><div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\"></div>\n      </div></div>\n      </div></div>\n      </div></div>\n      </div></div>\n      </div><div><br></div></div>\n      </div>",
+        "linkedTaskIds": []
+      }
     }
   ],
   "settings": {
@@ -1515,5 +1526,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T20:40:06.087Z"
+  "updatedAt": "2026-10-23T21:26:39.539Z"
 }
