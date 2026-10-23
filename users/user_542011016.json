@@ -1119,7 +1119,7 @@
       "durationMinutes": "",
       "category": "home",
       "notes": "",
-      "noteId": "",
+      "noteId": "1792756409351_svl13",
       "isYearly": false,
       "isRecurring": false,
       "recurringConfig": null,
@@ -1423,5 +1423,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T11:54:18.857Z"
+  "updatedAt": "2026-10-23T11:54:39.576Z"
 }
