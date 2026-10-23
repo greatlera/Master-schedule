@@ -1270,6 +1270,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792792069236_rr1s2",
+      "type": "task",
+      "title": "Подготовить подложку для коллажа",
+      "date": "2026-10-24",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "hobby",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1556,5 +1574,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T21:44:07.633Z"
+  "updatedAt": "2026-10-23T21:47:52.241Z"
 }
