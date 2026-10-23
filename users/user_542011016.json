@@ -1225,6 +1225,12 @@
       "linkedTaskIds": [
         "1792602818166_i7so6"
       ]
+    },
+    {
+      "id": "1792756409351_svl13",
+      "title": "Приготовить",
+      "content": "<div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\">Пиццу</div>\n      </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Брокколи</div>\n          </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Куриные Оладьи/котлеты</div>\n          </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Рис&nbsp;</div>\n          </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Фруктовый салат</div>\n          </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Курицу филе (половину на заморозку)</div></div><div class=\"checklist-row\">\n          </div>",
+      "linkedTaskIds": []
     }
   ],
   "trashItems": [
@@ -1417,5 +1423,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T11:51:43.176Z"
+  "updatedAt": "2026-10-23T11:53:32.368Z"
 }
