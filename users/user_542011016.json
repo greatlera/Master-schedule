@@ -1342,6 +1342,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792794108933_hlckd",
+      "type": "pending",
+      "title": "Рассортировать и упорядочить все видео в инсте про ремонт",
+      "date": "",
+      "time": "",
+      "durationHours": 12,
+      "durationMinutes": 0,
+      "category": "custom_mvbvaq8q",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1628,5 +1646,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T22:12:01.468Z"
+  "updatedAt": "2026-10-23T22:21:51.946Z"
 }
