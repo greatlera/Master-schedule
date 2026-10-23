@@ -979,7 +979,7 @@
       "isYearly": false,
       "isRecurring": false,
       "recurringConfig": null,
-      "completed": false,
+      "completed": true,
       "completedDates": [],
       "excludedDates": []
     },
@@ -997,7 +997,7 @@
       "isYearly": false,
       "isRecurring": false,
       "recurringConfig": null,
-      "completed": false,
+      "completed": true,
       "completedDates": [],
       "excludedDates": []
     },
@@ -1087,7 +1087,7 @@
       "isYearly": false,
       "isRecurring": false,
       "recurringConfig": null,
-      "completed": false,
+      "completed": true,
       "completedDates": [],
       "excludedDates": []
     },
@@ -1515,5 +1515,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T16:45:48.700Z"
+  "updatedAt": "2026-10-23T18:05:05.414Z"
 }
