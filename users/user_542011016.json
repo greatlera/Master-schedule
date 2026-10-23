@@ -808,7 +808,7 @@
       "type": "task",
       "title": "Померить одежду на ламоде",
       "date": "2026-10-25",
-      "time": "",
+      "time": "11:00",
       "durationHours": "",
       "durationMinutes": "",
       "category": "other",
@@ -1610,5 +1610,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T22:10:32.084Z"
+  "updatedAt": "2026-10-23T22:11:38.398Z"
 }
