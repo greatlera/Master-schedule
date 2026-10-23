@@ -1252,6 +1252,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792790853943_dxnf7",
+      "type": "task",
+      "title": "Уборка",
+      "date": "2026-10-24",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "home",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1535,5 +1553,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T21:27:22.187Z"
+  "updatedAt": "2026-10-23T21:27:36.950Z"
 }
