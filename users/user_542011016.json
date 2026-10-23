@@ -1198,6 +1198,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792767600986_71qj3",
+      "type": "task",
+      "title": "Работа",
+      "date": "2026-10-26",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "work",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1461,5 +1479,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T14:59:52.336Z"
+  "updatedAt": "2026-10-23T15:00:03.992Z"
 }
