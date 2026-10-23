@@ -1162,6 +1162,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792756488233_q2ft6",
+      "type": "task",
+      "title": "Приготовить покушать",
+      "date": "2026-10-23",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "home",
+      "notes": "",
+      "noteId": "1792756409351_svl13",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1230,7 +1248,9 @@
       "id": "1792756409351_svl13",
       "title": "Приготовить",
       "content": "<div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\">Пиццу</div>\n      </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Брокколи</div>\n          </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Куриные Оладьи/котлеты</div>\n          </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Рис&nbsp;</div>\n          </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Фруктовый салат</div>\n          </div><div class=\"checklist-row\">\n            <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n            <div class=\"checklist-text\" contenteditable=\"true\">Курицу филе (половину на заморозку)</div></div><div class=\"checklist-row\">\n          </div>",
-      "linkedTaskIds": []
+      "linkedTaskIds": [
+        "1792756488233_q2ft6"
+      ]
     }
   ],
   "trashItems": [
@@ -1423,5 +1443,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T11:54:39.576Z"
+  "updatedAt": "2026-10-23T11:54:51.241Z"
 }
