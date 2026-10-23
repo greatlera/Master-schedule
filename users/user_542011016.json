@@ -1324,6 +1324,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1792793518460_p5mda",
+      "type": "task",
+      "title": "Тренировка",
+      "date": "2026-10-28",
+      "time": "19:00",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "custom_mvh6pe30",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1610,5 +1628,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T22:11:38.398Z"
+  "updatedAt": "2026-10-23T22:12:01.468Z"
 }
