@@ -1448,17 +1448,6 @@
   ],
   "trashItems": [
     {
-      "trashId": "1792210013163_9xcv4",
-      "deletedAt": 1792210013163,
-      "originalType": "note",
-      "data": {
-        "id": "1792210010807_azfvl",
-        "title": "Без названия",
-        "content": "",
-        "linkedTaskIds": []
-      }
-    },
-    {
       "trashId": "1792502451145_6dtjg",
       "deletedAt": 1792502451145,
       "originalType": "task",
@@ -1566,7 +1555,7 @@
     "todayTime": "09:00",
     "notifTomorrow": true,
     "tomorrowTime": "20:50",
-    "notifWeekend": true,
+    "notifWeekend": false,
     "weekendTime": "18:00",
     "tgBotToken": "8936436189:AAHKp6iSI-csWbrKkvWZlvjsiSu_pzAW3yA",
     "tgChatId": "542011016",
@@ -1576,18 +1565,20 @@
       2,
       3,
       4,
-      5
+      5,
+      6,
+      0
     ],
     "notifTomorrowDays": [
       1,
       2,
       3,
       4,
+      5,
+      6,
       0
     ],
-    "notifWeekendDays": [
-      5
-    ],
+    "notifWeekendDays": [],
     "notifTgBotToken": "8925380520:AAHWCFmO1fDWUYRDZy4_4fd88pHLP3PHckw",
     "notifTgChatId": "542011016",
     "notifTodayTime": "08:00",
@@ -1647,5 +1638,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-23T22:22:24.793Z"
+  "updatedAt": "2026-10-24T07:04:06.036Z"
 }
