@@ -1,5 +1,5 @@
 /**
- * stats.js — Bento-аналитика, капсульный Donut-график с группировкой <5% и заливкой KPI-плиток
+ * stats.js — Bento-аналитика, капсульный Donut-график с группировкой <5% и единой заливкой KPI-плиток
  */
 (function() {
   let statsCurrentDate = new Date();
@@ -26,14 +26,14 @@
       centerSub: 'просрочено',
       badgeText: 'ПРОСРОЧЕНО',
       accentColor: '#EF3838',
-      textColor: '#ffffff'
+      textColor: '#0d0e12'
     },
     postponed: {
       title: 'Перенесенные дела',
       centerSub: 'перенесено',
       badgeText: 'ПЕРЕНЕСЕНО',
       accentColor: '#FF652F',
-      textColor: '#ffffff'
+      textColor: '#0d0e12'
     }
   };
 
@@ -343,7 +343,6 @@
     return ['M', start.x, start.y, 'A', r, r, 0, largeArcFlag, 0, end.x, end.y].join(' ');
   }
 
-  // Отрисовка Donut со скругленными краями (round) без наложений
   function renderLargeSvgDonut(categories, totalCount, centerLabel, breakdownMap) {
     const r = 39;
     const cx = 50, cy = 50;
@@ -369,7 +368,6 @@
       displaySub = breakdownMap[selectedCategoryFilter].label;
     }
 
-    // Если всего одна категория — рисуем цельное кольцо
     if (categories.length === 1) {
       const singleCat = categories[0];
       const strokeW = (selectedCategoryFilter === singleCat.key) ? 12.5 : 10.5;
@@ -392,26 +390,16 @@
       `;
     }
 
-    // Расчет дуг со скругленными концами (stroke-linecap="round") без единого наложения:
-    // Вычитаем сумму зазоров и закруглений из 360 градусов, а оставшуюся полезную дугу
-    // распределяем пропорционально долям (с минимальной видимой капсулой в 2 градуса).
     const n = categories.length;
     const strokeBase = n > 6 ? 8.8 : 10.2;
-
-    // Угол одного полукруглого торца (в градусах)
     const capDeg = ((strokeBase / 2) / r) * (180 / Math.PI);
-    // Видимый воздух между соседними скругленными концами
     const clearGapDeg = n > 6 ? 3.2 : 4.8;
-
-    // Полный угловой шаг между концом одной центральной линии дуги и началом следующей
     const stepGap = (2 * capDeg) + clearGapDeg;
     const availableArcPool = Math.max(36, 360 - n * stepGap);
 
-    // Вычисляем длину каждой дуги с гарантированным минимумом, чтобы закругление было капсульным
     const minArcSpan = 1.5;
     let rawSpans = categories.map(cat => Math.max(minArcSpan, (cat.count / totalCount) * availableArcPool));
     const sumSpans = rawSpans.reduce((acc, val) => acc + val, 0);
-    // Нормализуем, чтобы сумма дуг + сумма зазоров давала ровно 360°
     const normalizedSpans = rawSpans.map(s => (s / sumSpans) * availableArcPool);
 
     let cursorAngle = capDeg + (clearGapDeg / 2);
@@ -514,7 +502,6 @@
     const currentPool = taskPools[activeStatusTab] || monthTasks;
     const currentMeta = STATUS_META[activeStatusTab] || STATUS_META.all;
 
-    // Первичный подсчет по категориям
     const rawMap = {};
     currentPool.forEach(t => {
       const catKey = t.category || 'other';
@@ -531,7 +518,7 @@
       rawMap[catKey].count++;
     });
 
-    // Группировка категорий, которые занимают меньше 5% (если категорий больше 2)
+    // Группировка категорий, которые занимают меньше 5%
     const totalInPool = currentPool.length;
     const rawList = Object.values(rawMap).sort((a, b) => b.count - a.count);
     const breakdownMap = {};
@@ -549,7 +536,6 @@
         }
       });
 
-      // Если мелких категорий набралось хотя бы 2 (или 1 мелкая <5%), группируем их
       if (minorCats.length >= 1 && majorCats.length >= 1) {
         majorCats.forEach(c => {
           breakdownMap[c.key] = c;
@@ -599,21 +585,21 @@
           `;
         }).join('');
 
-    // Стили для 100% заливки любой выбранной плитки KPI
-    function getKpiCardFilledStyle(tabKey, bgHex, activeTextColor) {
+    // Единый стиль заливки для всех 4 плиток (чёрный шрифт #0d0e12 и чёрный тег с цветным текстом)
+    function getKpiCardFilledStyle(tabKey, bgHex) {
       if (activeStatusTab !== tabKey) return '';
-      return `background:${bgHex}; color:${activeTextColor}; border-color:${bgHex};`;
+      return `background:${bgHex}; color:#0d0e12; border-color:${bgHex};`;
     }
 
-    function getKpiPillFilledStyle(tabKey, defaultBg, defaultColor, activeBg, activeColor) {
+    function getKpiPillFilledStyle(tabKey, defaultBg, accentHex) {
       if (activeStatusTab === tabKey) {
-        return `background:${activeBg}; color:${activeColor};`;
+        return `background:#0d0e12; color:${accentHex};`;
       }
-      return `background:${defaultBg}; color:${defaultColor};`;
+      return `background:${defaultBg}; color:${accentHex};`;
     }
 
-    function getKpiNumColor(tabKey, defaultColor, activeColor) {
-      return activeStatusTab === tabKey ? `color:${activeColor};` : `color:${defaultColor};`;
+    function getKpiNumColor(tabKey, accentHex) {
+      return activeStatusTab === tabKey ? `color:#0d0e12;` : `color:${accentHex};`;
     }
 
     container.innerHTML = `
@@ -629,49 +615,49 @@
           </button>
         </div>
 
-        <!-- Порядок карточек: 1. Поставлено, 2. Сделано, 3. Просрочено, 4. Перенесено (все заливаются при нажатии) -->
+        <!-- Порядок карточек: 1. Поставлено, 2. Сделано, 3. Просрочено, 4. Перенесено -->
         <div class="stats-kpi-bento-grid">
           <!-- 1. Поставлено дел -->
           <div class="stats-kpi-card ${activeStatusTab === 'all' ? 'active-card' : ''}" 
                data-statustab="all" 
-               style="${getKpiCardFilledStyle('all', '#5b9ffc', '#0d0e12')}">
+               style="${getKpiCardFilledStyle('all', '#5b9ffc')}">
             <div class="stats-kpi-top">
-              <span class="stats-kpi-pill" style="${getKpiPillFilledStyle('all', 'rgba(91,159,252,0.16)', '#5b9ffc', '#0d0e12', '#5b9ffc')}">За месяц</span>
+              <span class="stats-kpi-pill" style="${getKpiPillFilledStyle('all', 'rgba(91,159,252,0.16)', '#5b9ffc')}">За месяц</span>
             </div>
-            <div class="stats-kpi-number" style="${getKpiNumColor('all', '#5b9ffc', '#0d0e12')}">${totalSet}</div>
+            <div class="stats-kpi-number" style="${getKpiNumColor('all', '#5b9ffc')}">${totalSet}</div>
             <div class="stats-kpi-label">Поставлено дел</div>
           </div>
 
           <!-- 2. Сделано дел -->
           <div class="stats-kpi-card ${activeStatusTab === 'completed' ? 'active-card' : ''}" 
                data-statustab="completed" 
-               style="${getKpiCardFilledStyle('completed', '#cbf532', '#0d0e12')}">
+               style="${getKpiCardFilledStyle('completed', '#cbf532')}">
             <div class="stats-kpi-top">
-              <span class="stats-kpi-pill" style="${getKpiPillFilledStyle('completed', 'rgba(203,245,50,0.15)', '#cbf532', '#0d0e12', '#cbf532')}">↑ ${completionRate}%</span>
+              <span class="stats-kpi-pill" style="${getKpiPillFilledStyle('completed', 'rgba(203,245,50,0.15)', '#cbf532')}">↑ ${completionRate}%</span>
             </div>
-            <div class="stats-kpi-number" style="${getKpiNumColor('completed', '#cbf532', '#0d0e12')}">${totalCompleted}</div>
+            <div class="stats-kpi-number" style="${getKpiNumColor('completed', '#cbf532')}">${totalCompleted}</div>
             <div class="stats-kpi-label">Сделано дел</div>
           </div>
 
           <!-- 3. Просрочено -->
           <div class="stats-kpi-card ${activeStatusTab === 'failed' ? 'active-card' : ''}" 
                data-statustab="failed" 
-               style="${getKpiCardFilledStyle('failed', '#EF3838', '#ffffff')}">
+               style="${getKpiCardFilledStyle('failed', '#EF3838')}">
             <div class="stats-kpi-top">
-              <span class="stats-kpi-pill" style="${getKpiPillFilledStyle('failed', 'rgba(239,56,56,0.16)', '#EF3838', 'rgba(13,14,18,0.28)', '#ffffff')}">Долги</span>
+              <span class="stats-kpi-pill" style="${getKpiPillFilledStyle('failed', 'rgba(239,56,56,0.16)', '#EF3838')}">Долги</span>
             </div>
-            <div class="stats-kpi-number" style="${getKpiNumColor('failed', '#EF3838', '#ffffff')}">${totalFailed}</div>
+            <div class="stats-kpi-number" style="${getKpiNumColor('failed', '#EF3838')}">${totalFailed}</div>
             <div class="stats-kpi-label">Просрочено</div>
           </div>
 
           <!-- 4. Перенесено -->
           <div class="stats-kpi-card ${activeStatusTab === 'postponed' ? 'active-card' : ''}" 
                data-statustab="postponed" 
-               style="${getKpiCardFilledStyle('postponed', '#FF652F', '#ffffff')}">
+               style="${getKpiCardFilledStyle('postponed', '#FF652F')}">
             <div class="stats-kpi-top">
-              <span class="stats-kpi-pill" style="${getKpiPillFilledStyle('postponed', 'rgba(255,101,47,0.16)', '#FF652F', 'rgba(13,14,18,0.28)', '#ffffff')}">Перенос</span>
+              <span class="stats-kpi-pill" style="${getKpiPillFilledStyle('postponed', 'rgba(255,101,47,0.16)', '#FF652F')}">Перенос</span>
             </div>
-            <div class="stats-kpi-number" style="${getKpiNumColor('postponed', '#FF652F', '#ffffff')}">${totalPostponed}</div>
+            <div class="stats-kpi-number" style="${getKpiNumColor('postponed', '#FF652F')}">${totalPostponed}</div>
             <div class="stats-kpi-label">Перенесено</div>
           </div>
         </div>
@@ -705,7 +691,7 @@
       </div>
     `;
 
-    // Фильтрация списка задач (поддерживает и обычную категорию, и сгруппированную <5%)
+    // Фильтрация списка задач
     const tasksListEl = document.getElementById('statsFilteredTasksContainer');
     let filteredTasks = currentPool;
     if (selectedCategoryFilter && breakdownMap[selectedCategoryFilter]) {
