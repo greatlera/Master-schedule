@@ -1003,24 +1003,6 @@
       "excludedDates": []
     },
     {
-      "id": "1792605505759_0zs49",
-      "type": "event",
-      "title": "Др бабушки",
-      "date": "2026-10-24",
-      "time": "",
-      "durationHours": "",
-      "durationMinutes": "",
-      "category": "important",
-      "notes": "Аллея героев, 1, ресторан Маруся",
-      "noteId": "",
-      "isYearly": false,
-      "isRecurring": false,
-      "recurringConfig": null,
-      "completed": false,
-      "completedDates": [],
-      "excludedDates": []
-    },
-    {
       "id": "1792646059974_uaf45",
       "type": "task",
       "title": "Заказать столик в Марусе",
@@ -1554,6 +1536,29 @@
         "completedDates": [],
         "excludedDates": []
       }
+    },
+    {
+      "trashId": "1792961818852_6gn79",
+      "deletedAt": 1792961818852,
+      "originalType": "event",
+      "data": {
+        "id": "1792605505759_0zs49",
+        "type": "event",
+        "title": "Др бабушки",
+        "date": "2026-10-24",
+        "time": "",
+        "durationHours": "",
+        "durationMinutes": "",
+        "category": "important",
+        "notes": "Аллея героев, 1, ресторан Маруся",
+        "noteId": "",
+        "isYearly": false,
+        "isRecurring": false,
+        "recurringConfig": null,
+        "completed": false,
+        "completedDates": [],
+        "excludedDates": []
+      }
     }
   ],
   "settings": {
@@ -1645,5 +1650,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-25T20:56:28.073Z"
+  "updatedAt": "2026-10-25T20:57:01.867Z"
 }
