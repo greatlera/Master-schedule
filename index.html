@@ -2180,10 +2180,8 @@
       }
 
       const path = `users/user_${chatId}.json`;
-      // Гарантируем получение свежего SHA в обход любого кэша браузера
       const url = `https://api.github.com/repos/${repo}/contents/${path}?t=${Date.now()}`;
 
-      // ИСКЛЮЧАЕМ ТОКЕН GITHUB ИЗ ПЕРЕДАВАЕМОГО ФАЙЛА ДЛЯ ЗАЩИТЫ
       const safeSettings = { ...settings };
       delete safeSettings.ghToken;
 
@@ -2477,6 +2475,18 @@
 
       calendarCard.style.display = (tab === 'tasks') ? 'block' : 'none';
       openAddModalBtn.style.display = ['today', 'tasks', 'all', 'pending', 'events', 'habits', 'notes'].includes(tab) ? 'grid' : 'none';
+
+      // Обработка вкладки аналитики и статистики
+      if (tab === 'stats') {
+        todayHeroHeader.style.display = 'none';
+        daySummaryHeader.style.display = 'flex';
+        subtabsBar.style.display = 'none';
+        openAddModalBtn.style.display = 'none';
+        if (typeof window.renderStatsView === 'function') {
+          window.renderStatsView();
+        }
+        return;
+      }
 
       renderSubtabs();
       if (tab === 'tasks') renderCalendar();
@@ -4041,11 +4051,14 @@
     document.getElementById('commitSchedulePendingBtn').onclick = () => {
       if (!schedulingPendingItem) return;
 
+      const currentMonthPrefix = formatDateKey(new Date()).substring(0, 7);
+
       if (!splitTaskToggle.checked) {
         const sDate = document.getElementById('singleScheduleDate').value;
         const sTime = document.getElementById('singleScheduleTime').value;
         if (!sDate) return;
         schedulingPendingItem.type = 'task';
+        schedulingPendingItem.postponedFromMonth = currentMonthPrefix;
         schedulingPendingItem.date = sDate;
         schedulingPendingItem.time = sTime;
       } else {
@@ -4062,6 +4075,7 @@
             category: schedulingPendingItem.category,
             notes: schedulingPendingItem.notes || '',
             noteId: schedulingPendingItem.noteId || '',
+            postponedFromMonth: currentMonthPrefix,
             isYearly: false,
             completed: false
           });
@@ -4493,9 +4507,21 @@
       });
     }
 
+    // Экспорт переменных и методов в глобальную область для модуля stats.js
+    window.monthNames = monthNames;
+    window.formatDateKey = formatDateKey;
+    window.closeDrawer = closeDrawer;
+    window.setActiveTab = setActiveTab;
+    Object.defineProperty(window, 'entries', {
+      get: () => entries
+    });
+    Object.defineProperty(window, 'TASK_TAGS', {
+      get: () => getThemeColors().taskTags
+    });
+
     applyTheme(settings.theme);
     setActiveTab('today');
   </script>
-<script src="./stats.js"></script>
+  <script src="./stats.js"></script>
 </body>
 </html>
