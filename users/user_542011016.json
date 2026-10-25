@@ -1273,24 +1273,6 @@
       "excludedDates": []
     },
     {
-      "id": "1792792069236_rr1s2",
-      "type": "task",
-      "title": "Подготовить подложку для коллажа",
-      "date": "2026-10-25",
-      "time": "",
-      "durationHours": "",
-      "durationMinutes": "",
-      "category": "hobby",
-      "notes": "",
-      "noteId": "",
-      "isYearly": false,
-      "isRecurring": false,
-      "recurringConfig": null,
-      "completed": false,
-      "completedDates": [],
-      "excludedDates": []
-    },
-    {
       "id": "1792792106030_qit8z",
       "type": "task",
       "title": "Повесить жалюзи",
@@ -1549,6 +1531,29 @@
         "content": "<div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\"><div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\"><div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\"><div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\"><div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\"><div class=\"checklist-row\">\n        <div class=\"checklist-box\" contenteditable=\"false\"><svg viewBox=\"0 0 24 24\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></div>\n        <div class=\"checklist-text\" contenteditable=\"true\"></div>\n      </div></div>\n      </div></div>\n      </div></div>\n      </div></div>\n      </div><div><br></div></div>\n      </div>",
         "linkedTaskIds": []
       }
+    },
+    {
+      "trashId": "1792961771341_z9lhq",
+      "deletedAt": 1792961771341,
+      "originalType": "task",
+      "data": {
+        "id": "1792792069236_rr1s2",
+        "type": "task",
+        "title": "Подготовить подложку для коллажа",
+        "date": "2026-10-25",
+        "time": "",
+        "durationHours": "",
+        "durationMinutes": "",
+        "category": "hobby",
+        "notes": "",
+        "noteId": "",
+        "isYearly": false,
+        "isRecurring": false,
+        "recurringConfig": null,
+        "completed": false,
+        "completedDates": [],
+        "excludedDates": []
+      }
     }
   ],
   "settings": {
@@ -1640,5 +1645,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-25T14:35:14.613Z"
+  "updatedAt": "2026-10-25T20:56:14.355Z"
 }
