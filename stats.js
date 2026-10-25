@@ -1,9 +1,9 @@
 /**
- * stats.js — Bento-аналитика, крупный Donut-график и интерактивные списки задач
+ * stats.js — Bento-аналитика, капсульный Donut-график с группировкой <5% и заливкой KPI-плиток
  */
 (function() {
   let statsCurrentDate = new Date();
-  let activeStatusTab = 'all'; // По умолчанию открывается 'all' (Поставлено дел)
+  let activeStatusTab = 'all'; // 'all' | 'completed' | 'failed' | 'postponed'
   let selectedCategoryFilter = null;
 
   const STATUS_META = {
@@ -12,28 +12,28 @@
       centerSub: 'поставлено',
       badgeText: 'ПОСТАВЛЕНО ДЕЛ',
       accentColor: '#5b9ffc',
-      darkText: false
+      textColor: '#0d0e12'
     },
     completed: {
       title: 'Сделанные дела',
       centerSub: 'сделано',
       badgeText: 'ВЫПОЛНЕНО',
       accentColor: '#cbf532',
-      darkText: true
+      textColor: '#0d0e12'
     },
     failed: {
       title: 'Просроченные дела (Долги)',
       centerSub: 'просрочено',
       badgeText: 'ПРОСРОЧЕНО',
       accentColor: '#EF3838',
-      darkText: false
+      textColor: '#ffffff'
     },
     postponed: {
       title: 'Перенесенные дела',
       centerSub: 'перенесено',
       badgeText: 'ПЕРЕНЕСЕНО',
       accentColor: '#FF652F',
-      darkText: false
+      textColor: '#ffffff'
     }
   };
 
@@ -51,7 +51,6 @@
   }
 
   function initStatsModule() {
-    // 1. Добавляем кнопку в боковое меню
     const drawerNav = document.querySelector('.drawer-nav');
     if (drawerNav && !document.getElementById('statsDrawerBtn')) {
       const btn = document.createElement('button');
@@ -78,8 +77,7 @@
       });
     }
 
-    // 2. Перехватываем сохранение задачи в модальном окне,
-    // чтобы после редактирования задачи из статистики экран не пустел
+    // Перехват сохранения и удаления задачи, чтобы статистика обновлялась на месте
     const saveEntryBtn = document.getElementById('saveEntryBtn');
     if (saveEntryBtn && !saveEntryBtn.dataset.statsHooked) {
       saveEntryBtn.dataset.statsHooked = 'true';
@@ -93,7 +91,6 @@
       });
     }
 
-    // также перехватываем удаление задачи
     ['customConfirmActionBtn', 'deleteThisOccurrenceOnlyBtn', 'deleteAllOccurrencesBtn'].forEach(btnId => {
       const el = document.getElementById(btnId);
       if (el && !el.dataset.statsHooked) {
@@ -109,7 +106,6 @@
       }
     });
 
-    // 3. Инжектируем стили
     if (!document.getElementById('stats-bento-styles')) {
       const style = document.createElement('style');
       style.id = 'stats-bento-styles';
@@ -143,7 +139,6 @@
           transform: scale(0.96);
         }
         .stats-kpi-card.active-card {
-          border-width: 2px;
           box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
         }
         .stats-kpi-top {
@@ -169,7 +164,7 @@
         .stats-kpi-label {
           font-size: 0.78rem;
           font-weight: 700;
-          opacity: 0.85;
+          opacity: 0.9;
         }
 
         /* Главная карточка с большим Donut */
@@ -199,8 +194,8 @@
         }
         .donut-visual-box {
           position: relative;
-          width: 220px;
-          height: 220px;
+          width: 224px;
+          height: 224px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -333,7 +328,6 @@
     }
   }
 
-  // Точное построение дуги в полярных координатах без наложений
   function polarToCartesian(cx, cy, r, angleInDegrees) {
     const rad = (angleInDegrees * Math.PI) / 180.0;
     return {
@@ -349,15 +343,16 @@
     return ['M', start.x, start.y, 'A', r, r, 0, largeArcFlag, 0, end.x, end.y].join(' ');
   }
 
+  // Отрисовка Donut со скругленными краями (round) без наложений
   function renderLargeSvgDonut(categories, totalCount, centerLabel, breakdownMap) {
-    const r = 38;
+    const r = 39;
     const cx = 50, cy = 50;
 
     if (totalCount === 0 || categories.length === 0) {
       return `
         <div class="donut-visual-box">
           <svg class="donut-big-svg" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="${r}" fill="transparent" stroke="var(--card-bg)" stroke-width="11"></circle>
+            <circle cx="50" cy="50" r="${r}" fill="transparent" stroke="var(--card-bg)" stroke-width="10"></circle>
           </svg>
           <div class="donut-center-info">
             <span class="donut-center-big-num">0</span>
@@ -374,10 +369,10 @@
       displaySub = breakdownMap[selectedCategoryFilter].label;
     }
 
-    // Если всего одна категория — рисуем цельное кольцо без разрывов
+    // Если всего одна категория — рисуем цельное кольцо
     if (categories.length === 1) {
       const singleCat = categories[0];
-      const strokeW = (selectedCategoryFilter === singleCat.key) ? 13 : 11;
+      const strokeW = (selectedCategoryFilter === singleCat.key) ? 12.5 : 10.5;
       return `
         <div class="donut-visual-box">
           <svg class="donut-big-svg" viewBox="0 0 100 100">
@@ -397,45 +392,38 @@
       `;
     }
 
-    // Если категорий несколько — рассчитываем точные углы с учётом скругления концов,
-    // чтобы сегменты гарантированно не накладывались друг на друга
-    const strokeBase = 10.5;
-    // Угол, который съедает один полукруглый cap: (strokeWidth / 2) / r в радианах -> градусах
-    const capDeg = ((strokeBase / 2) / r) * (180 / Math.PI); // ~7.9° с каждой стороны
-    const visualGapDeg = 4.5; // Чистый видимый зазор между соседними капсулами
+    // Расчет дуг со скругленными концами (stroke-linecap="round") без единого наложения:
+    // Вычитаем сумму зазоров и закруглений из 360 градусов, а оставшуюся полезную дугу
+    // распределяем пропорционально долям (с минимальной видимой капсулой в 2 градуса).
+    const n = categories.length;
+    const strokeBase = n > 6 ? 8.8 : 10.2;
 
-    // Полный отступ между центрами концов двух соседних дуг
-    const totalPadPerSegment = (capDeg * 2) + visualGapDeg;
-    const totalPadsAll = totalPadPerSegment * categories.length;
+    // Угол одного полукруглого торца (в градусах)
+    const capDeg = ((strokeBase / 2) / r) * (180 / Math.PI);
+    // Видимый воздух между соседними скругленными концами
+    const clearGapDeg = n > 6 ? 3.2 : 4.8;
 
-    // Если секторов очень много или есть совсем крошечные сектора, используем четкие прямые стыки без наложений
-    const minFraction = Math.min(...categories.map(c => c.count / totalCount));
-    const useRoundCaps = (totalPadsAll < 240) && (minFraction * 360 > totalPadPerSegment + 2);
+    // Полный угловой шаг между концом одной центральной линии дуги и началом следующей
+    const stepGap = (2 * capDeg) + clearGapDeg;
+    const availableArcPool = Math.max(36, 360 - n * stepGap);
 
-    let currentAngle = 0;
-    const pathsHtml = categories.map(cat => {
-      const fraction = cat.count / totalCount;
-      const rawSweep = fraction * 360;
+    // Вычисляем длину каждой дуги с гарантированным минимумом, чтобы закругление было капсульным
+    const minArcSpan = 1.5;
+    let rawSpans = categories.map(cat => Math.max(minArcSpan, (cat.count / totalCount) * availableArcPool));
+    const sumSpans = rawSpans.reduce((acc, val) => acc + val, 0);
+    // Нормализуем, чтобы сумма дуг + сумма зазоров давала ровно 360°
+    const normalizedSpans = rawSpans.map(s => (s / sumSpans) * availableArcPool);
+
+    let cursorAngle = capDeg + (clearGapDeg / 2);
+
+    const pathsHtml = categories.map((cat, idx) => {
+      const span = normalizedSpans[idx];
+      const startA = cursorAngle;
+      const endA = cursorAngle + span;
+      cursorAngle = endA + stepGap;
+
       const isSelected = selectedCategoryFilter === cat.key;
-      const sw = isSelected ? strokeBase + 2 : strokeBase;
-
-      let startA, endA, capStyle;
-      if (useRoundCaps) {
-        startA = currentAngle + capDeg + (visualGapDeg / 2);
-        endA = currentAngle + rawSweep - capDeg - (visualGapDeg / 2);
-        if (endA <= startA) {
-          endA = startA + 0.5;
-        }
-        capStyle = 'round';
-      } else {
-        // Для мелких долей — чистый зазор 2.5 градуса без нахлёста
-        const flatGap = 2.5;
-        startA = currentAngle + (flatGap / 2);
-        endA = currentAngle + Math.max(2, rawSweep - (flatGap / 2));
-        capStyle = 'butt';
-      }
-
-      currentAngle += rawSweep;
+      const sw = isSelected ? strokeBase + 1.8 : strokeBase;
       const dPath = describeArc(cx, cy, r, startA, endA);
 
       return `
@@ -445,7 +433,7 @@
           fill="none"
           stroke="${cat.color}"
           stroke-width="${sw}"
-          stroke-linecap="${capStyle}">
+          stroke-linecap="round">
         </path>
       `;
     }).join('');
@@ -483,7 +471,7 @@
     const taskTags = window.TASK_TAGS || {};
     const todayStr = (typeof window.formatDateKey === 'function') ? window.formatDateKey(new Date()) : '';
 
-    // 1. Все поставленные задачи на выбранный месяц
+    // 1. Все поставленные задачи за месяц
     const monthTasks = allEntries.filter(e => e.type === 'task' && e.date && e.date.startsWith(monthKey));
     const totalSet = monthTasks.length;
 
@@ -497,7 +485,7 @@
     const totalCompleted = completedTasks.length;
     const completionRate = totalSet > 0 ? Math.round((totalCompleted / totalSet) * 100) : 0;
 
-    // 3. Просроченные / Не сделанные (Долги)
+    // 3. Просроченные / Долги
     const failedTasks = monthTasks.filter(e => {
       const isDone = e.isRecurring && Array.isArray(e.completedDates)
         ? e.completedDates.some(d => d.startsWith(monthKey))
@@ -506,7 +494,7 @@
     });
     const totalFailed = failedTasks.length;
 
-    // 4. Перенесенные / Отложенные задачи
+    // 4. Перенесенные задачи
     const nextMonthPrefix = `${m === 11 ? y + 1 : y}-${String(m === 11 ? 1 : m + 2).padStart(2, '0')}`;
     const postponedTasks = allEntries.filter(e => {
       if (e.type !== 'task') return false;
@@ -526,28 +514,74 @@
     const currentPool = taskPools[activeStatusTab] || monthTasks;
     const currentMeta = STATUS_META[activeStatusTab] || STATUS_META.all;
 
-    // Группировка по категориям
-    const breakdownMap = {};
+    // Первичный подсчет по категориям
+    const rawMap = {};
     currentPool.forEach(t => {
       const catKey = t.category || 'other';
       const tagMeta = taskTags[catKey] || { label: 'Прочее', color: '#94a3b8' };
-      if (!breakdownMap[catKey]) {
-        breakdownMap[catKey] = {
+      if (!rawMap[catKey]) {
+        rawMap[catKey] = {
           key: catKey,
           label: tagMeta.label,
           color: tagMeta.color,
-          count: 0
+          count: 0,
+          rawKeys: [catKey]
         };
       }
-      breakdownMap[catKey].count++;
+      rawMap[catKey].count++;
     });
+
+    // Группировка категорий, которые занимают меньше 5% (если категорий больше 2)
+    const totalInPool = currentPool.length;
+    const rawList = Object.values(rawMap).sort((a, b) => b.count - a.count);
+    const breakdownMap = {};
+
+    if (totalInPool > 0 && rawList.length > 2) {
+      const majorCats = [];
+      const minorCats = [];
+
+      rawList.forEach(item => {
+        const pct = (item.count / totalInPool) * 100;
+        if (pct < 5) {
+          minorCats.push(item);
+        } else {
+          majorCats.push(item);
+        }
+      });
+
+      // Если мелких категорий набралось хотя бы 2 (или 1 мелкая <5%), группируем их
+      if (minorCats.length >= 1 && majorCats.length >= 1) {
+        majorCats.forEach(c => {
+          breakdownMap[c.key] = c;
+        });
+
+        const groupedCount = minorCats.reduce((sum, c) => sum + c.count, 0);
+        const groupedRawKeys = minorCats.map(c => c.key);
+        const groupKey = '__grouped_small__';
+        const groupLabel = minorCats.length === 1
+          ? minorCats[0].label
+          : `Остальные (${minorCats.map(c => c.label).join(', ')})`;
+
+        breakdownMap[groupKey] = {
+          key: groupKey,
+          label: groupLabel,
+          color: minorCats.length === 1 ? minorCats[0].color : '#64748b',
+          count: groupedCount,
+          rawKeys: groupedRawKeys
+        };
+      } else {
+        rawList.forEach(c => { breakdownMap[c.key] = c; });
+      }
+    } else {
+      rawList.forEach(c => { breakdownMap[c.key] = c; });
+    }
 
     const sortedCategories = Object.values(breakdownMap).sort((a, b) => b.count - a.count);
 
     const barsHtml = sortedCategories.length === 0
       ? `<div style="text-align:center; color:var(--text-muted); font-size:0.82rem; padding:8px 0;">В этой группе нет задач за ${monthTitle}</div>`
       : sortedCategories.map(cat => {
-          const pct = currentPool.length > 0 ? Math.round((cat.count / currentPool.length) * 100) : 0;
+          const pct = totalInPool > 0 ? Math.round((cat.count / totalInPool) * 100) : 0;
           const isSelected = selectedCategoryFilter === cat.key;
           return `
             <div class="stats-cat-bar-item ${isSelected ? 'selected-cat' : ''}" data-catkey="${cat.key}">
@@ -565,13 +599,21 @@
           `;
         }).join('');
 
-    function getKpiCardStyle(tabKey, accentHex, isNeonLime = false) {
-      const isActive = activeStatusTab === tabKey;
-      if (!isActive) return '';
-      if (isNeonLime) {
-        return `background:#cbf532; color:#0d0e12; border-color:#cbf532;`;
+    // Стили для 100% заливки любой выбранной плитки KPI
+    function getKpiCardFilledStyle(tabKey, bgHex, activeTextColor) {
+      if (activeStatusTab !== tabKey) return '';
+      return `background:${bgHex}; color:${activeTextColor}; border-color:${bgHex};`;
+    }
+
+    function getKpiPillFilledStyle(tabKey, defaultBg, defaultColor, activeBg, activeColor) {
+      if (activeStatusTab === tabKey) {
+        return `background:${activeBg}; color:${activeColor};`;
       }
-      return `border-color:${accentHex}; background:${accentHex}18;`;
+      return `background:${defaultBg}; color:${defaultColor};`;
+    }
+
+    function getKpiNumColor(tabKey, defaultColor, activeColor) {
+      return activeStatusTab === tabKey ? `color:${activeColor};` : `color:${defaultColor};`;
     }
 
     container.innerHTML = `
@@ -587,45 +629,57 @@
           </button>
         </div>
 
-        <!-- Порядок карточек: 1. Поставлено, 2. Сделано, 3. Просрочено, 4. Перенесено -->
+        <!-- Порядок карточек: 1. Поставлено, 2. Сделано, 3. Просрочено, 4. Перенесено (все заливаются при нажатии) -->
         <div class="stats-kpi-bento-grid">
-          <div class="stats-kpi-card ${activeStatusTab === 'all' ? 'active-card' : ''}" data-statustab="all" style="${getKpiCardStyle('all', '#5b9ffc')}">
+          <!-- 1. Поставлено дел -->
+          <div class="stats-kpi-card ${activeStatusTab === 'all' ? 'active-card' : ''}" 
+               data-statustab="all" 
+               style="${getKpiCardFilledStyle('all', '#5b9ffc', '#0d0e12')}">
             <div class="stats-kpi-top">
-              <span class="stats-kpi-pill" style="background:rgba(91,159,252,0.16); color:#5b9ffc;">За месяц</span>
+              <span class="stats-kpi-pill" style="${getKpiPillFilledStyle('all', 'rgba(91,159,252,0.16)', '#5b9ffc', '#0d0e12', '#5b9ffc')}">За месяц</span>
             </div>
-            <div class="stats-kpi-number" style="color:#5b9ffc;">${totalSet}</div>
+            <div class="stats-kpi-number" style="${getKpiNumColor('all', '#5b9ffc', '#0d0e12')}">${totalSet}</div>
             <div class="stats-kpi-label">Поставлено дел</div>
           </div>
 
-          <div class="stats-kpi-card ${activeStatusTab === 'completed' ? 'active-card' : ''}" data-statustab="completed" style="${getKpiCardStyle('completed', '#cbf532', true)}">
+          <!-- 2. Сделано дел -->
+          <div class="stats-kpi-card ${activeStatusTab === 'completed' ? 'active-card' : ''}" 
+               data-statustab="completed" 
+               style="${getKpiCardFilledStyle('completed', '#cbf532', '#0d0e12')}">
             <div class="stats-kpi-top">
-              <span class="stats-kpi-pill" style="${activeStatusTab === 'completed' ? 'background:#0d0e12; color:#cbf532;' : 'background:rgba(203,245,50,0.15); color:#cbf532;'}">↑ ${completionRate}%</span>
+              <span class="stats-kpi-pill" style="${getKpiPillFilledStyle('completed', 'rgba(203,245,50,0.15)', '#cbf532', '#0d0e12', '#cbf532')}">↑ ${completionRate}%</span>
             </div>
-            <div class="stats-kpi-number" style="${activeStatusTab === 'completed' ? 'color:#0d0e12;' : 'color:#cbf532;'}">${totalCompleted}</div>
+            <div class="stats-kpi-number" style="${getKpiNumColor('completed', '#cbf532', '#0d0e12')}">${totalCompleted}</div>
             <div class="stats-kpi-label">Сделано дел</div>
           </div>
 
-          <div class="stats-kpi-card ${activeStatusTab === 'failed' ? 'active-card' : ''}" data-statustab="failed" style="${getKpiCardStyle('failed', '#EF3838')}">
+          <!-- 3. Просрочено -->
+          <div class="stats-kpi-card ${activeStatusTab === 'failed' ? 'active-card' : ''}" 
+               data-statustab="failed" 
+               style="${getKpiCardFilledStyle('failed', '#EF3838', '#ffffff')}">
             <div class="stats-kpi-top">
-              <span class="stats-kpi-pill" style="background:rgba(239,56,56,0.16); color:#EF3838;">Долги</span>
+              <span class="stats-kpi-pill" style="${getKpiPillFilledStyle('failed', 'rgba(239,56,56,0.16)', '#EF3838', 'rgba(13,14,18,0.28)', '#ffffff')}">Долги</span>
             </div>
-            <div class="stats-kpi-number" style="color:#EF3838;">${totalFailed}</div>
+            <div class="stats-kpi-number" style="${getKpiNumColor('failed', '#EF3838', '#ffffff')}">${totalFailed}</div>
             <div class="stats-kpi-label">Просрочено</div>
           </div>
 
-          <div class="stats-kpi-card ${activeStatusTab === 'postponed' ? 'active-card' : ''}" data-statustab="postponed" style="${getKpiCardStyle('postponed', '#FF652F')}">
+          <!-- 4. Перенесено -->
+          <div class="stats-kpi-card ${activeStatusTab === 'postponed' ? 'active-card' : ''}" 
+               data-statustab="postponed" 
+               style="${getKpiCardFilledStyle('postponed', '#FF652F', '#ffffff')}">
             <div class="stats-kpi-top">
-              <span class="stats-kpi-pill" style="background:rgba(255,101,47,0.16); color:#FF652F;">Перенос</span>
+              <span class="stats-kpi-pill" style="${getKpiPillFilledStyle('postponed', 'rgba(255,101,47,0.16)', '#FF652F', 'rgba(13,14,18,0.28)', '#ffffff')}">Перенос</span>
             </div>
-            <div class="stats-kpi-number" style="color:#FF652F;">${totalPostponed}</div>
+            <div class="stats-kpi-number" style="${getKpiNumColor('postponed', '#FF652F', '#ffffff')}">${totalPostponed}</div>
             <div class="stats-kpi-label">Перенесено</div>
           </div>
         </div>
 
-        <!-- Карточка с крупным Donut-графиком (без надписи справа сверху) -->
+        <!-- Карточка с крупным Donut-графиком -->
         <div class="stats-hero-donut-card">
           <div class="stats-hero-top-bar">
-            <span class="stats-status-pill" style="background:${currentMeta.accentColor}; color:${currentMeta.darkText ? '#0d0e12' : '#ffffff'};">
+            <span class="stats-status-pill" style="background:${currentMeta.accentColor}; color:${currentMeta.textColor};">
               ${currentMeta.badgeText}
             </span>
           </div>
@@ -651,11 +705,13 @@
       </div>
     `;
 
-    // Рендерим карточки задач
+    // Фильтрация списка задач (поддерживает и обычную категорию, и сгруппированную <5%)
     const tasksListEl = document.getElementById('statsFilteredTasksContainer');
-    const filteredTasks = selectedCategoryFilter
-      ? currentPool.filter(t => (t.category || 'other') === selectedCategoryFilter)
-      : currentPool;
+    let filteredTasks = currentPool;
+    if (selectedCategoryFilter && breakdownMap[selectedCategoryFilter]) {
+      const allowedRawKeys = breakdownMap[selectedCategoryFilter].rawKeys || [selectedCategoryFilter];
+      filteredTasks = currentPool.filter(t => allowedRawKeys.includes(t.category || 'other'));
+    }
 
     if (filteredTasks.length === 0) {
       tasksListEl.innerHTML = `<div class="empty-state-text" style="padding:20px;">Задач в этом списке нет.</div>`;
@@ -700,7 +756,6 @@
           </div>
         `;
 
-        // Переключение галочки выполнения
         const checkBtn = card.querySelector('.round-check-btn');
         checkBtn.onclick = (e) => {
           e.stopPropagation();
@@ -710,7 +765,6 @@
           }
         };
 
-        // Открытие задачи по клику
         const openTaskHandler = () => {
           if (typeof window.openEditModal === 'function') {
             window.openEditModal(item);
