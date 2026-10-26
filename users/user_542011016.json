@@ -263,7 +263,8 @@
       "completedDates": [
         "2026-10-15",
         "2026-10-19",
-        "2026-10-22"
+        "2026-10-22",
+        "2026-10-26"
       ],
       "excludedDates": [],
       "noteId": ""
@@ -1142,7 +1143,7 @@
       "isYearly": false,
       "isRecurring": false,
       "recurringConfig": null,
-      "completed": false,
+      "completed": true,
       "completedDates": [],
       "excludedDates": []
     },
@@ -1196,7 +1197,7 @@
       "isYearly": false,
       "isRecurring": false,
       "recurringConfig": null,
-      "completed": false,
+      "completed": true,
       "completedDates": [],
       "excludedDates": []
     },
@@ -1356,7 +1357,9 @@
         "2026-10-21",
         "2026-10-23",
         "2026-10-22",
-        "2026-10-24"
+        "2026-10-24",
+        "2026-10-25",
+        "2026-10-26"
       ]
     },
     {
@@ -1375,7 +1378,9 @@
       "doneDates": [
         "2026-10-22",
         "2026-10-23",
-        "2026-10-24"
+        "2026-10-24",
+        "2026-10-25",
+        "2026-10-26"
       ]
     }
   ],
@@ -1650,5 +1655,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-25T20:57:01.867Z"
+  "updatedAt": "2026-10-26T20:34:47.260Z"
 }
