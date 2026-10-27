@@ -1256,24 +1256,6 @@
       "excludedDates": []
     },
     {
-      "id": "1792792106030_qit8z",
-      "type": "task",
-      "title": "Повесить жалюзи",
-      "date": "2026-11-01",
-      "time": "",
-      "durationHours": "",
-      "durationMinutes": "",
-      "category": "home",
-      "notes": "",
-      "noteId": "",
-      "isYearly": false,
-      "isRecurring": false,
-      "recurringConfig": null,
-      "completed": true,
-      "completedDates": [],
-      "excludedDates": []
-    },
-    {
       "id": "1792793429076_2s9rf",
       "type": "task",
       "title": "Йога",
@@ -1660,6 +1642,29 @@
         "completedDates": [],
         "excludedDates": []
       }
+    },
+    {
+      "trashId": "1793121771073_croa1",
+      "deletedAt": 1793121771073,
+      "originalType": "task",
+      "data": {
+        "id": "1792792106030_qit8z",
+        "type": "task",
+        "title": "Повесить жалюзи",
+        "date": "2026-11-01",
+        "time": "",
+        "durationHours": "",
+        "durationMinutes": "",
+        "category": "home",
+        "notes": "",
+        "noteId": "",
+        "isYearly": false,
+        "isRecurring": false,
+        "recurringConfig": null,
+        "completed": true,
+        "completedDates": [],
+        "excludedDates": []
+      }
     }
   ],
   "settings": {
@@ -1751,5 +1756,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-27T17:22:20.595Z"
+  "updatedAt": "2026-10-27T17:22:54.078Z"
 }
