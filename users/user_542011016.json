@@ -1292,24 +1292,6 @@
       "excludedDates": []
     },
     {
-      "id": "1792793518460_p5mda",
-      "type": "task",
-      "title": "Тренировка",
-      "date": "2026-10-28",
-      "time": "19:00",
-      "durationHours": "",
-      "durationMinutes": "",
-      "category": "custom_mvh6pe30",
-      "notes": "",
-      "noteId": "",
-      "isYearly": false,
-      "isRecurring": false,
-      "recurringConfig": null,
-      "completed": false,
-      "completedDates": [],
-      "excludedDates": []
-    },
-    {
       "id": "1792794108933_hlckd",
       "type": "pending",
       "title": "Рассортировать и упорядочить все видео в инсте про ремонт",
@@ -1538,6 +1520,29 @@
         "completedDates": [],
         "excludedDates": []
       }
+    },
+    {
+      "trashId": "1793120328897_tddpu",
+      "deletedAt": 1793120328897,
+      "originalType": "task",
+      "data": {
+        "id": "1792793518460_p5mda",
+        "type": "task",
+        "title": "Тренировка",
+        "date": "2026-10-28",
+        "time": "19:00",
+        "durationHours": "",
+        "durationMinutes": "",
+        "category": "custom_mvh6pe30",
+        "notes": "",
+        "noteId": "",
+        "isYearly": false,
+        "isRecurring": false,
+        "recurringConfig": null,
+        "completed": false,
+        "completedDates": [],
+        "excludedDates": []
+      }
     }
   ],
   "settings": {
@@ -1629,5 +1634,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-27T16:58:00.096Z"
+  "updatedAt": "2026-10-27T16:58:51.908Z"
 }
