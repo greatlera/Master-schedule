@@ -1406,6 +1406,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1793121723705_scxrc",
+      "type": "task",
+      "title": "Помыть летнюю обувь",
+      "date": "2026-10-29",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "home",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1715,5 +1733,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-27T17:18:00.879Z"
+  "updatedAt": "2026-10-27T17:22:06.710Z"
 }
