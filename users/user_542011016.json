@@ -1380,6 +1380,32 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1793121425072_gfm1u",
+      "type": "task",
+      "title": "Тренировка",
+      "date": "2026-11-01",
+      "time": "18:00",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "custom_mvh6pe30",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": true,
+      "recurringConfig": {
+        "frequency": "weekdays",
+        "intervalN": 2,
+        "weekdays": [
+          2,
+          5,
+          0
+        ]
+      },
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1689,5 +1715,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-27T17:16:22.152Z"
+  "updatedAt": "2026-10-27T17:17:08.078Z"
 }
