@@ -1434,6 +1434,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1793122615963_97dhu",
+      "type": "task",
+      "title": "Доделать приложение с задачами (репозиторий)",
+      "date": "2026-10-28",
+      "time": "14:00",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "hobby",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1766,5 +1784,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-27T17:36:00.317Z"
+  "updatedAt": "2026-10-27T17:36:58.969Z"
 }
