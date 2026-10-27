@@ -1470,6 +1470,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1793122676789_5t561",
+      "type": "task",
+      "title": "Приготовить поесть",
+      "date": "2026-10-30",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "home",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1802,5 +1820,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-27T17:37:45.568Z"
+  "updatedAt": "2026-10-27T17:37:59.796Z"
 }
