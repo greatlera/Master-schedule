@@ -1259,7 +1259,7 @@
       "id": "1792792106030_qit8z",
       "type": "task",
       "title": "Повесить жалюзи",
-      "date": "2026-10-26",
+      "date": "2026-10-27",
       "time": "",
       "durationHours": "",
       "durationMinutes": "",
@@ -1418,50 +1418,6 @@
     }
   ],
   "trashItems": [
-    {
-      "trashId": "1792502451145_6dtjg",
-      "deletedAt": 1792502451145,
-      "originalType": "task",
-      "data": {
-        "id": "1792099757623_q1xq3",
-        "type": "pending",
-        "title": "Помыть коврик для мыши",
-        "date": "",
-        "time": "",
-        "durationHours": 0,
-        "durationMinutes": 30,
-        "category": "home",
-        "notes": "",
-        "isYearly": false,
-        "isRecurring": false,
-        "recurringConfig": null,
-        "completed": false,
-        "completedDates": [],
-        "excludedDates": []
-      }
-    },
-    {
-      "trashId": "1792502456774_0u315",
-      "deletedAt": 1792502456774,
-      "originalType": "task",
-      "data": {
-        "id": "1792066382438_rdnyl",
-        "type": "pending",
-        "title": "Доделать наличник",
-        "date": "",
-        "time": "",
-        "durationHours": 2,
-        "durationMinutes": 0,
-        "category": "hobby",
-        "notes": "",
-        "isYearly": false,
-        "isRecurring": false,
-        "recurringConfig": null,
-        "completed": false,
-        "completedDates": [],
-        "excludedDates": []
-      }
-    },
     {
       "trashId": "1792605444684_knh2r",
       "deletedAt": 1792605444684,
@@ -1655,5 +1611,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-26T20:34:47.260Z"
+  "updatedAt": "2026-10-27T16:57:16.060Z"
 }
