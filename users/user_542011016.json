@@ -1488,6 +1488,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1793122692684_w5c4n",
+      "type": "task",
+      "title": "Вытащить курицу из холодильника",
+      "date": "2026-10-29",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "home",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1820,5 +1838,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-27T17:37:59.796Z"
+  "updatedAt": "2026-10-27T17:38:15.690Z"
 }
