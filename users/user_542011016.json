@@ -1326,6 +1326,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1793120467213_wa4lz",
+      "type": "task",
+      "title": "Очистить подоконник",
+      "date": "2026-10-28",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "home",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1634,5 +1652,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-27T16:59:33.209Z"
+  "updatedAt": "2026-10-27T17:01:39.120Z"
 }
