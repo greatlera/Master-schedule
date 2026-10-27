@@ -1424,6 +1424,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1793121737591_7g2gq",
+      "type": "task",
+      "title": "Сложить летнюю обувь в коробки",
+      "date": "2026-10-30",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "home",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1733,5 +1751,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-27T17:22:06.710Z"
+  "updatedAt": "2026-10-27T17:22:20.595Z"
 }
