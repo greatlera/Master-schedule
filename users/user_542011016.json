@@ -1344,6 +1344,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1793120508670_g1yso",
+      "type": "task",
+      "title": "Покрасить подоконник",
+      "date": "2026-10-28",
+      "time": "",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "home",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [
@@ -1652,5 +1670,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-10-27T17:01:39.120Z"
+  "updatedAt": "2026-10-27T17:01:51.679Z"
 }
