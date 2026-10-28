@@ -2851,7 +2851,7 @@ function setActiveTab(tab) {
       }
     }
 
-    function renderItems() {
+function renderItems() {
       const { taskTags, eventTags } = getThemeColors();
       const listContainer = document.getElementById('itemsList');
       const headerTitle = document.getElementById('summaryHeaderTitle');
@@ -2860,6 +2860,12 @@ function setActiveTab(tab) {
 
       listContainer.innerHTML = '';
       tabControls.style.display = ['all', 'pending', 'events'].includes(activeTab) ? 'flex' : 'none';
+
+      // Защита: если открыт раздел «Планы на месяц», вызываем его рендер, а не очищаем экран
+      if (activeTab === 'month_plans') {
+        MonthPlansModule.render();
+        return;
+      }
 
       if (activeTab === 'today') {
         todayHeroHeader.style.display = 'block';
