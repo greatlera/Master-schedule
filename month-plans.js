@@ -3,7 +3,7 @@
  */
 const MonthPlansModule = (function () {
   let curDate = new Date();
-  let calMode = 'all'; // По умолчанию 'all' (Все задачи) или 'events' (Праздники)
+  let calMode = 'all'; // 'all' (Все задачи) или 'events' (Праздники)
   let selectedHabitId = null;
   let selectedCalDayKey = null;
 
@@ -122,7 +122,7 @@ const MonthPlansModule = (function () {
         style="background:transparent; border:none; color:var(--text); font-weight:600; font-size:0.9rem; width:100%; outline:none;" />
     `;
 
-    // 3. Главные цели
+    // 3. Главные цели (без зачёркивания)
     const goalsSection = document.createElement('div');
     goalsSection.className = 'card';
     goalsSection.style.padding = '18px 16px';
@@ -137,7 +137,7 @@ const MonthPlansModule = (function () {
       <div id="mpGoalsList" style="display:flex; flex-direction:column; gap:8px;"></div>
     `;
 
-    // 4. Календарь месяца (поменяли порядок: сначала Все задачи, потом Праздники)
+    // 4. Календарь месяца
     const calSection = document.createElement('div');
     calSection.className = 'card';
     calSection.style.padding = '18px 16px';
@@ -153,10 +153,10 @@ const MonthPlansModule = (function () {
         <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div>
       </div>
       <div class="days-grid" id="mpDaysGrid"></div>
-      <div id="mpCalSubContent" style="margin-top:16px;"></div>
+      <div id="mpCalSubContent" style="margin-top:14px;"></div>
     `;
 
-    // 5. Трекер привычек с аккуратным селектором
+    // 5. Трекер привычек
     const habitSection = document.createElement('div');
     habitSection.className = 'card';
     habitSection.style.padding = '18px 16px';
@@ -255,10 +255,6 @@ const MonthPlansModule = (function () {
 
       const titleSpan = document.createElement('div');
       titleSpan.style.cssText = 'font-size:0.92rem; font-weight:600; display:flex; align-items:center; gap:6px; overflow:hidden; text-overflow:ellipsis;';
-      if (goal.completed) {
-        titleSpan.style.textDecoration = 'line-through';
-        titleSpan.style.opacity = '0.5';
-      }
 
       if (goal.isPendingRef) {
         titleSpan.innerHTML = `<span style="display:inline-flex; align-items:center; color:var(--accent-blue);">${pinIconSvg}</span> <span>${escapeHtml(goal.title)}</span>`;
@@ -466,12 +462,11 @@ const MonthPlansModule = (function () {
 
     const dispDate = (typeof formatDisplayDate === 'function' && selectedCalDayKey) ? formatDisplayDate(selectedCalDayKey) : selectedCalDayKey;
 
-    // Нижняя часть под календарем: теперь и в Праздниках, и во Всех задачах отображается по клику на день
     if (!selectedCalDayKey) {
       const promptText = (calMode === 'events')
         ? 'Нажмите на день календаря для просмотра праздников.'
         : 'Нажмите на день календаря для просмотра списка задач.';
-      subContent.innerHTML = `<div style="font-size:0.84rem; color:var(--text-muted); text-align:center; padding:10px 0;">${promptText}</div>`;
+      subContent.innerHTML = `<div style="font-size:0.84rem; color:var(--text-muted); text-align:center; padding:8px 0;">${promptText}</div>`;
       return;
     }
 
@@ -481,21 +476,21 @@ const MonthPlansModule = (function () {
     const dayTasks = allEntries.filter(e => e.type === 'task' && (typeof taskOccursOnDate === 'function' ? taskOccursOnDate(e, selectedCalDayKey) : e.date === selectedCalDayKey));
 
     if (calMode === 'events') {
-      let html = `<h4 style="font-size:0.92rem; font-weight:800; margin-bottom:10px;">События & Праздники на ${dispDate}:</h4>`;
+      let html = `<h4 style="font-size:0.88rem; font-weight:800; margin-bottom:8px;">События & Праздники на ${dispDate}:</h4>`;
       if (dayEvts.length === 0) {
-        html += `<div style="font-size:0.84rem; color:var(--text-muted);">На этот день событий нет.</div>`;
+        html += `<div style="font-size:0.82rem; color:var(--text-muted);">На этот день событий нет.</div>`;
       } else {
-        html += `<div style="display:flex; flex-direction:column; gap:8px;">`;
+        html += `<div style="display:flex; flex-direction:column; gap:6px;">`;
         dayEvts.forEach(item => {
           const cat = eventTags[item.category] || { label: 'Событие', color: '#FF652F', bg: 'rgba(255, 101, 47, 0.16)' };
           html += `
-            <div class="bento-entry-card" style="background:${cat.bg}; border-color:${cat.color}; padding:10px 14px;">
-              <div class="bento-entry-left">
+            <div class="bento-entry-card" style="background:${cat.bg}; border-color:${cat.color}; padding:8px 12px; min-height:40px; display:flex; align-items:center;">
+              <div class="bento-entry-left" style="display:flex; align-items:center; gap:8px;">
                 <div class="bento-entry-info">
-                  <div class="bento-entry-title" style="color:${cat.color}; font-size:0.92rem;">${escapeHtml(item.title)}</div>
-                  <div class="bento-entry-badges">
-                    <span class="badge" style="background:${cat.color}25; color:${cat.color};">${escapeHtml(cat.label)}</span>
-                    ${item.isYearly ? `<span class="badge" style="background:${cat.color}25; color:${cat.color};">Ежегодно</span>` : ''}
+                  <div class="bento-entry-title" style="color:${cat.color}; font-size:0.88rem;">${escapeHtml(item.title)}</div>
+                  <div class="bento-entry-badges" style="margin-top:2px;">
+                    <span class="badge" style="background:${cat.color}25; color:${cat.color}; font-size:0.7rem; padding:2px 6px;">${escapeHtml(cat.label)}</span>
+                    ${item.isYearly ? `<span class="badge" style="background:${cat.color}25; color:${cat.color}; font-size:0.7rem; padding:2px 6px;">Ежегодно</span>` : ''}
                   </div>
                 </div>
               </div>
@@ -506,16 +501,16 @@ const MonthPlansModule = (function () {
       }
       subContent.innerHTML = html;
     } else {
-      // Режим «Все задачи»: выводим цветные карточки в цвет тега
-      let html = `<h4 style="font-size:0.92rem; font-weight:800; margin-bottom:10px;">Задачи на ${dispDate}:</h4>`;
+      // Режим «Все задачи»: компактные карточки без зачёркивания текста
+      let html = `<h4 style="font-size:0.88rem; font-weight:800; margin-bottom:8px;">Задачи на ${dispDate}:</h4>`;
       const total = [...dayEvts, ...dayTasks];
       if (total.length === 0) {
-        html += `<div style="font-size:0.84rem; color:var(--text-muted);">На этот день дел нет.</div>`;
+        html += `<div style="font-size:0.82rem; color:var(--text-muted);">На этот день дел нет.</div>`;
         subContent.innerHTML = html;
       } else {
         subContent.innerHTML = html;
         const box = document.createElement('div');
-        box.style.cssText = 'display:flex; flex-direction:column; gap:8px;';
+        box.style.cssText = 'display:flex; flex-direction:column; gap:6px;';
 
         total.forEach(item => {
           const isEvent = (item.type === 'event');
@@ -527,26 +522,24 @@ const MonthPlansModule = (function () {
 
           const card = document.createElement('div');
           card.className = 'bento-entry-card';
-          card.style.background = cat.bg;
-          card.style.borderColor = cat.color;
-          card.style.padding = '10px 14px';
+          card.style.cssText = `background:${cat.bg}; border-color:${cat.color}; padding:8px 12px; min-height:40px; display:flex; align-items:center; justify-content:space-between;`;
 
           card.innerHTML = `
-            <div class="bento-entry-left">
+            <div class="bento-entry-left" style="display:flex; align-items:center; gap:8px; flex:1; overflow:hidden;">
               ${!isEvent ? `<div class="check-slot"></div>` : ''}
-              <div class="bento-entry-info">
-                <div class="bento-entry-title" style="color:${cat.color}; font-size:0.92rem; ${isCompleted ? 'text-decoration:line-through; opacity:0.6;' : ''}">
+              <div class="bento-entry-info" style="overflow:hidden;">
+                <div class="bento-entry-title" style="color:${cat.color}; font-size:0.88rem; font-weight:700;">
                   ${escapeHtml(item.title)}
                 </div>
-                <div class="bento-entry-badges">
-                  <span class="badge" style="background:${cat.color}25; color:${cat.color};">${escapeHtml(cat.label)}</span>
-                  ${item.time ? `<span class="badge" style="background:${cat.color}25; color:${cat.color};">${timeIconSvg} ${escapeHtml(item.time)}</span>` : ''}
+                <div class="bento-entry-badges" style="margin-top:2px; display:flex; gap:6px; align-items:center;">
+                  <span class="badge" style="background:${cat.color}25; color:${cat.color}; font-size:0.7rem; padding:2px 6px;">${escapeHtml(cat.label)}</span>
+                  ${item.time ? `<span class="badge" style="background:${cat.color}25; color:${cat.color}; font-size:0.7rem; padding:2px 6px;">${timeIconSvg} ${escapeHtml(item.time)}</span>` : ''}
                 </div>
-                ${item.notes ? `<div class="bento-entry-notes" style="color:${cat.color}; font-size:0.78rem;">${escapeHtml(item.notes)}</div>` : ''}
+                ${item.notes ? `<div class="bento-entry-notes" style="color:${cat.color}; font-size:0.76rem; margin-top:2px;">${escapeHtml(item.notes)}</div>` : ''}
               </div>
             </div>
             <div class="item-actions">
-              <button class="action-icon-btn edit-task-btn" style="color:${cat.color};" title="Открыть задачу">
+              <button class="action-icon-btn edit-task-btn" style="color:${cat.color}; width:28px; height:28px;" title="Открыть задачу">
                 <svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
               </button>
             </div>
@@ -632,7 +625,7 @@ const MonthPlansModule = (function () {
 
     let dotsHtml = '';
     for (let i = 0; i < startDay; i++) {
-      dotsHtml += `<div class="day-cell other-month" style="opacity:0.1; cursor:default;"></div>`;
+      dotsHtml += `<div class="day-cell other-month" style="opacity:0.1; cursor:default; user-select:none;"></div>`;
     }
 
     for (let d = 1; d <= lastD; d++) {
@@ -644,26 +637,28 @@ const MonthPlansModule = (function () {
       dotsHtml += `
         <div class="day-cell ${isDone ? 'has-entry' : ''} ${isToday ? 'today-circle' : ''}" 
              data-dkey="${dKey}" 
-             style="${isDone ? `background:var(--primary); color:var(--primary-text); font-weight:800;` : ''} ${isFuture ? 'opacity:0.3; cursor:not-allowed;' : 'cursor:pointer;'}">
+             style="${isDone ? `background:var(--primary); color:var(--primary-text); font-weight:800;` : ''} ${isFuture ? 'opacity:0.3; cursor:not-allowed;' : 'cursor:pointer;'} user-select:none; -webkit-user-select:none; touch-action:manipulation;">
           ${d}
         </div>
       `;
     }
 
     box.innerHTML = `
-      <div class="weekdays-row" style="margin-bottom:6px; font-size:0.7rem;">
+      <div class="weekdays-row" style="margin-bottom:6px; font-size:0.7rem; user-select:none;">
         <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div>
       </div>
       <div class="days-grid">${dotsHtml}</div>
     `;
 
-    // Привязываем клик на день для отметки привычки
+    // Точная фиксация тапа: мгновенная отметка без вызова меню браузера
     box.querySelectorAll('.day-cell[data-dkey]').forEach(el => {
-      el.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+      const handleHabitToggle = (e) => {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
         const k = el.dataset.dkey;
-        if (k > todayStr) return;
+        if (!k || k > todayStr) return;
 
         if (habit.doneDates.includes(k)) {
           habit.doneDates = habit.doneDates.filter(d => d !== k);
@@ -677,7 +672,10 @@ const MonthPlansModule = (function () {
           localStorage.setItem('master_schedule_habits', JSON.stringify(allHabits));
         }
         drawHabitDots(box);
-      });
+      };
+
+      el.addEventListener('click', handleHabitToggle);
+      el.addEventListener('contextmenu', (e) => e.preventDefault());
     });
   }
 
