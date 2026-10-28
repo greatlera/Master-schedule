@@ -1285,8 +1285,8 @@
         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
         <span>Календарь</span>
       </button>
-      <button class="drawer-item" data-tab="month_plans">
-        <svg viewBox="0 0 24 24"><path d="M19 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+     <button class="drawer-item" data-tab="month_plans">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="13" y2="17"></line><rect x="15" y="16" width="3" height="3" rx="0.5"></rect></svg>
         <span>Планы на месяц</span>
       </button>
       <button class="drawer-item" data-tab="all">
@@ -2140,13 +2140,32 @@
     settings.notifTomorrowDays = Array.isArray(settings.notifTomorrowDays) ? settings.notifTomorrowDays : [1, 2, 3, 4, 5, 6, 0];
     settings.notifWeekendDays = Array.isArray(settings.notifWeekendDays) ? settings.notifWeekendDays : [5];
 
-    function syncBodyModalState() {
-      const anyModalOpen = document.querySelectorAll('.modal-backdrop[style*="display: flex"], .drawer-backdrop.active').length > 0;
-      document.body.classList.toggle('modal-open', anyModalOpen);
+ function syncBodyModalState() {
+  const anyModalOpen = document.querySelectorAll('.modal-backdrop[style*="display: flex"], .drawer-backdrop.active').length > 0;
+  document.body.classList.toggle('modal-open', anyModalOpen);
+}
+
+let isHandlingPopState = false;
+
+    function pushAppHistoryState(stateObj) {
+      if (isHandlingPopState) return;
+      history.pushState(stateObj, '');
     }
 
-    function showModal(el) { el.style.display = 'flex'; syncBodyModalState(); }
-    function hideModal(el) { el.style.display = 'none'; syncBodyModalState(); }
+    function showModal(el) {
+      const wasHidden = el.style.display !== 'flex';
+      el.style.display = 'flex';
+      syncBodyModalState();
+      if (wasHidden) {
+        pushAppHistoryState({ type: 'modal', id: el.id || 'modal' });
+      }
+    }
+
+    function hideModal(el) {
+      if (el.style.display === 'none') return;
+      el.style.display = 'none';
+      syncBodyModalState();
+    }
 
     if (navigator.storage && navigator.storage.persist) {
       navigator.storage.persist().catch(e => console.warn('Storage persistence failed:', e));
@@ -2425,7 +2444,15 @@
 
     const drawerPanel = document.getElementById('drawerPanel');
     const drawerBackdrop = document.getElementById('drawerBackdrop');
-    function openDrawer() { drawerBackdrop.classList.add('active'); drawerPanel.classList.add('active'); syncBodyModalState(); }
+    function openDrawer() {
+      const wasClosed = !drawerPanel.classList.contains('active');
+      drawerBackdrop.classList.add('active');
+      drawerPanel.classList.add('active');
+      syncBodyModalState();
+      if (wasClosed) {
+        pushAppHistoryState({ type: 'drawer' });
+      }
+    }
     function closeDrawer() { drawerBackdrop.classList.remove('active'); drawerPanel.classList.remove('active'); syncBodyModalState(); }
     
     document.getElementById('openDrawerBtn').onclick = openDrawer;
@@ -2471,25 +2498,31 @@
     const daySummaryHeader = document.getElementById('daySummaryHeader');
 
 function setActiveTab(tab) {
+      const prevTab = activeTab;
       activeTab = tab;
+
+      if (!isHandlingPopState && tab !== 'today' && prevTab !== tab) {
+        pushAppHistoryState({ type: 'tab', tab: tab });
+      }
+
       document.querySelectorAll('.drawer-item[data-tab]').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.tab === tab);
       });
 
-      // Добавьте эту проверку:
       if (tab === 'month_plans') {
         calendarCard.style.display = 'none';
         subtabsBar.style.display = 'none';
         todayHeroHeader.style.display = 'none';
         daySummaryHeader.style.display = 'none';
         openAddModalBtn.style.display = 'none';
+        if (typeof closeDrawer === 'function') closeDrawer();
         MonthPlansModule.openSection();
         return;
       }
+
       calendarCard.style.display = (tab === 'tasks') ? 'block' : 'none';
       openAddModalBtn.style.display = ['today', 'tasks', 'all', 'pending', 'events', 'habits', 'notes'].includes(tab) ? 'grid' : 'none';
 
-      // Обработка вкладки аналитики и статистики
       if (tab === 'stats') {
         todayHeroHeader.style.display = 'none';
         daySummaryHeader.style.display = 'flex';
@@ -3722,15 +3755,46 @@ function setActiveTab(tab) {
       bindChecklistHandlers(fullscreenNoteEditorArea);
       updateToolbarState();
       
-      history.pushState({ modal: 'note_editor' }, '');
-      showModal(fullscreenNoteModal);
+showModal(fullscreenNoteModal);
     }
 
-    window.addEventListener('popstate', () => {
+    // Глобальный обработчик кнопки "Назад" для всех окон и экранов
+    window.addEventListener('popstate', (e) => {
+      isHandlingPopState = true;
+
+      // 1. Если открыта шторка меню — закрываем
+      if (drawerPanel.classList.contains('active')) {
+        closeDrawer();
+        isHandlingPopState = false;
+        return;
+      }
+
+      // 2. Если открыт редактор заметок — сохраняем и закрываем
       if (fullscreenNoteModal.style.display === 'flex') {
         saveCurrentNoteData();
         hideModal(fullscreenNoteModal);
+        isHandlingPopState = false;
+        return;
       }
+
+      // 3. Закрываем любое другое открытое модальное окно
+      const openModals = document.querySelectorAll('.modal-backdrop');
+      for (const m of openModals) {
+        if (m.style.display === 'flex') {
+          hideModal(m);
+          isHandlingPopState = false;
+          return;
+        }
+      }
+
+      // 4. Если все окна закрыты и мы в подразделе — возвращаемся в календарь
+      if (activeTab !== 'tasks' && activeTab !== 'today') {
+        setActiveTab('tasks');
+        isHandlingPopState = false;
+        return;
+      }
+
+      isHandlingPopState = false;
     });
 
     function refreshInlineTaskLinks(container) {
