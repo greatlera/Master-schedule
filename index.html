@@ -2480,9 +2480,16 @@ let isHandlingPopState = false;
     document.getElementById('noteHeadingLogo').onclick = openCalendarSection;
     document.getElementById('drawerHeadingLogo').onclick = openCalendarSection;
 
-    document.getElementById('todayNavBtn').onclick = () => {
-      if (activeTab === 'today') { viewDate = new Date(); setActiveTab('tasks'); }
-      else { selectedDate = new Date(); setActiveTab('today'); }
+document.getElementById('todayNavBtn').onclick = () => {
+      if (activeTab === 'tasks') {
+        // Если мы в календаре — кнопка «Сегодня» открывает дела на сегодня
+        selectedDate = new Date();
+        setActiveTab('today');
+      } else {
+        // Если мы в любой другой вкладке — кнопка «Календарь» возвращает в календарь
+        viewDate = new Date();
+        setActiveTab('tasks');
+      }
       closeDrawer();
     };
     document.getElementById('noteTodayNavBtn').onclick = () => {
@@ -2501,13 +2508,21 @@ function setActiveTab(tab) {
       const prevTab = activeTab;
       activeTab = tab;
 
-      if (!isHandlingPopState && tab !== 'today' && prevTab !== tab) {
+      if (!isHandlingPopState && tab !== 'tasks' && prevTab !== tab) {
         pushAppHistoryState({ type: 'tab', tab: tab });
       }
 
       document.querySelectorAll('.drawer-item[data-tab]').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.tab === tab);
       });
+
+      // Логика кнопки в правом верхнем углу:
+      // Только в календаре ('tasks') кнопка называется «Сегодня».
+      // Во всех остальных вкладках — «Календарь».
+      const todayNavBtn = document.getElementById('todayNavBtn');
+      if (todayNavBtn) {
+        todayNavBtn.textContent = (tab === 'tasks') ? 'Сегодня' : 'Календарь';
+      }
 
       if (tab === 'month_plans') {
         calendarCard.style.display = 'none';
