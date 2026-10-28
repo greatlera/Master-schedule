@@ -671,7 +671,6 @@ const MonthPlansModule = (function () {
       <div class="days-grid">${dotsHtml}</div>
     `;
 
-    // Мгновенное локальное переключение ячейки привычки без вылета
     box.querySelectorAll('.day-cell[data-dkey]').forEach(el => {
       const handleHabitToggle = (e) => {
         e.preventDefault();
@@ -694,11 +693,9 @@ const MonthPlansModule = (function () {
           el.style.fontWeight = '800';
         }
 
-        if (typeof saveHabits === 'function') {
-          saveHabits();
-        } else {
-          localStorage.setItem('master_schedule_habits', JSON.stringify(allHabits));
-        }
+        // Сохраняем без глобального renderItems, чтобы не стирался экран
+        localStorage.setItem('master_schedule_habits', JSON.stringify(allHabits));
+        if (typeof triggerGhSync === 'function') triggerGhSync();
       };
 
       el.addEventListener('click', handleHabitToggle);
