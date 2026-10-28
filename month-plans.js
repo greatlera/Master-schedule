@@ -91,14 +91,14 @@ const MonthPlansModule = (function () {
     headerRow.className = 'nav-header-row';
     headerRow.style.margin = '0 0 4px 0';
     headerRow.innerHTML = `
-      <button class="nav-arrow-btn" id="mpPrevMonth" aria-label="Предыдущий месяц">
+      <button class="nav-arrow-btn" id="mpPrevMonth" aria-label="Предыдущий месяц" type="button">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
       </button>
       <div style="display:flex; align-items:center; gap:8px;">
         <span id="mpEmojiBtn" style="font-size:1.45rem; cursor:pointer; user-select:none;" title="Изменить значок">${cur.emoji || '🎯'}</span>
         <h2 style="font-size:1.35rem; font-weight:800; letter-spacing:-0.03em;">${monthName}'${yearShort}</h2>
       </div>
-      <button class="nav-arrow-btn" id="mpNextMonth" aria-label="Следующий месяц">
+      <button class="nav-arrow-btn" id="mpNextMonth" aria-label="Следующий месяц" type="button">
         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
       </button>
     `;
@@ -122,7 +122,7 @@ const MonthPlansModule = (function () {
         style="background:transparent; border:none; color:var(--text); font-weight:600; font-size:0.9rem; width:100%; outline:none;" />
     `;
 
-    // 3. Главные цели (без зачёркивания)
+    // 3. Главные цели
     const goalsSection = document.createElement('div');
     goalsSection.className = 'card';
     goalsSection.style.padding = '18px 16px';
@@ -130,8 +130,8 @@ const MonthPlansModule = (function () {
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
         <h3 style="font-size:1.02rem; font-weight:800;">Главные цели:</h3>
         <div style="display:flex; gap:8px;">
-          <button id="mpAddCustomGoalBtn" class="action-icon-btn" title="Добавить цель" style="background:var(--input-bg); border:1px solid var(--input-border); width:32px; height:32px; border-radius:10px; color:var(--text);">＋</button>
-          <button id="mpAttachPendingBtn" class="action-icon-btn" title="Закрепить задачу" style="background:var(--input-bg); border:1px solid var(--input-border); width:32px; height:32px; border-radius:10px; color:var(--text);">${pinIconSvg}</button>
+          <button id="mpAddCustomGoalBtn" class="action-icon-btn" type="button" title="Добавить цель" style="background:var(--input-bg); border:1px solid var(--input-border); width:32px; height:32px; border-radius:10px; color:var(--text);">＋</button>
+          <button id="mpAttachPendingBtn" class="action-icon-btn" type="button" title="Закрепить задачу" style="background:var(--input-bg); border:1px solid var(--input-border); width:32px; height:32px; border-radius:10px; color:var(--text);">${pinIconSvg}</button>
         </div>
       </div>
       <div id="mpGoalsList" style="display:flex; flex-direction:column; gap:8px;"></div>
@@ -145,8 +145,8 @@ const MonthPlansModule = (function () {
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
         <span style="font-size:0.8rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">Календарь</span>
         <div class="subtabs-bar" style="margin-bottom:0; padding:3px; background:var(--input-bg);">
-          <button class="subtab-btn ${calMode === 'all' ? 'active' : ''}" id="mpModeAll" style="padding:6px 12px; font-size:0.75rem;">Все задачи</button>
-          <button class="subtab-btn ${calMode === 'events' ? 'active' : ''}" id="mpModeEvents" style="padding:6px 12px; font-size:0.75rem;">Праздники</button>
+          <button class="subtab-btn ${calMode === 'all' ? 'active' : ''}" id="mpModeAll" type="button" style="padding:6px 12px; font-size:0.75rem;">Все задачи</button>
+          <button class="subtab-btn ${calMode === 'events' ? 'active' : ''}" id="mpModeEvents" type="button" style="padding:6px 12px; font-size:0.75rem;">Праздники</button>
         </div>
       </div>
       <div class="weekdays-row" style="margin-bottom:10px;">
@@ -175,18 +175,21 @@ const MonthPlansModule = (function () {
     wrap.appendChild(habitSection);
     container.appendChild(wrap);
 
-    headerRow.querySelector('#mpPrevMonth').onclick = () => {
+    headerRow.querySelector('#mpPrevMonth').onclick = (e) => {
+      e.stopPropagation();
       curDate.setMonth(curDate.getMonth() - 1);
       selectedCalDayKey = null;
       render();
     };
-    headerRow.querySelector('#mpNextMonth').onclick = () => {
+    headerRow.querySelector('#mpNextMonth').onclick = (e) => {
+      e.stopPropagation();
       curDate.setMonth(curDate.getMonth() + 1);
       selectedCalDayKey = null;
       render();
     };
 
-    headerRow.querySelector('#mpEmojiBtn').onclick = () => {
+    headerRow.querySelector('#mpEmojiBtn').onclick = (e) => {
+      e.stopPropagation();
       openPromptModal('Значок месяца', 'Введите любой эмодзи:', cur.emoji || '🎯', (val) => {
         cur.emoji = val.trim() || '🎯';
         allData[monthKey] = cur;
@@ -206,10 +209,11 @@ const MonthPlansModule = (function () {
     renderMonthCalendar(calSection);
     renderHabitSection(habitSection);
 
-    calSection.querySelector('#mpModeAll').onclick = () => { calMode = 'all'; selectedCalDayKey = null; render(); };
-    calSection.querySelector('#mpModeEvents').onclick = () => { calMode = 'events'; selectedCalDayKey = null; render(); };
+    calSection.querySelector('#mpModeAll').onclick = (e) => { e.stopPropagation(); calMode = 'all'; selectedCalDayKey = null; render(); };
+    calSection.querySelector('#mpModeEvents').onclick = (e) => { e.stopPropagation(); calMode = 'events'; selectedCalDayKey = null; render(); };
 
-    goalsSection.querySelector('#mpAddCustomGoalBtn').onclick = () => {
+    goalsSection.querySelector('#mpAddCustomGoalBtn').onclick = (e) => {
+      e.stopPropagation();
       openPromptModal('Новая главная цель', 'Введите цель на месяц:', '', (val) => {
         if (!val.trim()) return;
         cur.goals.push({
@@ -224,7 +228,8 @@ const MonthPlansModule = (function () {
       });
     };
 
-    goalsSection.querySelector('#mpAttachPendingBtn').onclick = () => {
+    goalsSection.querySelector('#mpAttachPendingBtn').onclick = (e) => {
+      e.stopPropagation();
       openAttachPendingPicker(cur, allData, monthKey);
     };
   }
@@ -265,18 +270,21 @@ const MonthPlansModule = (function () {
       left.appendChild(check);
       left.appendChild(titleSpan);
 
-      left.onclick = () => {
+      left.onclick = (e) => {
+        e.stopPropagation();
         goal.completed = !goal.completed;
         allData[monthKey] = cur;
         saveStorageData(allData);
-        render();
+        check.classList.toggle('checked', goal.completed);
       };
 
       const delBtn = document.createElement('button');
       delBtn.className = 'action-icon-btn del-btn';
+      delBtn.type = 'button';
       delBtn.innerHTML = closeIconSvg;
       delBtn.style.color = 'var(--text-muted)';
-      delBtn.onclick = () => {
+      delBtn.onclick = (e) => {
+        e.stopPropagation();
         cur.goals = cur.goals.filter(g => g.id !== goal.id);
         allData[monthKey] = cur;
         saveStorageData(allData);
@@ -311,26 +319,30 @@ const MonthPlansModule = (function () {
       <div class="modal-sheet">
         <div class="modal-sheet-header">
           <h2>Закрепить висящую задачу</h2>
-          <button class="modal-close-x">&times;</button>
+          <button class="modal-close-x" type="button">&times;</button>
         </div>
         <div class="modal-sheet-body" style="gap:8px;">
           ${listHtml}
         </div>
         <div class="modal-sheet-footer">
-          <button class="modal-btn btn-cancel" style="width:100%;">Отмена</button>
+          <button class="modal-btn btn-cancel" type="button" style="width:100%;">Отмена</button>
         </div>
       </div>
     `;
 
     document.body.appendChild(backdrop);
 
-    const closeMe = () => backdrop.remove();
+    const closeMe = (e) => {
+      if (e) e.stopPropagation();
+      backdrop.remove();
+    };
     backdrop.querySelector('.modal-close-x').onclick = closeMe;
     backdrop.querySelector('.btn-cancel').onclick = closeMe;
-    backdrop.onclick = (e) => { if (e.target === backdrop) closeMe(); };
+    backdrop.onclick = (e) => { if (e.target === backdrop) closeMe(e); };
 
     backdrop.querySelectorAll('[data-pid]').forEach(card => {
-      card.onclick = () => {
+      card.onclick = (e) => {
+        e.stopPropagation();
         const p = pendings.find(x => x.id === card.dataset.pid);
         if (p) {
           cur.goals.push({
@@ -359,7 +371,7 @@ const MonthPlansModule = (function () {
       <div class="modal-sheet" style="max-width:400px;">
         <div class="modal-sheet-header">
           <h2>${escapeHtml(title)}</h2>
-          <button class="modal-close-x">&times;</button>
+          <button class="modal-close-x" type="button">&times;</button>
         </div>
         <div class="modal-sheet-body">
           <div class="field-group">
@@ -369,8 +381,8 @@ const MonthPlansModule = (function () {
         </div>
         <div class="modal-sheet-footer">
           <div class="modal-actions">
-            <button class="modal-btn btn-cancel" id="promptCancelBtn">Отмена</button>
-            <button class="modal-btn btn-save" id="promptSaveBtn">Сохранить</button>
+            <button class="modal-btn btn-cancel" id="promptCancelBtn" type="button">Отмена</button>
+            <button class="modal-btn btn-save" id="promptSaveBtn" type="button">Сохранить</button>
           </div>
         </div>
       </div>
@@ -381,18 +393,22 @@ const MonthPlansModule = (function () {
     inp.focus();
     inp.select();
 
-    const closeMe = () => backdrop.remove();
+    const closeMe = (e) => {
+      if (e) e.stopPropagation();
+      backdrop.remove();
+    };
     backdrop.querySelector('.modal-close-x').onclick = closeMe;
     backdrop.querySelector('#promptCancelBtn').onclick = closeMe;
-    backdrop.onclick = (e) => { if (e.target === backdrop) closeMe(); };
+    backdrop.onclick = (e) => { if (e.target === backdrop) closeMe(e); };
 
-    const saveMe = () => {
+    const saveMe = (e) => {
+      if (e) e.stopPropagation();
       onDone(inp.value);
       closeMe();
     };
 
     backdrop.querySelector('#promptSaveBtn').onclick = saveMe;
-    inp.onkeydown = (e) => { if (e.key === 'Enter') saveMe(); };
+    inp.onkeydown = (e) => { if (e.key === 'Enter') saveMe(e); };
   }
 
   function renderMonthCalendar(cardEl) {
@@ -452,7 +468,8 @@ const MonthPlansModule = (function () {
         cell.classList.add('selected');
       }
 
-      cell.onclick = () => {
+      cell.onclick = (e) => {
+        e.stopPropagation();
         selectedCalDayKey = dKey;
         renderMonthCalendar(cardEl);
       };
@@ -501,7 +518,6 @@ const MonthPlansModule = (function () {
       }
       subContent.innerHTML = html;
     } else {
-      // Режим «Все задачи»: компактные карточки без зачёркивания текста
       let html = `<h4 style="font-size:0.88rem; font-weight:800; margin-bottom:8px;">Задачи на ${dispDate}:</h4>`;
       const total = [...dayEvts, ...dayTasks];
       if (total.length === 0) {
@@ -539,7 +555,7 @@ const MonthPlansModule = (function () {
               </div>
             </div>
             <div class="item-actions">
-              <button class="action-icon-btn edit-task-btn" style="color:${cat.color}; width:28px; height:28px;" title="Открыть задачу">
+              <button class="action-icon-btn edit-task-btn" type="button" style="color:${cat.color}; width:28px; height:28px;" title="Открыть задачу">
                 <svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
               </button>
             </div>
@@ -547,27 +563,31 @@ const MonthPlansModule = (function () {
 
           if (!isEvent) {
             const checkBtn = document.createElement('button');
+            checkBtn.type = 'button';
             checkBtn.className = `round-check-btn ${isCompleted ? 'checked' : ''}`;
             checkBtn.style.color = cat.color;
             checkBtn.innerHTML = checkIconSvg;
             checkBtn.onclick = (e) => {
+              e.preventDefault();
               e.stopPropagation();
+              const nextState = !checkBtn.classList.contains('checked');
+              checkBtn.classList.toggle('checked', nextState);
               if (typeof setTaskCompletedOnDate === 'function') {
-                setTaskCompletedOnDate(item, selectedCalDayKey, !isCompleted);
+                setTaskCompletedOnDate(item, selectedCalDayKey, nextState);
               } else {
-                item.completed = !isCompleted;
+                item.completed = nextState;
                 if (typeof saveEntries === 'function') saveEntries();
               }
-              renderMonthCalendar(cardEl);
             };
             card.querySelector('.check-slot').replaceWith(checkBtn);
           }
 
-          const openHandler = () => {
+          const openHandler = (e) => {
+            e.stopPropagation();
             if (typeof openEditModal === 'function') openEditModal(item);
           };
           card.querySelector('.bento-entry-info').onclick = openHandler;
-          card.querySelector('.edit-task-btn').onclick = (e) => { e.stopPropagation(); openHandler(); };
+          card.querySelector('.edit-task-btn').onclick = openHandler;
 
           box.appendChild(card);
         });
@@ -601,7 +621,8 @@ const MonthPlansModule = (function () {
     }
     select.value = selectedHabitId;
 
-    select.onchange = () => {
+    select.onchange = (e) => {
+      e.stopPropagation();
       selectedHabitId = select.value;
       drawHabitDots(box);
     };
@@ -650,20 +671,27 @@ const MonthPlansModule = (function () {
       <div class="days-grid">${dotsHtml}</div>
     `;
 
-    // Точная фиксация тапа: мгновенная отметка без вызова меню браузера
+    // Мгновенное локальное переключение ячейки привычки без вылета
     box.querySelectorAll('.day-cell[data-dkey]').forEach(el => {
       const handleHabitToggle = (e) => {
-        if (e) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
+        e.preventDefault();
+        e.stopPropagation();
         const k = el.dataset.dkey;
         if (!k || k > todayStr) return;
 
-        if (habit.doneDates.includes(k)) {
+        const isCurrentlyDone = habit.doneDates.includes(k);
+        if (isCurrentlyDone) {
           habit.doneDates = habit.doneDates.filter(d => d !== k);
+          el.classList.remove('has-entry');
+          el.style.background = '';
+          el.style.color = '';
+          el.style.fontWeight = '';
         } else {
           habit.doneDates.push(k);
+          el.classList.add('has-entry');
+          el.style.background = 'var(--primary)';
+          el.style.color = 'var(--primary-text)';
+          el.style.fontWeight = '800';
         }
 
         if (typeof saveHabits === 'function') {
@@ -671,7 +699,6 @@ const MonthPlansModule = (function () {
         } else {
           localStorage.setItem('master_schedule_habits', JSON.stringify(allHabits));
         }
-        drawHabitDots(box);
       };
 
       el.addEventListener('click', handleHabitToggle);
