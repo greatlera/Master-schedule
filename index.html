@@ -3773,7 +3773,7 @@ function setActiveTab(tab) {
 showModal(fullscreenNoteModal);
     }
 
-    // Глобальный обработчик кнопки "Назад" для всех окон и экранов
+// Глобальный обработчик кнопки "Назад" для всех окон и экранов
     window.addEventListener('popstate', (e) => {
       isHandlingPopState = true;
 
@@ -3802,7 +3802,7 @@ showModal(fullscreenNoteModal);
         }
       }
 
-      // 4. Если все окна закрыты и мы в подразделе — возвращаемся в календарь
+      // 4. Если все окна закрыты и мы в любом подразделе кроме главного — возвращаемся в календарь
       if (activeTab !== 'tasks' && activeTab !== 'today') {
         setActiveTab('tasks');
         isHandlingPopState = false;
