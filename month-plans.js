@@ -3,16 +3,16 @@
  */
 const MonthPlansModule = (function () {
   let curDate = new Date();
-  let calMode = 'events'; // 'events' (Праздники) или 'all' (Все задачи)
+  let calMode = 'all'; // По умолчанию 'all' (Все задачи) или 'events' (Праздники)
   let selectedHabitId = null;
   let selectedCalDayKey = null;
 
   const STORAGE_KEY = 'master_schedule_month_plans';
 
-  // Минималистичные иконки приложения
   const pinIconSvg = `<svg viewBox="0 0 24 24" style="width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;"><line x1="12" y1="17" x2="12" y2="22"></line><path d="M5 17h14v-2l-2-3V5a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7l-2 3v2z"></path></svg>`;
   const checkIconSvg = `<svg viewBox="0 0 24 24" style="width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2.8; stroke-linecap:round; stroke-linejoin:round;"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
   const closeIconSvg = `<svg viewBox="0 0 24 24" style="width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>`;
+  const timeIconSvg = `<svg viewBox="0 0 24 24" style="width:12px; height:12px; stroke:currentColor; fill:none; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
 
   function getGlobalEntries() {
     return (typeof window.entries !== 'undefined') ? window.entries : ((typeof entries !== 'undefined') ? entries : []);
@@ -86,7 +86,7 @@ const MonthPlansModule = (function () {
     wrap.className = 'month-plans-wrap';
     wrap.style.cssText = 'display:flex; flex-direction:column; gap:16px; width:100%;';
 
-    // 1. Шапка месяца: Стрелка влево — Название месяца — Стрелка вправо (с разных сторон)
+    // 1. Шапка месяца
     const headerRow = document.createElement('div');
     headerRow.className = 'nav-header-row';
     headerRow.style.margin = '0 0 4px 0';
@@ -103,7 +103,7 @@ const MonthPlansModule = (function () {
       </button>
     `;
 
-    // 2. Поле фокуса в цветовой гамме приложения
+    // 2. Фокус месяца
     const focusBox = document.createElement('div');
     focusBox.style.cssText = `
       background: var(--card-bg);
@@ -122,7 +122,7 @@ const MonthPlansModule = (function () {
         style="background:transparent; border:none; color:var(--text); font-weight:600; font-size:0.9rem; width:100%; outline:none;" />
     `;
 
-    // 3. Блок главных целей
+    // 3. Главные цели
     const goalsSection = document.createElement('div');
     goalsSection.className = 'card';
     goalsSection.style.padding = '18px 16px';
@@ -137,7 +137,7 @@ const MonthPlansModule = (function () {
       <div id="mpGoalsList" style="display:flex; flex-direction:column; gap:8px;"></div>
     `;
 
-    // 4. Календарь месяца
+    // 4. Календарь месяца (поменяли порядок: сначала Все задачи, потом Праздники)
     const calSection = document.createElement('div');
     calSection.className = 'card';
     calSection.style.padding = '18px 16px';
@@ -145,8 +145,8 @@ const MonthPlansModule = (function () {
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
         <span style="font-size:0.8rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">Календарь</span>
         <div class="subtabs-bar" style="margin-bottom:0; padding:3px; background:var(--input-bg);">
-          <button class="subtab-btn ${calMode === 'events' ? 'active' : ''}" id="mpModeEvents" style="padding:6px 12px; font-size:0.75rem;">Праздники</button>
           <button class="subtab-btn ${calMode === 'all' ? 'active' : ''}" id="mpModeAll" style="padding:6px 12px; font-size:0.75rem;">Все задачи</button>
+          <button class="subtab-btn ${calMode === 'events' ? 'active' : ''}" id="mpModeEvents" style="padding:6px 12px; font-size:0.75rem;">Праздники</button>
         </div>
       </div>
       <div class="weekdays-row" style="margin-bottom:10px;">
@@ -156,14 +156,14 @@ const MonthPlansModule = (function () {
       <div id="mpCalSubContent" style="margin-top:16px;"></div>
     `;
 
-    // 5. Блок привычек месяца
+    // 5. Трекер привычек с аккуратным селектором
     const habitSection = document.createElement('div');
     habitSection.className = 'card';
     habitSection.style.padding = '18px 16px';
     habitSection.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:10px;">
         <h3 style="font-size:1.02rem; font-weight:800;">Привычки месяца</h3>
-        <select id="mpHabitSelect" class="form-ctrl" style="width:auto; max-width:180px; padding:6px 10px; font-size:0.8rem; border-radius:10px;"></select>
+        <select id="mpHabitSelect" class="form-ctrl" style="width:auto; max-width:180px; padding:6px 12px; font-size:0.82rem; border-radius:12px; background:var(--input-bg); border:1px solid var(--input-border); color:var(--text); font-weight:700; cursor:pointer; outline:none;"></select>
       </div>
       <div id="mpHabitGridBox"></div>
     `;
@@ -175,7 +175,6 @@ const MonthPlansModule = (function () {
     wrap.appendChild(habitSection);
     container.appendChild(wrap);
 
-    // Слушатели шапки месяца
     headerRow.querySelector('#mpPrevMonth').onclick = () => {
       curDate.setMonth(curDate.getMonth() - 1);
       selectedCalDayKey = null;
@@ -207,8 +206,8 @@ const MonthPlansModule = (function () {
     renderMonthCalendar(calSection);
     renderHabitSection(habitSection);
 
-    calSection.querySelector('#mpModeEvents').onclick = () => { calMode = 'events'; selectedCalDayKey = null; render(); };
     calSection.querySelector('#mpModeAll').onclick = () => { calMode = 'all'; selectedCalDayKey = null; render(); };
+    calSection.querySelector('#mpModeEvents').onclick = () => { calMode = 'events'; selectedCalDayKey = null; render(); };
 
     goalsSection.querySelector('#mpAddCustomGoalBtn').onclick = () => {
       openPromptModal('Новая главная цель', 'Введите цель на месяц:', '', (val) => {
@@ -294,7 +293,6 @@ const MonthPlansModule = (function () {
     });
   }
 
-  // Модальное окно выбора висящих задач
   function openAttachPendingPicker(cur, allData, monthKey) {
     const pendings = getGlobalEntries().filter(e => e.type === 'pending');
     if (pendings.length === 0) {
@@ -355,7 +353,6 @@ const MonthPlansModule = (function () {
     });
   }
 
-  // Модальное окно для ввода текста
   function openPromptModal(title, label, defaultValue, onDone) {
     const backdrop = document.createElement('div');
     backdrop.className = 'modal-backdrop';
@@ -423,7 +420,6 @@ const MonthPlansModule = (function () {
       grid.appendChild(c);
     }
 
-    const monthEventsList = [];
     const allEntries = getGlobalEntries();
 
     for (let d = 1; d <= lastDay.getDate(); d++) {
@@ -437,8 +433,6 @@ const MonthPlansModule = (function () {
 
       const dayEvts = allEntries.filter(e => e.type === 'event' && (e.isYearly ? (e.date && e.date.endsWith(sKey)) : e.date === dKey));
       const dayTasks = allEntries.filter(e => e.type === 'task' && (typeof taskOccursOnDate === 'function' ? taskOccursOnDate(e, dKey) : e.date === dKey));
-
-      dayEvts.forEach(ev => monthEventsList.push({ day: d, dateKey: dKey, event: ev }));
 
       if (calMode === 'events') {
         if (dayEvts.length > 0) {
@@ -470,40 +464,121 @@ const MonthPlansModule = (function () {
       grid.appendChild(cell);
     }
 
+    const dispDate = (typeof formatDisplayDate === 'function' && selectedCalDayKey) ? formatDisplayDate(selectedCalDayKey) : selectedCalDayKey;
+
+    // Нижняя часть под календарем: теперь и в Праздниках, и во Всех задачах отображается по клику на день
+    if (!selectedCalDayKey) {
+      const promptText = (calMode === 'events')
+        ? 'Нажмите на день календаря для просмотра праздников.'
+        : 'Нажмите на день календаря для просмотра списка задач.';
+      subContent.innerHTML = `<div style="font-size:0.84rem; color:var(--text-muted); text-align:center; padding:10px 0;">${promptText}</div>`;
+      return;
+    }
+
+    const dObj = (typeof parseDateKey === 'function') ? parseDateKey(selectedCalDayKey) : new Date(selectedCalDayKey);
+    const sKey = `${String(dObj.getMonth() + 1).padStart(2, '0')}-${String(dObj.getDate()).padStart(2, '0')}`;
+    const dayEvts = allEntries.filter(e => e.type === 'event' && (e.isYearly ? (e.date && e.date.endsWith(sKey)) : e.date === selectedCalDayKey));
+    const dayTasks = allEntries.filter(e => e.type === 'task' && (typeof taskOccursOnDate === 'function' ? taskOccursOnDate(e, selectedCalDayKey) : e.date === selectedCalDayKey));
+
     if (calMode === 'events') {
-      let html = `<h4 style="font-size:0.92rem; font-weight:800; margin-bottom:10px;">События & Праздники:</h4>`;
-      if (monthEventsList.length === 0) {
-        html += `<div style="font-size:0.84rem; color:var(--text-muted);">В этом месяце нет запланированных событий или дат.</div>`;
+      let html = `<h4 style="font-size:0.92rem; font-weight:800; margin-bottom:10px;">События & Праздники на ${dispDate}:</h4>`;
+      if (dayEvts.length === 0) {
+        html += `<div style="font-size:0.84rem; color:var(--text-muted);">На этот день событий нет.</div>`;
       } else {
-        html += `<div style="display:flex; flex-direction:column; gap:6px;">`;
-        monthEventsList.sort((a, b) => a.day - b.day).forEach(item => {
-          html += `<div style="font-size:0.9rem; font-weight:600;"><span style="color:var(--accent-blue); font-weight:800;">${item.day}</span> — ${escapeHtml(item.event.title)}</div>`;
+        html += `<div style="display:flex; flex-direction:column; gap:8px;">`;
+        dayEvts.forEach(item => {
+          const cat = eventTags[item.category] || { label: 'Событие', color: '#FF652F', bg: 'rgba(255, 101, 47, 0.16)' };
+          html += `
+            <div class="bento-entry-card" style="background:${cat.bg}; border-color:${cat.color}; padding:10px 14px;">
+              <div class="bento-entry-left">
+                <div class="bento-entry-info">
+                  <div class="bento-entry-title" style="color:${cat.color}; font-size:0.92rem;">${escapeHtml(item.title)}</div>
+                  <div class="bento-entry-badges">
+                    <span class="badge" style="background:${cat.color}25; color:${cat.color};">${escapeHtml(cat.label)}</span>
+                    ${item.isYearly ? `<span class="badge" style="background:${cat.color}25; color:${cat.color};">Ежегодно</span>` : ''}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
         });
         html += `</div>`;
       }
       subContent.innerHTML = html;
     } else {
-      if (!selectedCalDayKey) {
-        subContent.innerHTML = `<div style="font-size:0.84rem; color:var(--text-muted); text-align:center; padding:10px 0;">Нажмите на день календаря для просмотра списка задач.</div>`;
-      } else {
-        const dObj = (typeof parseDateKey === 'function') ? parseDateKey(selectedCalDayKey) : new Date(selectedCalDayKey);
-        const dayTasks = allEntries.filter(e => e.type === 'task' && (typeof taskOccursOnDate === 'function' ? taskOccursOnDate(e, selectedCalDayKey) : e.date === selectedCalDayKey));
-        const sKey = `${String(dObj.getMonth() + 1).padStart(2, '0')}-${String(dObj.getDate()).padStart(2, '0')}`;
-        const dayEvts = allEntries.filter(e => e.type === 'event' && (e.isYearly ? (e.date && e.date.endsWith(sKey)) : e.date === selectedCalDayKey));
-
-        const dispDate = (typeof formatDisplayDate === 'function') ? formatDisplayDate(selectedCalDayKey) : selectedCalDayKey;
-        let html = `<h4 style="font-size:0.92rem; font-weight:800; margin-bottom:10px;">Задачи на ${dispDate}:</h4>`;
-        const total = [...dayEvts, ...dayTasks];
-        if (total.length === 0) {
-          html += `<div style="font-size:0.84rem; color:var(--text-muted);">На этот день дел нет.</div>`;
-        } else {
-          html += `<div style="display:flex; flex-direction:column; gap:6px;">`;
-          total.forEach(it => {
-            html += `<div style="padding:8px 12px; background:var(--input-bg); border:1px solid var(--input-border); border-radius:10px; font-size:0.88rem; font-weight:600;">${escapeHtml(it.title)} ${it.time ? `<small style="color:var(--text-muted);">(${it.time})</small>` : ''}</div>`;
-          });
-          html += `</div>`;
-        }
+      // Режим «Все задачи»: выводим цветные карточки в цвет тега
+      let html = `<h4 style="font-size:0.92rem; font-weight:800; margin-bottom:10px;">Задачи на ${dispDate}:</h4>`;
+      const total = [...dayEvts, ...dayTasks];
+      if (total.length === 0) {
+        html += `<div style="font-size:0.84rem; color:var(--text-muted);">На этот день дел нет.</div>`;
         subContent.innerHTML = html;
+      } else {
+        subContent.innerHTML = html;
+        const box = document.createElement('div');
+        box.style.cssText = 'display:flex; flex-direction:column; gap:8px;';
+
+        total.forEach(item => {
+          const isEvent = (item.type === 'event');
+          const cat = isEvent
+            ? (eventTags[item.category] || { label: 'Событие', color: '#FF652F', bg: 'rgba(255, 101, 47, 0.16)' })
+            : (taskTags[item.category] || { label: 'Прочее', color: '#94a3b8', bg: 'rgba(148, 163, 184, 0.16)' });
+
+          const isCompleted = isEvent ? false : (typeof isTaskCompletedOnDate === 'function' ? isTaskCompletedOnDate(item, selectedCalDayKey) : !!item.completed);
+
+          const card = document.createElement('div');
+          card.className = 'bento-entry-card';
+          card.style.background = cat.bg;
+          card.style.borderColor = cat.color;
+          card.style.padding = '10px 14px';
+
+          card.innerHTML = `
+            <div class="bento-entry-left">
+              ${!isEvent ? `<div class="check-slot"></div>` : ''}
+              <div class="bento-entry-info">
+                <div class="bento-entry-title" style="color:${cat.color}; font-size:0.92rem; ${isCompleted ? 'text-decoration:line-through; opacity:0.6;' : ''}">
+                  ${escapeHtml(item.title)}
+                </div>
+                <div class="bento-entry-badges">
+                  <span class="badge" style="background:${cat.color}25; color:${cat.color};">${escapeHtml(cat.label)}</span>
+                  ${item.time ? `<span class="badge" style="background:${cat.color}25; color:${cat.color};">${timeIconSvg} ${escapeHtml(item.time)}</span>` : ''}
+                </div>
+                ${item.notes ? `<div class="bento-entry-notes" style="color:${cat.color}; font-size:0.78rem;">${escapeHtml(item.notes)}</div>` : ''}
+              </div>
+            </div>
+            <div class="item-actions">
+              <button class="action-icon-btn edit-task-btn" style="color:${cat.color};" title="Открыть задачу">
+                <svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+              </button>
+            </div>
+          `;
+
+          if (!isEvent) {
+            const checkBtn = document.createElement('button');
+            checkBtn.className = `round-check-btn ${isCompleted ? 'checked' : ''}`;
+            checkBtn.style.color = cat.color;
+            checkBtn.innerHTML = checkIconSvg;
+            checkBtn.onclick = (e) => {
+              e.stopPropagation();
+              if (typeof setTaskCompletedOnDate === 'function') {
+                setTaskCompletedOnDate(item, selectedCalDayKey, !isCompleted);
+              } else {
+                item.completed = !isCompleted;
+                if (typeof saveEntries === 'function') saveEntries();
+              }
+              renderMonthCalendar(cardEl);
+            };
+            card.querySelector('.check-slot').replaceWith(checkBtn);
+          }
+
+          const openHandler = () => {
+            if (typeof openEditModal === 'function') openEditModal(item);
+          };
+          card.querySelector('.bento-entry-info').onclick = openHandler;
+          card.querySelector('.edit-task-btn').onclick = (e) => { e.stopPropagation(); openHandler(); };
+
+          box.appendChild(card);
+        });
+        subContent.appendChild(box);
       }
     }
   }
@@ -569,7 +644,7 @@ const MonthPlansModule = (function () {
       dotsHtml += `
         <div class="day-cell ${isDone ? 'has-entry' : ''} ${isToday ? 'today-circle' : ''}" 
              data-dkey="${dKey}" 
-             style="${isDone ? `background:var(--primary); color:var(--primary-text); font-weight:800;` : ''} ${isFuture ? 'opacity:0.3; cursor:not-allowed;' : ''}">
+             style="${isDone ? `background:var(--primary); color:var(--primary-text); font-weight:800;` : ''} ${isFuture ? 'opacity:0.3; cursor:not-allowed;' : 'cursor:pointer;'}">
           ${d}
         </div>
       `;
@@ -582,19 +657,27 @@ const MonthPlansModule = (function () {
       <div class="days-grid">${dotsHtml}</div>
     `;
 
+    // Привязываем клик на день для отметки привычки
     box.querySelectorAll('.day-cell[data-dkey]').forEach(el => {
-      el.onclick = () => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         const k = el.dataset.dkey;
         if (k > todayStr) return;
+
         if (habit.doneDates.includes(k)) {
           habit.doneDates = habit.doneDates.filter(d => d !== k);
         } else {
           habit.doneDates.push(k);
         }
-        if (typeof saveHabits === 'function') saveHabits();
-        else localStorage.setItem('master_schedule_habits', JSON.stringify(allHabits));
+
+        if (typeof saveHabits === 'function') {
+          saveHabits();
+        } else {
+          localStorage.setItem('master_schedule_habits', JSON.stringify(allHabits));
+        }
         drawHabitDots(box);
-      };
+      });
     });
   }
 
