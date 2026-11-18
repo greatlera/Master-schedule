@@ -110,6 +110,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1794989268442_6nnmw",
+      "type": "pending",
+      "title": "Сделать бегунок на зипке",
+      "date": "",
+      "time": "",
+      "durationHours": 0,
+      "durationMinutes": 0,
+      "category": "home",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [],
@@ -197,5 +215,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-11-18T08:06:55.650Z"
+  "updatedAt": "2026-11-18T08:07:51.455Z"
 }
