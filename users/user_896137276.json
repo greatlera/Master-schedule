@@ -116,7 +116,7 @@
   "notes": [],
   "trashItems": [],
   "settings": {
-    "theme": "light",
+    "theme": "dark",
     "notifToday": true,
     "todayTime": "03:04",
     "notifTomorrow": false,
@@ -197,5 +197,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-11-18T08:06:34.045Z"
+  "updatedAt": "2026-11-18T08:06:55.650Z"
 }
