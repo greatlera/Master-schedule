@@ -146,6 +146,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1794989302686_ilq5f",
+      "type": "pending",
+      "title": "Купить новую зубную щетку",
+      "date": "",
+      "time": "",
+      "durationHours": 0,
+      "durationMinutes": 0,
+      "category": "home",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [],
@@ -233,5 +251,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-11-18T08:08:11.937Z"
+  "updatedAt": "2026-11-18T08:08:25.687Z"
 }
