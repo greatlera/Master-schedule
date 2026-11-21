@@ -128,47 +128,58 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
-    },
-    {
-      "id": "1794989288936_vglfc",
-      "type": "pending",
-      "title": "Заказать лезвия для бритвы",
-      "date": "",
-      "time": "",
-      "durationHours": 0,
-      "durationMinutes": 0,
-      "category": "home",
-      "notes": "",
-      "noteId": "",
-      "isYearly": false,
-      "isRecurring": false,
-      "recurringConfig": null,
-      "completed": false,
-      "completedDates": [],
-      "excludedDates": []
-    },
-    {
-      "id": "1794989302686_ilq5f",
-      "type": "pending",
-      "title": "Купить новую зубную щетку",
-      "date": "",
-      "time": "",
-      "durationHours": 0,
-      "durationMinutes": 0,
-      "category": "home",
-      "notes": "",
-      "noteId": "",
-      "isYearly": false,
-      "isRecurring": false,
-      "recurringConfig": null,
-      "completed": false,
-      "completedDates": [],
-      "excludedDates": []
     }
   ],
   "habits": [],
   "notes": [],
-  "trashItems": [],
+  "trashItems": [
+    {
+      "trashId": "1795300759800_aldgz",
+      "deletedAt": 1795300759800,
+      "originalType": "task",
+      "data": {
+        "id": "1794989302686_ilq5f",
+        "type": "pending",
+        "title": "Купить новую зубную щетку",
+        "date": "",
+        "time": "",
+        "durationHours": 0,
+        "durationMinutes": 0,
+        "category": "home",
+        "notes": "",
+        "noteId": "",
+        "isYearly": false,
+        "isRecurring": false,
+        "recurringConfig": null,
+        "completed": false,
+        "completedDates": [],
+        "excludedDates": []
+      }
+    },
+    {
+      "trashId": "1795300762466_x1f0r",
+      "deletedAt": 1795300762466,
+      "originalType": "task",
+      "data": {
+        "id": "1794989288936_vglfc",
+        "type": "pending",
+        "title": "Заказать лезвия для бритвы",
+        "date": "",
+        "time": "",
+        "durationHours": 0,
+        "durationMinutes": 0,
+        "category": "home",
+        "notes": "",
+        "noteId": "",
+        "isYearly": false,
+        "isRecurring": false,
+        "recurringConfig": null,
+        "completed": false,
+        "completedDates": [],
+        "excludedDates": []
+      }
+    }
+  ],
   "settings": {
     "theme": "dark",
     "notifToday": true,
@@ -251,5 +262,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-11-18T08:08:25.687Z"
+  "updatedAt": "2026-11-21T22:39:25.482Z"
 }
