@@ -128,6 +128,24 @@
       "completed": false,
       "completedDates": [],
       "excludedDates": []
+    },
+    {
+      "id": "1795510771720_6hxl3",
+      "type": "task",
+      "title": "Ветеринарная клиника",
+      "date": "2026-12-15",
+      "time": "10:30",
+      "durationHours": "",
+      "durationMinutes": "",
+      "category": "other",
+      "notes": "",
+      "noteId": "",
+      "isYearly": false,
+      "isRecurring": false,
+      "recurringConfig": null,
+      "completed": false,
+      "completedDates": [],
+      "excludedDates": []
     }
   ],
   "habits": [],
@@ -262,5 +280,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-11-21T22:39:25.482Z"
+  "updatedAt": "2026-11-24T08:59:34.733Z"
 }
