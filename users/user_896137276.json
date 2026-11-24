@@ -137,7 +137,7 @@
       "time": "10:30",
       "durationHours": "",
       "durationMinutes": "",
-      "category": "other",
+      "category": "home",
       "notes": "",
       "noteId": "",
       "isYearly": false,
@@ -280,5 +280,5 @@
       "color": "#a855f7"
     }
   },
-  "updatedAt": "2026-11-24T08:59:34.733Z"
+  "updatedAt": "2026-11-24T08:59:44.463Z"
 }
